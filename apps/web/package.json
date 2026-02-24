@@ -11,6 +11,7 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@repo/db": "^0.0.0",
     "@repo/ui": "*",
     "@tailwindcss/postcss": "^4.2.1",
     "next": "16.1.5",
