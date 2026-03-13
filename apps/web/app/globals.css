@@ -1,1 +1,11 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@layer components {
+  .primary-btn {
+    @apply cursor-pointer rounded-lg bg-red-400 px-4 py-2 text-white hover:bg-red-500;
+  }
+
+  .secondary-btn {
+    @apply cursor-pointer rounded-lg bg-blue-400 px-4 py-2 text-white hover:bg-blue-500;
+  }
+}

@@ -4,28 +4,16 @@
   "tasks": {
     "db:generate": {
       "cache": true,
-      "outputs": [
-        "packages/db/src/generated/**"
-      ]
+      "outputs": ["src/generated/**"]
     },
     "db:push": {
       "cache": false,
-      "persistent": false,
+      "persistent": false
     },
     "build": {
-      "dependsOn": [
-        "^db:generate",
-        "^build"
-      ],
-      "inputs": [
-        "$TURBO_DEFAULT$",
-        ".env*"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**",
-        "dist/**"
-      ]
+      "dependsOn": ["^db:generate", "^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]

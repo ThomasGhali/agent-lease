@@ -7,7 +7,49 @@ datasource db {
   provider = "postgresql"
 }
 
+enum SenderType {
+  VISITOR
+  AI_SUPPORT
+  HUMAN_SUPPORT
+}
+
 model User {
   id String @id @default(cuid())
-  email String @unique
+
+  username String @unique
+  serviceStyles String @map("service_styles")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  rooms Room[]
+
+  @@map("users")
+}
+
+model Room {
+  id String @id
+
+  userId String @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  messages Message[]
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, updatedAt])
+  @@map("rooms")
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+
+  content String
+  sender SenderType
+  createdAt DateTime @default(now()) @map("created_at")
+
+  roomId String @map("room_id")
+  room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt])
+  @@map("messages")
 }

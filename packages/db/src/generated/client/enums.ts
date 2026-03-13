@@ -9,7 +9,10 @@
 * 🟢 You can import this file directly.
 */
 
+export const SenderType = {
+  VISITOR: 'VISITOR',
+  AI_SUPPORT: 'AI_SUPPORT',
+  HUMAN_SUPPORT: 'HUMAN_SUPPORT'
+} as const
 
-
-// This file is empty because there are no enums in the schema.
-export {}
+export type SenderType = (typeof SenderType)[keyof typeof SenderType]
