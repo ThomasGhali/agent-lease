@@ -5,7 +5,7 @@ import { SenderType } from '@repo/db';
 import { Message } from '@repo/common';
 
 @Injectable()
-export class PersistanceService {
+export class PersistenceService {
   // TODO: add feature
   /*   // Track which room each socket belongs to
   // Cons: if you have multiple servers, the other server

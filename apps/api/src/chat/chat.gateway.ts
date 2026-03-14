@@ -8,13 +8,13 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { PersistanceService } from 'src/chat/persistence/persistence.service';
+import { PersistenceService } from 'src/chat/persistence/persistence.service';
 
 import { Message } from '@repo/common';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly persistanceService: PersistanceService) {}
+  constructor(private readonly persistenceService: PersistenceService) {}
 
   @WebSocketServer()
   server: Server;
@@ -60,7 +60,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       return { status: 'error', message: 'User is already in room' };
     }
 
-    const messages = await this.persistanceService.getMessages(roomName);
+    const messages = await this.persistenceService.getMessages(roomName);
     this.socketRoomMap.set(roomName, messages);
 
     socket.join(roomName);
@@ -87,7 +87,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     socketRoom.push({ sender: 'VISITOR', message });
 
-    this.persistanceService.saveMessage(
+    this.persistenceService.saveMessage(
       message,
       this.userId,
       'VISITOR',

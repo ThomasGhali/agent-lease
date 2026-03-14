@@ -3,11 +3,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ChatGateway } from './chat/chat.gateway';
 import { ChatService } from './chat/chat.service';
-import { PersistanceService } from './chat/persistence/persistence.service';
+import { PersistenceService } from './chat/persistence/persistence.service';
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [AppService, ChatGateway, ChatService, PersistanceService],
+  providers: [AppService, ChatGateway, ChatService, PersistenceService],
 })
 export class AppModule {}
