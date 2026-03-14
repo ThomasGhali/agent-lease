@@ -10,11 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { PersistanceService } from 'src/chat/persistence/persistence.service';
 
-// type for the socketRoomMap messages
-type messageType = {
-  sender: string;
-  message: string;
-}; // TODO: change its place
+import { Message } from '@repo/common';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -28,7 +24,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   //  won't be able to read that map, so it would have to
   //  fetch data from upstash and store it by itself which
   //  i think is still worth doing.
-  private socketRoomMap = new Map<string, messageType[]>(); // TODO: to be moved to own service
+  private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
   private socketToRoomMap = new Map<string, string>(); // Track socket.id -> roomName
   private readonly userId = '12344321';
 
@@ -71,8 +67,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.socketToRoomMap.set(socket.id, roomName);
     console.log(`User ${userName} joined room: ${roomName}`);
 
-    socket.to(roomName).emit('message', `Say welcome to ${userName}`);
-    socket.emit('message', `You have joined room: ${roomName}`);
+    socket.emit('message', messages);
+    socket.emit('message', [
+      { sender: 'SYSTEM', message: `You have joined room: ${roomName}` },
+    ]);
 
     return { status: 'success', message: 'User joined room' };
   }
@@ -95,8 +93,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       'VISITOR',
       roomName,
     );
-    
-    socket.to(roomName).emit('message', message);
+
+    socket.to(roomName).emit('message', [{ sender: 'VISITOR', message }]);
     console.log('socketRoomMap:', this.socketRoomMap);
     return { status: 'ok' };
   }

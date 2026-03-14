@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { db } from '@repo/db';
 import { Redis } from '@upstash/redis';
 import { SenderType } from '@repo/db';
+import { Message } from '@repo/common';
 
 @Injectable()
 export class PersistanceService {
@@ -85,7 +86,7 @@ export class PersistanceService {
   }
 
   async getMessages(roomName: string) {
-    const data = await this.redis.lrange<{ sender: string; message: string }>(
+    const data = await this.redis.lrange<Message>(
       `room:${roomName}:data`,
       0,
       -1,

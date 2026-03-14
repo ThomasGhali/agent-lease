@@ -2,9 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
+import { Message } from '@repo/common'
 
 interface ServerToClientEvents {
-  message: (message: string) => void
+  message: (message: Message[]) => void
   'typing-status': (status: string) => void
 }
 
@@ -18,7 +19,7 @@ interface ClientToServerEvents {
 }
 
 export default function Home() {
-  const [chatMessages, setChatMessages] = useState<string[]>([])
+  const [chatMessages, setChatMessages] = useState<Message[]>([])
   const [typingStatus, setTypingStatus] = useState<string>('')
 
   const socketRef = useRef<Socket<
@@ -38,6 +39,7 @@ export default function Home() {
     if (!room) return console.error('No room.')
     if (socket.connected) return console.log('Already connected.')
     if (socket.active) return console.log('Hold tight, connecting...')
+    console.log('chatmessages:', chatMessages)
 
     socket.connect()
     socket.once('connect', () => {
@@ -75,8 +77,8 @@ export default function Home() {
 
     handleRoomName()
 
-    chat.on('message', (message: string) => {
-      setChatMessages(prevMessages => [...prevMessages, message])
+    chat.on('message', (message: Message[]) => {
+      setChatMessages(prevMessages => [...prevMessages, ...message])
     })
 
     chat.on('typing-status', (status: string) => {
@@ -107,7 +109,7 @@ export default function Home() {
 
     socket.emit('message', payload, (response: { status: string }) => {
       if (response.status === 'ok') {
-        setChatMessages(prev => [...prev, `You: ${message}`])
+        setChatMessages(prev => [...prev, { sender: 'VISITOR', message: message }])
         if (inputRef.current) inputRef.current.value = ''
       } else {
         console.error('Server rejected message')
@@ -118,8 +120,10 @@ export default function Home() {
   return (
     <main>
       <ul>
-        {chatMessages.map((message, index) => (
-          <li key={index}>{message}</li>
+        {chatMessages.map((msg, index) => (
+          <li key={index}>
+            <strong>{msg.sender}:</strong> {msg.message}
+          </li>
         ))}
       </ul>
       <p className="text-xs text-gray-700">{typingStatus}</p>
