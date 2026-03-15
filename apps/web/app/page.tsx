@@ -39,7 +39,7 @@ export default function Home() {
     if (!room) return console.error('No room.')
     if (socket.connected) return console.log('Already connected.')
     if (socket.active) return console.log('Hold tight, connecting...')
-    console.log('chatmessages:', chatMessages)
+    console.log('chatMessages:', chatMessages)
 
     socket.connect()
     socket.once('connect', () => {
