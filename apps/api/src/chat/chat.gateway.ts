@@ -11,10 +11,11 @@ import { Server, Socket } from 'socket.io';
 import { PersistenceService } from 'src/chat/persistence/persistence.service';
 
 import { Message } from '@repo/common';
+import { ChatService } from 'src/chat/chat.service';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly persistenceService: PersistenceService) {}
+  constructor(private readonly chatService: ChatService) {}
 
   @WebSocketServer()
   server: Server;
@@ -24,25 +25,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   //  won't be able to read that map, so it would have to
   //  fetch data from upstash and store it by itself which
   //  i think is still worth doing.
-  private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
-  private socketToRoomMap = new Map<string, string>(); // Track socket.id -> roomName
   private readonly userId = '12344321';
 
   handleConnection(client: Socket) {
-    console.log(`Chat user ${client.id} connected to the websocket`);
+    this.chatService.handleConnection(client);
   }
 
   handleDisconnect(client: Socket) {
-    const roomName = this.socketToRoomMap.get(client.id);
-    console.log(
-      `Chat user ${client.id} disconnected. Found room: ${roomName || 'none'}`,
-    );
-
-    if (roomName) {
-      this.socketRoomMap.delete(roomName);
-      this.socketToRoomMap.delete(client.id);
-    }
-    console.log('socketRoomMap after disconnect:', this.socketRoomMap);
+    this.chatService.handleDisconnect(client);
   }
 
   @SubscribeMessage('join-chat')
@@ -50,53 +40,15 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() socket: Socket,
     @MessageBody() roomName: string,
   ) {
-    const userName = socket.id.substring(0, 4);
-
-    if (socket.rooms.size > 3)
-      return { status: 'error', message: 'Too many rooms for this connection' };
-
-    if (socket.rooms.has(roomName)) {
-      console.log(`User ${userName} is already in room ${roomName}`);
-      return { status: 'error', message: 'User is already in room' };
-    }
-
-    const messages = await this.persistenceService.getMessages(roomName);
-    this.socketRoomMap.set(roomName, messages);
-
-    socket.join(roomName);
-    this.socketToRoomMap.set(socket.id, roomName);
-    console.log(`User ${userName} joined room: ${roomName}`);
-
-    socket.emit('message', messages);
-    socket.emit('message', [
-      { sender: 'SYSTEM', message: `You have joined room: ${roomName}` },
-    ]);
-
-    return { status: 'success', message: 'User joined room' };
+    return await this.chatService.handleChatJoin(socket, roomName);
   }
 
   @SubscribeMessage('message')
-  handleMessage(
+  async handleMessage(
     @ConnectedSocket() socket: Socket,
     @MessageBody() messagePayload: any, // TODO: use dto here
   ) {
-    const message = messagePayload.message;
-    const roomName = messagePayload.roomName;
-    const socketRoom = this.socketRoomMap.get(roomName);
-    if (!socketRoom) return { status: 'error', message: 'No room found' };
-
-    socketRoom.push({ sender: 'VISITOR', message });
-
-    this.persistenceService.saveMessage(
-      message,
-      this.userId,
-      'VISITOR',
-      roomName,
-    );
-
-    socket.to(roomName).emit('message', [{ sender: 'VISITOR', message }]);
-    console.log('socketRoomMap:', this.socketRoomMap);
-    return { status: 'ok' };
+    return await this.chatService.handleMessage(socket, messagePayload);
   }
 
   // @SubscribeMessage('typing')

@@ -1,3 +1,7 @@
+/* TODO: remove this file and use the logic of the
+service in the chat service
+*/
+
 import { Body, Controller, Post } from '@nestjs/common';
 import { AiService } from 'src/chat/ai/ai.service';
 

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { db } from '@repo/db';
 import { Redis } from '@upstash/redis';
 import { SenderType } from '@repo/db';
-import { Message } from '@repo/common';
+import { Message } from '@repo/db';
 
 @Injectable()
 export class PersistenceService {
@@ -36,7 +36,7 @@ export class PersistenceService {
     const messageKey = `room:${roomName}:data`;
     const messagePayload = {
       sender,
-      message,
+      content: message,
     };
 
     const pipeline = this.redis.pipeline();
