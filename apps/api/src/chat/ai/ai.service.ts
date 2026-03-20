@@ -1,13 +1,26 @@
 import { groq } from '@ai-sdk/groq';
 import { Injectable } from '@nestjs/common';
 import { generateText } from 'ai';
+import { Message } from '@repo/common';
+import { SenderType } from '@repo/db';
+
+const roleMap = {
+  [SenderType.VISITOR]: 'user',
+  [SenderType.AI_SUPPORT]: 'assistant',
+  [SenderType.HUMAN_SUPPORT]: 'assistant',
+};
 
 @Injectable()
 export class AiService {
-  async aiGenerate(prompt: string) {
+  // TODO: add prompt that is determined by each user
+  async aiGenerate(messages: Message[]) {
     const { text } = await generateText({
       model: groq('llama-3.3-70b-versatile'),
-      prompt: prompt,
+      messages: [
+        ...messages.map((msg) => {
+          return { role: roleMap[msg.sender], content: msg.message };
+        }),
+      ],
     });
 
     return { response: text };

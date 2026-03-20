@@ -108,12 +108,13 @@ export default function Home() {
       return console.log('No socket.')
 
     socket.emit('message', payload, (response: { status: string }) => {
+      inputRef.current!.disabled = true
       if (response.status === 'success') {
-        setChatMessages(prev => [...prev, { sender: 'VISITOR', message: message }])
         if (inputRef.current) inputRef.current.value = ''
       } else {
         console.error('Server rejected message')
       }
+      inputRef.current!.disabled = false
     })
   }
 

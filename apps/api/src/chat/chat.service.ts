@@ -2,14 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { Message } from '@repo/common';
 import { Message as MessageDb, SenderType } from '@repo/db';
 import { Socket } from 'socket.io';
+import { AiService } from 'src/chat/ai/ai.service';
 import { PersistenceService } from 'src/chat/persistence/persistence.service';
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly persistenceService: PersistenceService) {}
+  constructor(
+    private readonly persistenceService: PersistenceService,
+    private readonly aiService: AiService,
+  ) {}
 
   private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
-  private socketToRoomMap = new Map<string, string>(); // Track socket.id -> roomName
+  private socketToRoomMap = new Map<string, string>(); // Link socket.id -> roomName
   private readonly userId = '12344321';
 
   handleConnection(client: Socket) {
@@ -105,7 +109,24 @@ export class ChatService {
       roomName,
     );
 
-    socket.to(roomName).emit('message', [{ sender: 'VISITOR', message }]);
+    socket.emit('message', [{ sender: 'VISITOR', message }]);
+
+    const { response } = await this.aiService.aiGenerate(socketRoom);
+
+    await this.persistenceService.saveMessage(
+      response,
+      this.userId,
+      SenderType.AI_SUPPORT,
+      roomName,
+    );
+
+    socketRoom.push({
+      sender: SenderType.AI_SUPPORT,
+      message: response,
+    });
+
+    socket.emit('message', [{ sender: SenderType.AI_SUPPORT, message: response }]);
+
     return { status: 'success' };
   }
 }

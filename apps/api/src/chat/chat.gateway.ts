@@ -20,13 +20,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
   server: Server;
 
-  // Track which room each socket belongs to
-  // Cons: if you have multiple servers, the other server
-  //  won't be able to read that map, so it would have to
-  //  fetch data from upstash and store it by itself which
-  //  i think is still worth doing.
-  private readonly userId = '12344321';
-
   handleConnection(client: Socket) {
     this.chatService.handleConnection(client);
   }

@@ -9,9 +9,9 @@ import { AiService } from 'src/chat/ai/ai.service';
 export class AiController {
   constructor(private readonly aiService: AiService) {}
 
-  @Post('/generate')
-  async generateText(@Body() body: { prompt: string }) {
-    const response = await this.aiService.aiGenerate(body.prompt);
-    return response;
-  }
+  // @Post('/generate')
+  // async generateText(@Body() body: { prompt: string }) {
+  //   const response = await this.aiService.aiGenerate(body.prompt);
+  //   return response;
+  // }
 }
