@@ -1,10 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Custom ↓↓↓↓↓
+
 # Repomix
 *repomix*
 
+# Testing
+test-file.html
+
 # Backend testing
 requests
+
+# Custom ↑↑↑↑↑
 
 # Prisma
 packages/db/src/generated
