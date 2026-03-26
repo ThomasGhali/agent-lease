@@ -31,9 +31,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('join-chat')
   async handleChatJoin(
     @ConnectedSocket() socket: Socket,
-    @MessageBody() roomName: string,
+    @MessageBody() payload: { agentId: string; visitorId: string },
   ) {
-    return await this.chatService.handleChatJoin(socket, roomName);
+    return await this.chatService.handleChatJoin(socket, payload);
   }
 
   @SubscribeMessage('message')

@@ -14,7 +14,6 @@ export class ChatService {
 
   private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
   private socketToRoomMap = new Map<string, string>(); // Link socket.id -> roomName
-  private readonly userId = '12344321';
 
   handleConnection(client: Socket) {
     console.log(`User ${client.id} is connected to the websocket`);
@@ -32,8 +31,13 @@ export class ChatService {
     }
   }
 
-  async handleChatJoin(socket: Socket, roomName: string) {
+  async handleChatJoin(
+    socket: Socket,
+    payload: { agentId: string; visitorId: string },
+  ) {
+    // TODO: add room dto
     const userName = socket.id.substring(0, 4);
+    const roomName = `${payload.agentId}:${payload.visitorId}`;
 
     if (socket.rooms.size > 3)
       return { status: 'error', message: 'Too many rooms for this connection' };
@@ -75,8 +79,8 @@ export class ChatService {
     socket: Socket,
     messagePayload: any, // TODO: use dto here
   ) {
-    const message = messagePayload.message;
-    const roomName = messagePayload.roomName;
+    const { message, agentId, visitorId } = messagePayload;
+    const roomName = `${agentId}:${visitorId}`;
 
     if (!message || !roomName)
       return { status: 'error', message: 'Missing message or roomName' };
@@ -104,7 +108,7 @@ export class ChatService {
 
     await this.persistenceService.saveMessage(
       message,
-      this.userId,
+      agentId,
       SenderType.VISITOR,
       roomName,
     );
@@ -115,7 +119,7 @@ export class ChatService {
 
     await this.persistenceService.saveMessage(
       response,
-      this.userId,
+      agentId,
       SenderType.AI_SUPPORT,
       roomName,
     );
@@ -125,7 +129,9 @@ export class ChatService {
       message: response,
     });
 
-    socket.emit('message', [{ sender: SenderType.AI_SUPPORT, message: response }]);
+    socket.emit('message', [
+      { sender: SenderType.AI_SUPPORT, message: response },
+    ]);
 
     return { status: 'success' };
   }

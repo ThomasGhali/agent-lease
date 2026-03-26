@@ -1,5 +1,7 @@
 ;(function () {
   const script = document.currentScript
+  const scriptOrigin = new URL(script.src).origin
+
   const agentId = script.getAttribute('data-agent-id')
 
   if (!agentId) {
@@ -39,7 +41,7 @@
     }
 
     isOpen = true
-    iframe.src = `http://localhost:3000`
+    iframe.src = `${scriptOrigin}/widget?agentId=${agentId}`
     iframe.style.cssText = `
         position: fixed; bottom: 90px; right: 20px; width: 340px; height: 420px;
         border: none; border-radius: 16px; box-shadow: 0 10px 20px -12px rgb(0 0 0 / 0.4);
