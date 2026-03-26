@@ -17,31 +17,52 @@ model User {
   id String @id @default(cuid())
 
   username String @unique
-  serviceStyles String @map("service_styles")
+  isPremium Boolean @default(false) @map("is_premium")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  rooms Room[]
+  agents Agent[]
 
   @@map("users")
 }
 
-model Room {
-  id String @id
+model Agent {
+  id String @id @default(cuid())
 
   userId String @map("user_id")
+  name String
+  domain String
+  systemPrompt String @map("system_prompt")
+  welcomeMessage String @map("welcome_message")
+  fallbackMessage String? @map("fallback_message")
+  themeColor String @map("theme_color")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  rooms Room[]
+
+  @@map("agents")
+}
+
+model Room {
+  id String @id @default(cuid())
+
+  agentId String @map("agent_id")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   messages Message[]
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 
-  @@index([userId, updatedAt])
+  @@index([agentId, updatedAt])
   @@map("rooms")
 }
 
 model Message {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid())
 
   content String
   sender SenderType
