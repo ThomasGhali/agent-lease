@@ -13,8 +13,8 @@ enum SenderType {
   HUMAN_SUPPORT
 }
 
-model User {
-  id String @id @default(cuid())
+model UserProfile {
+  id String @id @db.Uuid
 
   username String @unique
   isPremium Boolean @default(false) @map("is_premium")
@@ -23,13 +23,13 @@ model User {
 
   agents Agent[]
 
-  @@map("users")
+  @@map("user_profiles")
 }
 
 model Agent {
   id String @id @default(cuid())
 
-  userId String @map("user_id")
+  userId String @db.Uuid @map("user_id")
   name String
   domain String
   systemPrompt String @map("system_prompt")
@@ -40,7 +40,7 @@ model Agent {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   rooms Room[]
 
