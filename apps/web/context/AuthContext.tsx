@@ -1,3 +1,5 @@
+'use client'
+
 import { Session } from '@supabase/supabase-js'
 import {
   createContext,
@@ -28,7 +30,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: string, session) => {
+    } = supabase.auth.onAuthStateChange((_event: string, session: AuthContextType['session']) => {
       setSession(session)
     })
 
