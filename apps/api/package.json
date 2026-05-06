@@ -20,14 +20,15 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@ai-sdk/groq": "^3.0.29",
+    "@repo/validation": "*",
+    "@repo/common": "*",
+    "@repo/db": "^0.0.0",
     "@nestjs/common": "^11.0.1",
+    "@ai-sdk/groq": "^3.0.29",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-socket.io": "^11.1.14",
     "@nestjs/websockets": "^11.1.14",
-    "@repo/common": "*",
-    "@repo/db": "^0.0.0",
     "@upstash/redis": "^1.36.3",
     "ai": "^6.0.116",
     "dotenv": "^16.0.3",
