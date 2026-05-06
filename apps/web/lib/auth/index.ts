@@ -56,7 +56,7 @@ export const signUp = async (
   password: string,
   name: string,
   accountType: string,
-) => {
+): Promise<AuthResult> => {
   try {
     const supabase = createAuthClient()
     const { data, error } = await supabase.auth.signUp({
@@ -86,6 +86,27 @@ export const signUp = async (
     return {
       success: false,
       error: 'Something went wrong. Please try again.',
+    }
+  }
+}
+
+export const signOut = async (): Promise<AuthResult> => {
+  try {
+    const supabase = createAuthClient()
+
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+      }
+    }
+    return { success: true, data: null }
+  } catch (error) {
+    console.error('Error at AuthContext/signOut: ', error)
+    return {
+      success: false,
+      error: 'Something went wrong.',
     }
   }
 }
