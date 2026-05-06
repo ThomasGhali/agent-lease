@@ -1,5 +1,9 @@
 import { createAuthClient } from '../supabase/supabase-client'
 
+type AuthResult =
+  | { success: true; data: any }
+  | { success: false; error: string }
+
 export const getInitialSession = async () => {
   const supabase = createAuthClient()
   try {
@@ -12,12 +16,13 @@ export const getInitialSession = async () => {
   }
 }
 
-export const signIn = async (email: string, password: string) => {
-  const supabase = createAuthClient()
-  if (supabase === undefined)
-    throw new Error('Error at signIn: Supabase client not initialized')
-
+export const signIn = async (
+  email: string,
+  password: string,
+): Promise<AuthResult> => {
   try {
+    const supabase = createAuthClient()
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -34,11 +39,53 @@ export const signIn = async (email: string, password: string) => {
       success: true,
       data,
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error at AuthContext/signIn: ', error)
     return {
       success: false,
-      error: error.message,
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown error at AuthContext/signIn',
+    }
+  }
+}
+
+export const signUp = async (
+  email: string,
+  password: string,
+  name: string,
+  accountType: string,
+) => {
+  try {
+    const supabase = createAuthClient()
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name,
+          account_type: accountType,
+        },
+      },
+    })
+
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+      }
+    }
+
+    return {
+      success: true,
+      data,
+    }
+  } catch (error) {
+    console.error('Error at AuthContext/signUp: ', error)
+    return {
+      success: false,
+      error: 'Something went wrong. Please try again.',
     }
   }
 }
