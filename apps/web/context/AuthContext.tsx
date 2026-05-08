@@ -8,8 +8,8 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { createAuthClient } from '../lib/supabase/supabase-client'
-import { getInitialSession } from '../lib/auth'
+import { createAuthClient } from '../lib/supabase/client'
+import { getInitialSession } from '../lib/auth/client'
 
 type AuthContextType = {
   session: Session | null | undefined
@@ -30,9 +30,11 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event: string, session: AuthContextType['session']) => {
-      setSession(session)
-    })
+    } = supabase.auth.onAuthStateChange(
+      (_event: string, session: AuthContextType['session']) => {
+        setSession(session)
+      },
+    )
 
     return () => {
       subscription.unsubscribe()

@@ -27,12 +27,12 @@ export class PersistenceService {
 
   async saveMessage(
     message: string,
-    userId: string,
+    agentId: string,
     sender: SenderType,
     roomName: string,
   ) {
     // TODO: add user id for logged in users
-    const userKey = `user:${userId}:rooms`;
+    const userKey = `user:${agentId}:rooms`;
     const messageKey = `room:${roomName}:data`;
     const messagePayload = {
       sender,
@@ -63,7 +63,7 @@ export class PersistenceService {
         },
       },
       create: {
-        userId: userId,
+        agentId: agentId,
         id: roomName,
         messages: {
           create: {

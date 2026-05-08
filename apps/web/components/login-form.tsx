@@ -1,30 +1,54 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+'use client'
+
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import {
   Field,
   FieldDescription,
   FieldGroup,
   FieldLabel,
   FieldSeparator,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+} from '@/components/ui/field'
+import { Input } from '@/components/ui/input'
+
+import { useActionState } from 'react'
+import { handleLogIn } from '@/features/sign-in/actions'
+
+type AuthResult = {
+  success?: boolean
+  error?: string | null
+}
 
 export function LoginForm({
   className,
   ...props
-}: React.ComponentProps<"form">) {
+}: React.ComponentProps<'form'>) {
+  const [logInState, logInAction, isLogInPending] = useActionState<
+    AuthResult,
+    FormData
+  >(handleLogIn, {
+    success: false,
+    error: null,
+  })
+
+
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      action={logInAction}
+      className={cn('flex flex-col gap-6', className)}
+      {...props}
+    >
       <FieldGroup>
         <div className="flex flex-col items-center gap-1 text-center">
           <h1 className="text-2xl font-bold">Login to your account</h1>
-          <p className="text-sm text-balance text-muted-foreground">
+          <p className="text-muted-foreground text-sm text-balance">
             Enter your email below to login to your account
           </p>
         </div>
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
           <Input
+            name="email"
             id="email"
             type="email"
             placeholder="m@example.com"
@@ -43,6 +67,7 @@ export function LoginForm({
             </a>
           </div>
           <Input
+            name="password"
             id="password"
             type="password"
             required
@@ -50,7 +75,9 @@ export function LoginForm({
           />
         </Field>
         <Field>
-          <Button type="submit">Login</Button>
+          <Button type="submit" disabled={isLogInPending}>
+            {isLogInPending ? 'Signing in...' : 'Login'}
+          </Button>{' '}
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
         <Field>
@@ -64,13 +91,16 @@ export function LoginForm({
             Login with GitHub
           </Button>
           <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <a href="#" className="underline underline-offset-4">
               Sign up
             </a>
           </FieldDescription>
         </Field>
       </FieldGroup>
+      {logInState?.error && (
+        <p className="text-destructive">{logInState.error}</p>
+      )}
     </form>
   )
 }

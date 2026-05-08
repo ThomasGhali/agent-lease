@@ -1,27 +1,16 @@
-import { createAuthClient } from '../supabase/supabase-client'
+import { createClient } from "@/lib/supabase/server";
 
 type AuthResult =
   | { success: true; data: any }
   | { success: false; error: string }
 
-export const getInitialSession = async () => {
-  const supabase = createAuthClient()
-  try {
-    const { data, error } = await supabase.auth.getSession()
-    if (error) throw error
-
-    return data.session
-  } catch (error) {
-    console.error('Error at AuthContext/getInitialState: ', error)
-  }
-}
 
 export const signIn = async (
   email: string,
   password: string,
 ): Promise<AuthResult> => {
   try {
-    const supabase = createAuthClient()
+    const supabase = await createClient()
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -58,7 +47,7 @@ export const signUp = async (
   accountType: string,
 ): Promise<AuthResult> => {
   try {
-    const supabase = createAuthClient()
+    const supabase = await createClient()
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -92,7 +81,7 @@ export const signUp = async (
 
 export const signOut = async (): Promise<AuthResult> => {
   try {
-    const supabase = createAuthClient()
+    const supabase = await createClient()
 
     const { error } = await supabase.auth.signOut()
     if (error) {
