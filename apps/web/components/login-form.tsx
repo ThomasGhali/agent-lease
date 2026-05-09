@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input'
 
 import { useActionState } from 'react'
-import { handleLogIn } from '@/features/sign-in/actions'
+import { handleSignin } from '@/features/sign-in/actions'
 
 type AuthResult = {
   success?: boolean
@@ -23,10 +23,10 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'form'>) {
-  const [logInState, logInAction, isLogInPending] = useActionState<
+  const [signinState, signinAction, isSigninPending] = useActionState<
     AuthResult,
     FormData
-  >(handleLogIn, {
+  >(handleSignin, {
     success: false,
     error: null,
   })
@@ -34,7 +34,7 @@ export function LoginForm({
 
   return (
     <form
-      action={logInAction}
+      action={signinAction}
       className={cn('flex flex-col gap-6', className)}
       {...props}
     >
@@ -75,8 +75,8 @@ export function LoginForm({
           />
         </Field>
         <Field>
-          <Button type="submit" disabled={isLogInPending}>
-            {isLogInPending ? 'Signing in...' : 'Login'}
+          <Button type="submit" disabled={isSigninPending}>
+            {isSigninPending ? 'Signing in...' : 'Login'}
           </Button>{' '}
         </Field>
         <FieldSeparator>Or continue with</FieldSeparator>
@@ -92,14 +92,14 @@ export function LoginForm({
           </Button>
           <FieldDescription className="text-center">
             Don&apos;t have an account?{' '}
-            <a href="#" className="underline underline-offset-4">
+            <a href="/sign-up" className="underline underline-offset-4">
               Sign up
             </a>
           </FieldDescription>
         </Field>
       </FieldGroup>
-      {logInState?.error && (
-        <p className="text-destructive">{logInState.error}</p>
+      {signinState?.error && (
+        <p className="text-destructive">{signinState.error}</p>
       )}
     </form>
   )

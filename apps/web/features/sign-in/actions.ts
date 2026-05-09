@@ -1,18 +1,18 @@
 'use server'
 
 import { signIn } from '@/lib/auth/server'
-import { signInSchema } from '@repo/validation'
+import { signinSchema } from '@repo/validation'
+import { redirect } from 'next/navigation'
 
 type AuthResult = {
   success?: boolean
   error?: string | null
 }
 
-export async function handleLogIn(prevState: AuthResult, formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+export async function handleSignin(prevState: AuthResult, formData: FormData) {
+  const rawData = Object.fromEntries(formData)
 
-  const validated = signInSchema.safeParse({ email, password })
+  const validated = signinSchema.safeParse(rawData)
 
   if (!validated.success) {
     const errorMessage =
@@ -20,5 +20,13 @@ export async function handleLogIn(prevState: AuthResult, formData: FormData) {
     return { success: false, error: errorMessage }
   }
 
-  return await signIn(email, password)
+  const { email, password } = validated.data
+
+  const result = await signIn(email, password)
+
+  if (!result.success) {
+    return { success: false, error: result.error || 'Signin failed' }
+  }
+
+  redirect('/dashboard')
 }
