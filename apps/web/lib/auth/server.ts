@@ -1,9 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server'
 
 type AuthResult =
   | { success: true; data: any }
   | { success: false; error: string }
-
 
 export const signIn = async (
   email: string,
@@ -43,8 +42,7 @@ export const signIn = async (
 export const signUp = async (
   email: string,
   password: string,
-  name: string,
-  accountType: string,
+  username: string,
 ): Promise<AuthResult> => {
   try {
     const supabase = await createClient()
@@ -53,8 +51,7 @@ export const signUp = async (
       password,
       options: {
         data: {
-          name,
-          account_type: accountType,
+          username,
         },
       },
     })

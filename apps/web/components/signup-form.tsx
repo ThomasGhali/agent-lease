@@ -44,10 +44,10 @@ export function SignupForm({
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="name">Full Name</FieldLabel>
+          <FieldLabel htmlFor="username">Full Name</FieldLabel>
           <Input
-            id="name"
-            name="name"
+            id="username"
+            name="username"
             type="text"
             placeholder="John Doe"
             required

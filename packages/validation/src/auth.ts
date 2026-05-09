@@ -7,7 +7,7 @@ export const signinSchema = z.object({
 
 export const signupSchema = z
   .object({
-    name: z.string().regex(/^[a-zA-Z]{2,} [a-zA-Z]{2,}$/, {
+    username: z.string().regex(/^[a-zA-Z]{2,} [a-zA-Z]{2,}$/, {
       error:
         'Full name includes first, then last name. Each are at least 2 chars',
     }),

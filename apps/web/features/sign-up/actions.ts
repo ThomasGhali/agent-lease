@@ -23,9 +23,9 @@ export const handleSignup = async (
     return { success: false, error: errorMessage }
   }
 
-  const { name, email, password } = validated.data
+  const { username, email, password } = validated.data
 
-  const result = await signUp(email, password, name, 'user')
+  const result = await signUp(email, password, username)
 
   if (!result.success) {
     return { success: false, error: result.error || 'Signup failed' }
