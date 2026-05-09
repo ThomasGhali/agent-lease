@@ -100,7 +100,9 @@ export function SignupForm({
         </Field>
 
         {signupState?.error && (
-          <p className="text-destructive">{signupState.error}</p>
+          <Field>
+            <p className="text-destructive">{signupState.error}</p>
+          </Field>
         )}
 
         <FieldSeparator>Or continue with</FieldSeparator>
