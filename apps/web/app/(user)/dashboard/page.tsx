@@ -1,5 +1,7 @@
-import Dashboard from '@/features/dashboard'
+import Dashboard from '@/features/dashboard/components'
 
-export default async function DashboardPage() {
+const DashboardPage = () => {
   return <Dashboard />
 }
+
+export default DashboardPage
