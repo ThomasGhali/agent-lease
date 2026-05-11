@@ -1,7 +1,5 @@
-import Dashboard from '@/features/dashboard/components'
-
 const DashboardPage = () => {
-  return <Dashboard />
+  return <div>Dashboard</div>
 }
 
 export default DashboardPage
