@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -15,10 +15,9 @@
 }
 
 @theme inline {
+  --font-heading: var(--font-geist);
 
-  --font-heading: var(--font-sans);
-
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist);
 
   --color-sidebar-ring: var(--sidebar-ring);
 
@@ -98,7 +97,6 @@
 }
 
 :root {
-
   --background: oklch(1 0 0);
 
   --foreground: oklch(0.145 0 0);
@@ -165,7 +163,6 @@
 }
 
 .dark {
-
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);
@@ -239,4 +236,8 @@
   html {
     @apply font-sans;
   }
+}
+
+@utility flex-center {
+  @apply flex items-center justify-center;
 }

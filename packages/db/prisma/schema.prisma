@@ -31,6 +31,8 @@ model Agent {
 
   userId String @db.Uuid @map("user_id")
   name String
+  agentRole String @default("Chat Bot") @map("agent_role")
+  isActive Boolean @default(false) @map("is_active")
   domain String
   systemPrompt String @map("system_prompt")
   welcomeMessage String @map("welcome_message")

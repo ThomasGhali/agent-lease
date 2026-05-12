@@ -22,7 +22,7 @@ export const data: DashboardData = {
   navMain: [
     {
       title: 'My Agents',
-      url: '#',
+      url: '/dashboard/my-agents',
       icon: <TerminalSquareIcon />,
       isActive: true,
       items: [],

@@ -1,5 +1,7 @@
+import MyAgents from '@/features/my-agents/components'
+
 const MyAgentsPage = () => {
-  return <div>My Agents</div>
+  return <MyAgents />
 }
 
 export default MyAgentsPage
