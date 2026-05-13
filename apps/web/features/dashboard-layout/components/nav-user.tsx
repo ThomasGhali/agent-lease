@@ -25,9 +25,18 @@ import {
   BellIcon,
   LogOutIcon,
 } from 'lucide-react'
+import { useTransition } from 'react'
+import { signOut } from '../actions'
 
 export function NavUser({ user }: { user: UserInfo }) {
   const { isMobile } = useSidebar()
+  const [isPending, startTransition] = useTransition()
+
+  const handleSignOut = () => {
+    startTransition(async () => {
+      await signOut()
+    })
+  }
 
   return (
     <SidebarMenu>
@@ -90,9 +99,9 @@ export function NavUser({ user }: { user: UserInfo }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut} disabled={isPending}>
               <LogOutIcon />
-              Log out
+              {isPending ? 'Logging out...' : 'Log out'}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
