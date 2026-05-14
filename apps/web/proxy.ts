@@ -1,8 +1,15 @@
+import { redirectIfAuthenticated, authGuard } from '@/lib/auth/guards'
 import { updateSession } from '@/lib/supabase/proxy'
 import { type NextRequest } from 'next/server'
 
 export async function proxy(request: NextRequest) {
-  return await updateSession(request)
+  const { supabaseResponse, supabase } = await updateSession(request)
+
+  const guardResponse =
+    (await authGuard(request, supabase)) ??
+    (await redirectIfAuthenticated(request, supabase))
+
+  return guardResponse ?? supabaseResponse
 }
 
 export const config = {

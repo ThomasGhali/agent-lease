@@ -27,8 +27,5 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Use getUser() as it is more secure than getSession() in the proxy boundary
-  await supabase.auth.getUser()
-
-  return supabaseResponse
+  return { supabaseResponse, supabase }
 }

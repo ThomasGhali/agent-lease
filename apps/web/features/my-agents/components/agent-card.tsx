@@ -103,7 +103,7 @@ const AgentCardFooter = ({ isActive }: AgentCardFooterProps) => (
 
     <div className="flex items-center gap-1">
       <Button variant="outline" size="sm" className="h-8 text-xs font-medium">
-        Details
+        Connect
       </Button>
     </div>
   </div>
