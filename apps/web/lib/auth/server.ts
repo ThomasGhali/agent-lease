@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser } from '@/lib/supabase/user'
 
 type AuthResult =
   | { success: true; data: any }
@@ -53,6 +54,20 @@ export const signUp = async (
         data: {
           username,
         },
+      },
+    })
+
+    if (!data.user) {
+      return {
+        success: false,
+        error: 'User not created',
+      }
+    }
+
+    await supabase.auth.admin.updateUserById(data.user.id, {
+      app_metadata: {
+        role: 'user',
+        plan: 'free',
       },
     })
 
