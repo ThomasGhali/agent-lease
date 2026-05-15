@@ -2,6 +2,7 @@ import {
   BookOpenIcon,
   BotIcon,
   GalleryVerticalEndIcon,
+  Plus,
   Settings2Icon,
   TerminalSquareIcon,
 } from 'lucide-react'
@@ -71,6 +72,11 @@ export const data: DashboardData = {
     },
   ],
   projects: [
+    {
+      name: 'Create an Agent',
+      url: '/dashboard/my-agents/create',
+      icon: <Plus />,
+    },
     {
       name: 'Settings',
       url: '#',
