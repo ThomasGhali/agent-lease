@@ -1,8 +1,10 @@
+import CreateAgentForm from '@/features/create-agent-form/components'
+
 const AgentCreatePage = () => {
   return (
-    <div>
-      <h1>Agent Create</h1>
-    </div>
+    <>
+      <CreateAgentForm />
+    </>
   )
 }
 
