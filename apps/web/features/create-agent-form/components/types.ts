@@ -20,3 +20,11 @@ export interface FormInputProps<T extends FieldValues> {
   label: string
   type?: React.HTMLInputTypeAttribute
 }
+
+export interface FormTextareaProps<T extends FieldValues> {
+  name: Path<T>
+  control: Control<T>
+  label: string
+  required?: boolean
+  placeholder?: string
+}
