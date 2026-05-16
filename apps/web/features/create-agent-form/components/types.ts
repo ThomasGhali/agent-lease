@@ -36,3 +36,10 @@ export type FormState = {
   >
   message?: string | null
 }
+
+export interface FormSwitchProps<T extends FieldValues> {
+  name: Path<T>
+  control: Control<T>
+  label: string
+  description?: string
+}
