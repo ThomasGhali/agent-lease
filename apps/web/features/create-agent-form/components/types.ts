@@ -1,16 +1,7 @@
 import { FieldValues, Path, Control } from 'react-hook-form'
+import { createAgentFormSchema } from '@repo/validation'
 import z from 'zod'
-
-export const createAgentFormSchema = z.object({
-  agentName: z.string().min(1, 'Agent name is required'),
-  agentRole: z.string().min(1, 'Agent role is required'),
-  isActive: z.boolean().default(false),
-  domain: z.string().min(1, 'Domain is required'),
-  systemPrompt: z.string().min(1, 'System prompt is required'),
-  welcomeMessage: z.string().optional(),
-  fallbackMessage: z.string().optional(),
-  themeColor: z.string().default('#000000'),
-})
+import React from 'react'
 
 export interface FormInputProps<T extends FieldValues> {
   name: Path<T>
@@ -27,4 +18,12 @@ export interface FormTextareaProps<T extends FieldValues> {
   label: string
   required?: boolean
   placeholder?: string
+}
+
+export interface InputField {
+  name: Path<z.input<typeof createAgentFormSchema>>
+  label: string
+  placeholder?: string
+  required?: boolean
+  type?: React.HTMLInputTypeAttribute | 'textarea' | 'switch'
 }
