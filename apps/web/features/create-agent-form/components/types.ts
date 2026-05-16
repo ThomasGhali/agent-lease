@@ -27,3 +27,12 @@ export interface InputField {
   required?: boolean
   type?: React.HTMLInputTypeAttribute | 'textarea' | 'switch'
 }
+
+export type FormState = {
+  success: boolean
+  error?: string | null
+  fieldErrors?: Partial<
+    Record<keyof z.infer<typeof createAgentFormSchema>, string[]>
+  >
+  message?: string | null
+}
