@@ -1,14 +1,16 @@
 'use server'
 
-import { z } from 'zod'
 import { SupabaseClient, User } from '@supabase/supabase-js'
-import { FormState } from '@/features/create-agent-form/components/types'
-import { createAgentFormSchema } from '@repo/validation'
-import { getCurrentUser } from '@/lib/supabase/user'
-import { createClient } from '@/lib/supabase/server'
-import { getAgentsCount } from '@/features/create-agent-form/queries'
-import { db } from '@repo/db'
 import chalk from 'chalk'
+import { z } from 'zod'
+
+import { db } from '@repo/db'
+import { createAgentFormSchema } from '@repo/validation'
+
+import { FormState } from '@/features/create-agent-form/components/types'
+import { getAgentsCount } from '@/lib/prisma/agents-count'
+import { createClient } from '@/lib/supabase/server'
+import { getCurrentUser } from '@/lib/supabase/user'
 
 const PLAN_LIMITS: Record<string, number> = {
   free: 1,
@@ -42,11 +44,7 @@ export const submitCreateAgentAction = async (
 
     const userPlan = await ensureUserPlan(supabase, user)
 
-    const limitError = await validateAgentLimit(
-      supabase,
-      user.id,
-      userPlan,
-    )
+    const limitError = await validateAgentLimit(user.id, userPlan)
     if (limitError) return limitError
 
     // Schema Validation
@@ -119,14 +117,10 @@ async function ensureUserPlan(
  * Validates whether the user is allowed to create another agent based on their active plan.
  */
 async function validateAgentLimit(
-  supabase: SupabaseClient,
   userId: string,
   plan: string,
 ): Promise<FormState | null> {
-  const { count, error } = await getAgentsCount(supabase, userId)
-
-  console.log(chalk.red('count:', count))
-  console.log(chalk.red('error:', error))
+  const { count, error } = await getAgentsCount(userId)
 
   if (error || count === null) {
     return {
