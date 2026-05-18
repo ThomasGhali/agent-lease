@@ -1,3 +1,5 @@
+'use client'
+
 import { startTransition, useActionState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -65,18 +67,23 @@ export default function CreateAgentForm() {
   // toast appearance control
   useEffect(() => {
     if (isPending) {
-      toast.loading('Submitting...', { id: 'form-status' })
+      toast.loading('Submitting...', {
+        id: 'form-status',
+        position: 'top-right',
+      })
     } else if (state?.error) {
       toast.error('Error', {
         description: state.error,
         id: 'form-status', // Replaces the loading toast
+        position: 'top-right',
       })
     } else if (state?.success) {
       toast.success('Message sent successfully!', {
         id: 'form-status', // Replaces the loading toast
+        position: 'top-right',
       })
       reset()
-      router.push('/')
+      router.push('/dashboard/my-agents')
     }
   }, [state, isPending, reset])
 
@@ -125,7 +132,7 @@ export default function CreateAgentForm() {
         {/* Submit button */}
         <Button
           type="submit"
-          className="bg-primary-600 hover:bg-primary-hover/90 w-30 cursor-pointer rounded-xs"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground w-32 cursor-pointer rounded-xs"
           form="create-agent-form"
           disabled={isPending || state.success}
         >

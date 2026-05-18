@@ -5,6 +5,7 @@ import { AuthContextProvider } from '../context/AuthContext'
 import { Geist } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { Toaster } from '@/components/ui/sonner'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 
@@ -31,7 +32,10 @@ export default function RootLayout({
     <html lang="en" className={cn('font-sans', geist.variable)}>
       <AuthContextProvider>
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster />
+          </TooltipProvider>
         </body>
       </AuthContextProvider>
     </html>

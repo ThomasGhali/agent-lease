@@ -23,7 +23,7 @@ export const inputFields: InputField[] = [
     name: 'welcomeMessage',
     label: 'Welcome Message',
     placeholder: 'e.g Hello! How can I help you today?',
-    required: true,
+    required: false,
     type: 'textarea',
   },
   {
@@ -37,7 +37,7 @@ export const inputFields: InputField[] = [
     name: 'fallbackMessage',
     label: 'Fallback Message',
     placeholder: 'e.g I am not sure how to help with that.',
-    required: true,
+    required: false,
     type: 'textarea',
   },
   { name: 'isActive', label: 'Is Active', required: true, type: 'switch' },

@@ -7,6 +7,10 @@ export const submitCreateAgentAction = async (
   formData: FormData,
 ): Promise<FormState> => {
   // logic will fill
+  console.log('submitCreateAgentAction has been triggered')
+
+  await new Promise(resolve => setTimeout(resolve, 3000))
+
   return {
     success: true,
     message: 'Agent created successfully!',
