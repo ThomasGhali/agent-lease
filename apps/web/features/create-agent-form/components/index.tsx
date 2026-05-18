@@ -90,66 +90,71 @@ export default function CreateAgentForm() {
   }, [state, isPending, reset])
 
   return (
-    <form onSubmit={handleSubmit(serverSubmit)} id="create-agent-form">
-      <FieldGroup>
-        {inputFields.map(field => {
-          if (field.type === 'textarea') {
+    <div className="flex-center w-full">
+      <form
+        onSubmit={handleSubmit(serverSubmit)}
+        id="create-agent-form"
+        className="flex-center mx-10 my-4 w-full max-w-2xl flex-col"
+      >
+        <FieldGroup className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+          {inputFields.map(field => {
+            const wrapperClass = field.className || 'md:col-span-2'
+            
             return (
-              <FormTextarea
-                key={field.name}
-                control={control}
-                name={field.name}
-                label={field.label}
-                required={field.required}
-                placeholder={field.placeholder}
-              />
+              <div key={field.name} className={wrapperClass}>
+                {field.type === 'textarea' ? (
+                  <FormTextarea
+                    control={control}
+                    name={field.name}
+                    label={field.label}
+                    required={field.required}
+                    placeholder={field.placeholder}
+                    maxLength={field.maxLength}
+                  />
+                ) : field.type === 'switch' ? (
+                  <FormSwitch
+                    control={control}
+                    name={field.name}
+                    label={field.label}
+                    required={field.required}
+                  />
+                ) : (
+                  <FormInput
+                    control={control}
+                    name={field.name}
+                    label={field.label}
+                    required={field.required}
+                    placeholder={field.placeholder}
+                  />
+                )}
+              </div>
             )
-          } else if (field.type === 'switch') {
-            return (
-              <FormSwitch
-                key={field.name}
-                control={control}
-                name={field.name}
-                label={field.label}
-              />
-            )
-          } else {
-            return (
-              <FormInput
-                key={field.name}
-                control={control}
-                name={field.name}
-                label={field.label}
-                required={field.required}
-                placeholder={field.placeholder}
-              />
-            )
-          }
-        })}
-      </FieldGroup>
+          })}
+        </FieldGroup>
 
-      <Field className="mt-8 justify-center" orientation="horizontal">
-        <FormResetBtn reset={reset} success={state.success} />
+        <Field className="mt-8 justify-center" orientation="horizontal">
+          <FormResetBtn reset={reset} success={state.success} />
 
-        {/* Submit button */}
-        <Button
-          type="submit"
-          className="bg-primary hover:bg-primary/90 text-primary-foreground w-32 cursor-pointer rounded-xs"
-          form="create-agent-form"
-          disabled={isPending || state.success}
-        >
-          {isPending ? (
-            <>
-              <Loader2Icon className="animate-spin" />
-              Submitting ..
-            </>
-          ) : state.success ? (
-            'Submitted'
-          ) : (
-            'Submit'
-          )}
-        </Button>
-      </Field>
-    </form>
+          {/* Submit button */}
+          <Button
+            type="submit"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground w-auto min-w-32 cursor-pointer rounded-xs px-5"
+            form="create-agent-form"
+            disabled={isPending || state.success}
+          >
+            {isPending ? (
+              <>
+                <Loader2Icon className="animate-spin" />
+                Submitting ..
+              </>
+            ) : state.success ? (
+              'Submitted'
+            ) : (
+              'Submit'
+            )}
+          </Button>
+        </Field>
+      </form>
+    </div>
   )
 }

@@ -238,6 +238,12 @@
   }
 }
 
+@layer components {
+  .required-field {
+    @apply after:text-destructive after:text-xl after:content-['*'];
+  }
+}
+
 @utility flex-center {
   @apply flex items-center justify-center;
 }

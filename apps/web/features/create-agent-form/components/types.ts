@@ -18,6 +18,7 @@ export interface FormTextareaProps<T extends FieldValues> {
   label: string
   required?: boolean
   placeholder?: string
+  maxLength?: number
 }
 
 export interface InputField {
@@ -26,6 +27,8 @@ export interface InputField {
   placeholder?: string
   required?: boolean
   type?: React.HTMLInputTypeAttribute | 'textarea' | 'switch'
+  maxLength?: number
+  className?: string
 }
 
 export type FormState = {
@@ -41,5 +44,6 @@ export interface FormSwitchProps<T extends FieldValues> {
   name: Path<T>
   control: Control<T>
   label: string
+  required?: boolean
   description?: string
 }

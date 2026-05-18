@@ -7,6 +7,7 @@ export default function FormSwitch<T extends FieldValues>({
   control,
   name,
   label,
+  required = false,
   description,
 }: FormSwitchProps<T>) {
   return (
@@ -17,7 +18,13 @@ export default function FormSwitch<T extends FieldValues>({
         <Field data-invalid={fieldState.invalid}>
           <div className="flex flex-row items-center justify-between rounded-lg border p-4">
             <div className="space-y-0.5">
-              <FieldLabel htmlFor={name}>{label}</FieldLabel>
+              <FieldLabel
+                aria-required={required}
+                className={required ? 'required-field' : ''}
+                htmlFor={name}
+              >
+                {label}
+              </FieldLabel>
               {description && (
                 <p className="text-muted-foreground text-sm">{description}</p>
               )}

@@ -6,18 +6,23 @@ export const inputFields: InputField[] = [
     label: 'Agent Name',
     placeholder: 'e.g Dev Mentor',
     required: true,
+    maxLength: 50,
+    className:'md:col-span-1'
   },
   {
     name: 'agentRole',
     label: 'Agent Role',
     placeholder: 'e.g Coding Mentor',
     required: true,
+    maxLength: 50,
+    className:'md:col-span-1'
   },
   {
     name: 'domain',
     label: 'Domain',
     placeholder: 'e.g fakewebdevdomain.com',
     required: true,
+    maxLength: 50,
   },
   {
     name: 'welcomeMessage',
@@ -25,6 +30,7 @@ export const inputFields: InputField[] = [
     placeholder: 'e.g Hello! How can I help you today?',
     required: false,
     type: 'textarea',
+    maxLength: 250,
   },
   {
     name: 'systemPrompt',
@@ -32,6 +38,7 @@ export const inputFields: InputField[] = [
     placeholder: 'e.g You are a helpful assistant.',
     required: true,
     type: 'textarea',
+    maxLength: 500,
   },
   {
     name: 'fallbackMessage',
@@ -39,6 +46,12 @@ export const inputFields: InputField[] = [
     placeholder: 'e.g I am not sure how to help with that.',
     required: false,
     type: 'textarea',
+    maxLength: 250,
   },
-  { name: 'isActive', label: 'Is Active', required: true, type: 'switch' },
+  {
+    name: 'isActive',
+    label: 'Is Active',
+    required: true,
+    type: 'switch',
+  },
 ]

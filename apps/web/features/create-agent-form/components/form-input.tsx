@@ -20,7 +20,7 @@ export default function FormInput<T extends FieldValues>({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel
-            className={required ? 'required-input' : ''}
+            className={required ? 'required-field' : ''}
             htmlFor={name}
           >
             {label}

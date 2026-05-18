@@ -16,6 +16,7 @@ export default function FormTextarea<T extends FieldValues>({
   label,
   required = false,
   placeholder = 'Enter text ..',
+  maxLength = 250,
 }: FormTextareaProps<T>) {
   return (
     <Controller
@@ -24,7 +25,7 @@ export default function FormTextarea<T extends FieldValues>({
       render={({ field, fieldState }) => (
         <Field data-invalid={fieldState.invalid}>
           <FieldLabel
-            className={required ? 'required-input' : ''}
+            className={required ? 'required-field' : ''}
             htmlFor={name}
           >
             {label}
@@ -39,10 +40,11 @@ export default function FormTextarea<T extends FieldValues>({
               rows={6}
               className="h-30 resize-none"
               aria-invalid={fieldState.invalid}
+              maxLength={maxLength}
             />
             <InputGroupAddon align="block-end">
               <InputGroupText className="tabular-nums">
-                {field.value.length}/250 characters
+                {(field.value || '').length}/{maxLength} characters
               </InputGroupText>
             </InputGroupAddon>
           </InputGroup>

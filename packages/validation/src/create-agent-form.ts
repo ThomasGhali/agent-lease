@@ -1,14 +1,14 @@
 import z from 'zod'
 
 const baseSchema = z.object({
-  agentName: z.string().min(1, 'Agent name is required').default('AI Support'),
-  agentRole: z.string().min(1, 'Agent role is required').default('ChatBot'),
+  agentName: z.string().min(1, 'Agent name is required').max(50).default('AI Support'),
+  agentRole: z.string().min(1, 'Agent role is required').max(50).default('ChatBot'),
   isActive: z.boolean().default(false),
-  domain: z.string().min(1, 'Domain is required'),
-  systemPrompt: z.string().min(1, 'System prompt is required'),
-  welcomeMessage: z.string().optional(),
-  fallbackMessage: z.string().optional(),
-  themeColor: z.string().default('#000000'),
+  domain: z.string().min(1, 'Domain is required').max(50),
+  systemPrompt: z.string().min(1, 'System prompt is required').max(500),
+  welcomeMessage: z.string().max(250).optional(),
+  fallbackMessage: z.string().max(250).optional(),
+  themeColor: z.string().max(50).default('#000000'),
 })
 
 export const createAgentFormSchema = baseSchema
