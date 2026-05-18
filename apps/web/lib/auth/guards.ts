@@ -63,7 +63,7 @@ export async function limitUserAgents(
   const { count, error } = await supabase
     .from('agents')
     .select('*', { count: 'exact', head: true })
-    .eq('userid', user.id)
+    .eq('user_id', user.id)
 
   if (error || count === null) {
     throw new Error(

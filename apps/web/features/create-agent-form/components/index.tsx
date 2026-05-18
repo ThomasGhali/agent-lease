@@ -70,17 +70,19 @@ export default function CreateAgentForm() {
       toast.loading('Submitting...', {
         id: 'form-status',
         position: 'top-right',
+        description: '',
       })
     } else if (state?.error) {
       toast.error('Error', {
         description: state.error,
-        id: 'form-status', // Replaces the loading toast
+        id: 'form-status',
         position: 'top-right',
       })
     } else if (state?.success) {
       toast.success('Message sent successfully!', {
-        id: 'form-status', // Replaces the loading toast
+        id: 'form-status',
         position: 'top-right',
+        description: '',
       })
       reset()
       router.push('/dashboard/my-agents')

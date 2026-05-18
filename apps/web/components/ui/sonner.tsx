@@ -34,11 +34,20 @@ const Toaster = ({ ...props }: ToasterProps) => {
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)",
           "--border-radius": "var(--radius)",
+          "--description-color": "var(--foreground)", // Forces high-contrast base color
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          toast:
+            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-lg group-[.toaster]:font-sans",
+          title: "font-semibold text-sm",
+          description:
+            "group-[.toast]:!text-zinc-900 dark:group-[.toast]:!text-zinc-100 text-xs font-medium leading-relaxed mt-0.5",
+          actionButton:
+            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground font-medium",
+          cancelButton:
+            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground font-medium",
         },
       }}
       {...props}
