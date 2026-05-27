@@ -1,14 +1,14 @@
 import { ReactNode } from 'react'
+import { PlanType } from '@repo/common'
 
 export interface PriceCardProps {
   styles?: string
-  planName: string
+  planName: PlanType
   planPrice: PlanPrice
   description: string
   features: Feature[]
   isPopular?: boolean
   buttonText?: string
-  onButtonClick?: () => void
   isAnnual: boolean
 }
 

@@ -1,4 +1,5 @@
 import type { PriceCardData } from '@/features/pricing/types'
+import { PlanType } from '@repo/common'
 
 import {
   Bot,
@@ -18,7 +19,7 @@ import {
 
 export const plans: PriceCardData[] = [
   {
-    planName: 'Starter',
+    planName: 'Starter' as any,
     planPrice: { type: 'free', monthly: '$0', yearly: '$0' },
     description:
       'Essential tools to start leasing and testing your first AI agents.',
@@ -44,7 +45,7 @@ export const plans: PriceCardData[] = [
     ],
   },
   {
-    planName: 'Pro',
+    planName: 'Premium' as PlanType.PREMIUM,
     planPrice: { type: 'paid', monthly: '$39', yearly: '$374' },
     description:
       'Advanced agent management and higher task limits for production usage.',
@@ -74,7 +75,7 @@ export const plans: PriceCardData[] = [
     ],
   },
   {
-    planName: 'Enterprise',
+    planName: 'Enterprise' as PlanType.ENTERPRISE,
     planPrice: { type: 'custom' },
     description:
       'Maximum performance, custom integrations, and SLA-backed support for scale.',

@@ -80,7 +80,7 @@ export default function Pricing() {
             </h2>
             <p className="text-muted-foreground mt-4 text-sm">
               Have questions about billing, limits, or enterprise options?
-              We're here to help.
+              We&apos;re here to help.
             </p>
           </div>
 

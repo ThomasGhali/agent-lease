@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { PlanType } from '@repo/common'
 
 const PriceCard = ({
   styles,
@@ -19,9 +20,27 @@ const PriceCard = ({
   features,
   isPopular = false,
   buttonText = 'Get Started',
-  onButtonClick,
   isAnnual,
 }: PriceCardProps) => {
+  const handleButtonClick = async (planName: PlanType) => {
+    if (planName !== PlanType.PREMIUM)
+      return console.error('Invalid plan, please choose premium')
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/payment/create-checkout-session`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ planName }),
+      },
+    )
+
+    const data = await res.json()
+    window.location.href = data.url
+  }
+
   return (
     <Card
       className={cn(
@@ -44,7 +63,7 @@ const PriceCard = ({
               </span>
             )}
           </div>
-          <CardDescription className="text-muted-foreground mt-2 min-h-[40px] text-sm">
+          <CardDescription className="text-muted-foreground mt-2 min-h-10 text-sm">
             {description}
           </CardDescription>
         </CardHeader>
@@ -70,7 +89,7 @@ const PriceCard = ({
 
           <div className="border-border/60 space-y-4 border-t pt-4">
             <span className="text-foreground mb-2 inline-block text-xs font-semibold tracking-wider uppercase">
-              What's included
+              What&apos;s included
             </span>
             <ul className="space-y-3">
               {features.map((feature, idx) => (
@@ -94,7 +113,7 @@ const PriceCard = ({
 
       <CardFooter className="border-t-0 bg-transparent p-6 pt-0">
         <Button
-          onClick={onButtonClick}
+          onClick={() => handleButtonClick(planName)}
           variant={isPopular ? 'default' : 'outline'}
           className={cn(
             'w-full cursor-pointer py-5 text-sm font-semibold transition-all duration-200',

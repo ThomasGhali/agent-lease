@@ -1,8 +1,6 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
-import {
-  CreateCheckoutDto,
-  PlanType,
-} from 'src/payment/dto/create-checkout.dto';
+import { Body, Controller, Post } from '@nestjs/common';
+import { PlanType } from '@repo/common';
+import { CreateCheckoutDto } from 'src/payment/dto/create-checkout.dto';
 import { PaymentService } from 'src/payment/payment.service';
 
 @Controller('payment')
