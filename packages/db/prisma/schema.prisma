@@ -17,13 +17,46 @@ model UserProfile {
   id String @id @db.Uuid
 
   username String
-  isPremium Boolean @default(false) @map("is_premium")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   agents Agent[]
+  subscription Subscription?
 
   @@map("user_profiles")
+}
+
+enum PlanType {
+  FREE
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  UNPAID
+  TRIALING
+}
+
+model Subscription {
+  id String @id @default(cuid())
+
+  userId String @unique @db.Uuid @map("user_id")
+  stripeCustomerId String? @unique @map("stripe_customer_id")
+  stripeSubscriptionId String? @unique @map("stripe_subscription_id")
+  
+  plan PlanType @default(FREE) @map("plan")
+  currentPeriodEnd DateTime? @map("current_period_end")
+  status SubscriptionStatus @default(ACTIVE)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
 }
 
 model Agent {

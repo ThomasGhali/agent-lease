@@ -1,7 +1,6 @@
 'use server'
 
 import { SupabaseClient, User } from '@supabase/supabase-js'
-import chalk from 'chalk'
 import { z } from 'zod'
 
 import { db } from '@repo/db'
@@ -11,6 +10,7 @@ import { FormState } from '@/features/create-agent-form/components/types'
 import { getAgentsCount } from '@/lib/prisma/agents-count'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentUser } from '@/lib/supabase/user'
+import { redirect } from 'next/navigation'
 
 const PLAN_LIMITS: Record<string, number> = {
   free: 1,
@@ -45,7 +45,7 @@ export const submitCreateAgentAction = async (
     const userPlan = await ensureUserPlan(supabase, user)
 
     const limitError = await validateAgentLimit(user.id, userPlan)
-    if (limitError) return limitError
+    if (limitError) redirect('/pricing')
 
     // Schema Validation
     const rawFormData = Object.fromEntries(formData)
@@ -132,6 +132,10 @@ async function validateAgentLimit(
 
   const limit = PLAN_LIMITS[plan]
   if (limit !== undefined && count >= limit) {
+    console.error(
+      `You have reached the limit of ${limit} agent(s) for your ${plan} plan.`,
+    )
+
     return {
       success: false,
       error: `You have reached the limit of ${limit} agent(s) for your ${plan} plan.`,
