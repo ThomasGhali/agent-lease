@@ -1,5 +1,7 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { PlanType } from '@repo/common';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { SupabaseAuthGuard } from 'src/auth/supabase-auth.guard';
 import { CreateCheckoutDto } from 'src/payment/dto/create-checkout.dto';
 import { PaymentService } from 'src/payment/payment.service';
 
@@ -13,11 +15,18 @@ export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
   @Post('create-checkout-session')
-  async createCheckoutSession(@Body() body: CreateCheckoutDto) {
+  @UseGuards(SupabaseAuthGuard)
+  async createCheckoutSession(
+    @Body() body: CreateCheckoutDto,
+    @CurrentUser() userId: string,
+  ) {
     const { plan } = body;
     const priceId = this.priceMap[plan];
 
-    const session = await this.paymentService.createCheckOutSession(priceId);
-    return { url: session.url }; // Stripe’s hosted payment page
+    const session = await this.paymentService.createCheckOutSession(
+      priceId,
+      userId,
+    );
+    return { url: session.url }; // Stripe's hosted payment page
   }
 }

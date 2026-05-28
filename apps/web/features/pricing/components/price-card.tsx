@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PlanType } from '@repo/common'
+import { createAuthClient } from '@/lib/supabase/client'
 
 const PriceCard = ({
   styles,
@@ -26,14 +27,25 @@ const PriceCard = ({
     if (planName !== PlanType.PREMIUM)
       return console.error('Invalid plan, please choose premium')
 
+    const supabase = createAuthClient()
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    if (!session) {
+      // TODO: redirect to login
+      return console.error('You must be logged in to subscribe')
+    }
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/payment/create-checkout-session`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ planName }),
+        body: JSON.stringify({ plan: planName }),
       },
     )
 
