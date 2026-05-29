@@ -50,37 +50,43 @@ export class WebhookService {
           dataObject as StripeCheckoutSession,
         );
         break;
+
       case 'invoice.paid':
         await this.webhookCasesProcessorService.handleInvoicePaid(
           dataObject as StripeInvoice,
         );
-        // Continue to provision the subscription as payments continue to be made.
-        // Store the status in your database and check when a customer accesses your service.
-        // This approach helps you avoid hitting rate limits.
         break;
+
       case 'customer.subscription.updated':
-        // Fires when a user cancels, changes plans, or goes past_due
+        // TODO (PROD): Handle cancellations, plan changes, and past_due transitions.
         const updatedSubscription = event.data.object as StripeSubscription;
 
         if (updatedSubscription.cancel_at_period_end) {
-          // User clicked "Cancel subscription", but their paid time isn't up yet.
-          // Do NOT cut off access yet. Just mark "will_cancel_at: date" in your DB.
+          // User requested cancellation, but the paid period hasn't ended.
+          // Do NOT revoke access yet — store the scheduled cancellation date in your DB.
         }
         break;
+
       case 'customer.subscription.deleted':
-        // Fires when the subscription fully ends/expires
+        // Fires when a subscription fully expires or is terminated.
         const deletedSubscription = event.data.object as StripeSubscription;
 
-        // 🚨 CUT OFF ACCESS HERE
-        // Set status to 'canceled' or 'inactive' in your database for this customer.
+        // ⚠️ Revoke access — set status to 'CANCELED' or 'INACTIVE' in your DB.
         break;
+
       case 'invoice.payment_failed':
-        // The payment failed or the customer doesn't have a valid payment method.
-        // The subscription becomes past_due. Notify your customer and send them to the
-        // customer portal to update their payment information.
+        // TODO (PROD): Handle failed payments.
+        // The customer's payment method is invalid or insufficient.
+        // Subscription transitions to past_due — notify the customer and
+        // direct them to the billing portal to update their payment method.
         break;
+
+      // TODO (PROD): Add handlers for the following events:
+      // 1. checkout.session.async_payment_succeeded — same provisioning logic as checkout.session.completed, for delayed payment methods (e.g. bank transfers).
+      // 2. checkout.session.async_payment_failed    — handle failure for delayed payment methods.
+      // 3. customer.subscription.trial_will_end     — notify the customer 3 days before trial ends (legally required in some regions).
       default:
-      // Unhandled event type
+      // Unhandled event type — no action taken.
     }
   }
 }
