@@ -6,6 +6,7 @@ import {
   StripeEvent,
   StripeSubscription,
   StripeCheckoutSession,
+  StripeInvoice,
 } from './webhook.types';
 
 @Injectable()
@@ -50,6 +51,9 @@ export class WebhookService {
         );
         break;
       case 'invoice.paid':
+        await this.webhookCasesProcessorService.handleInvoicePaid(
+          dataObject as StripeInvoice,
+        );
         // Continue to provision the subscription as payments continue to be made.
         // Store the status in your database and check when a customer accesses your service.
         // This approach helps you avoid hitting rate limits.

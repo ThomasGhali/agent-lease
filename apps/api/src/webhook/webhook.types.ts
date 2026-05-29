@@ -11,3 +11,7 @@ export type StripeSubscription = Awaited<
 export type StripeCheckoutSession = Awaited<
   ReturnType<InstanceType<typeof Stripe>['checkout']['sessions']['retrieve']>
 >;
+
+export type StripeInvoice = Awaited<
+  ReturnType<InstanceType<typeof Stripe>['invoices']['retrieve']>
+>;
