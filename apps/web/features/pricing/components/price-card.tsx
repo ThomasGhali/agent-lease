@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { PlanType } from '@repo/common'
 import { createAuthClient } from '@/lib/supabase/client'
+import { toast } from 'sonner'
 
 const PriceCard = ({
   styles,
@@ -33,7 +34,7 @@ const PriceCard = ({
     } = await supabase.auth.getSession()
 
     if (!session) {
-      // TODO: redirect to login
+      toast.error('You must be logged in to subscribe')
       return console.error('You must be logged in to subscribe')
     }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Message } from '@repo/common';
 import { Message as MessageDb, SenderType } from '@repo/db';
 import { Socket } from 'socket.io';
@@ -7,6 +7,7 @@ import { PersistenceService } from 'src/chat/persistence/persistence.service';
 
 @Injectable()
 export class ChatService {
+  private readonly logger = new Logger(ChatService.name);
   constructor(
     private readonly persistenceService: PersistenceService,
     private readonly aiService: AiService,
@@ -16,12 +17,12 @@ export class ChatService {
   private socketToRoomMap = new Map<string, string>(); // Link socket.id -> roomName
 
   handleConnection(client: Socket) {
-    console.log(`User ${client.id} is connected to the websocket`);
+    this.logger.log(`User ${client.id} is connected to the websocket`);
   }
 
   handleDisconnect(client: Socket) {
     const roomName = this.socketToRoomMap.get(client.id);
-    console.log(
+    this.logger.log(
       `Chat user ${client.id} disconnected. Found room: ${roomName || 'none'}`,
     );
 
@@ -43,7 +44,7 @@ export class ChatService {
       return { status: 'error', message: 'Too many rooms for this connection' };
 
     if (socket.rooms.has(roomName)) {
-      console.log(`User ${userName} is already in room ${roomName}`);
+      this.logger.log(`User ${userName} is already in room ${roomName}`);
       return { status: 'error', message: 'User is already in room' };
     }
 
@@ -65,7 +66,7 @@ export class ChatService {
 
     socket.join(roomName);
     this.socketToRoomMap.set(socket.id, roomName);
-    console.log(`User ${userName} joined room: ${roomName}`);
+    this.logger.log(`User ${userName} joined room: ${roomName}`);
 
     socket.emit('message', messages);
     socket.emit('message', [

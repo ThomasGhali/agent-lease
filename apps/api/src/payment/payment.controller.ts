@@ -26,6 +26,7 @@ export class PaymentController {
     const session = await this.paymentService.createCheckOutSession(
       priceId,
       userId,
+      plan,
     );
     return { url: session.url }; // Stripe's hosted payment page
   }

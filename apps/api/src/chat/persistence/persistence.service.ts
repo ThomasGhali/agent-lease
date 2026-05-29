@@ -91,7 +91,7 @@ export class PersistenceService {
       0,
       -1,
     );
-    console.log('data:', data);
+
     return data || [];
   }
 }

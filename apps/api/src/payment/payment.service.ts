@@ -17,6 +17,7 @@ export class PaymentService {
   async createCheckOutSession(
     priceId: string,
     userId: string,
+    plan: string,
   ): Promise<CheckoutSession> {
     return this.stripe.checkout.sessions.create({
       mode: 'subscription',
@@ -24,6 +25,7 @@ export class PaymentService {
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/result?success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/result?cancel`,
       client_reference_id: userId,
+      metadata: { plan },
     });
   }
 }

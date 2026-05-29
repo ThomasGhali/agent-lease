@@ -1,19 +1,22 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
+import { WebhookCasesProcessorService } from './webhook-cases-processor.service';
 
-type StripeEvent = ReturnType<
-  InstanceType<typeof Stripe>['webhooks']['constructEvent']
->;
-
-type StripeSubscription = Awaited<
-  ReturnType<InstanceType<typeof Stripe>['subscriptions']['retrieve']>
->;
+import {
+  StripeEvent,
+  StripeSubscription,
+  StripeCheckoutSession,
+} from './webhook.types';
 
 @Injectable()
 export class WebhookService {
   private readonly stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: '2026-04-22.dahlia',
   });
+
+  constructor(
+    private readonly webhookCasesProcessorService: WebhookCasesProcessorService,
+  ) {}
 
   async handleStripeWebhook(rawBody: Buffer, signature: string) {
     const webhookSecretKey = process.env.WEBHOOK_SECRET_KEY;
@@ -38,10 +41,13 @@ export class WebhookService {
     }
 
     const eventType = event.type;
+    const dataObject = event.data.object;
 
     switch (eventType) {
       case 'checkout.session.completed':
-        console.log('payment is successful, subscription is created');
+        await this.webhookCasesProcessorService.handleCheckoutSessionCompleted(
+          dataObject as StripeCheckoutSession,
+        );
         break;
       case 'invoice.paid':
         // Continue to provision the subscription as payments continue to be made.
