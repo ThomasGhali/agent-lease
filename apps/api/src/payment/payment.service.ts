@@ -22,8 +22,8 @@ export class PaymentService {
     return this.stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/result?success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/result?cancel`,
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-result?success=true`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-result?success=false`,
       client_reference_id: userId,
       metadata: { plan },
     });
