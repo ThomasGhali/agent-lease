@@ -8,9 +8,7 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { PersistenceService } from 'src/chat/persistence/persistence.service';
 
-import { Message } from '@repo/common';
 import { ChatService } from 'src/chat/chat.service';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
@@ -18,7 +16,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(private readonly chatService: ChatService) {}
 
   @WebSocketServer()
-  server: Server;
+  server!: Server;
 
   handleConnection(client: Socket) {
     this.chatService.handleConnection(client);

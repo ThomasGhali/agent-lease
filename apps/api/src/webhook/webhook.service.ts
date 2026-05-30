@@ -57,7 +57,7 @@ export class WebhookService {
         );
         break;
 
-      case 'customer.subscription.updated':
+      case 'customer.subscription.updated': {
         // TODO (PROD): Handle cancellations, plan changes, and past_due transitions.
         const updatedSubscription = event.data.object as StripeSubscription;
 
@@ -66,14 +66,14 @@ export class WebhookService {
           // Do NOT revoke access yet — store the scheduled cancellation date in your DB.
         }
         break;
-
-      case 'customer.subscription.deleted':
+      }
+      case 'customer.subscription.deleted': {
         // Fires when a subscription fully expires or is terminated.
-        const deletedSubscription = event.data.object as StripeSubscription;
+        // const deletedSubscription = event.data.object as StripeSubscription;
 
         // ⚠️ Revoke access — set status to 'CANCELED' or 'INACTIVE' in your DB.
         break;
-
+      }
       case 'invoice.payment_failed':
         // TODO (PROD): Handle failed payments.
         // The customer's payment method is invalid or insufficient.

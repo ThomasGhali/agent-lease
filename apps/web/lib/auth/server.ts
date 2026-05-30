@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentUser } from '@/lib/supabase/user'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 type AuthResult =
   | { success: true; data: any }
@@ -57,6 +58,13 @@ export const signUp = async (
       },
     })
 
+    if (error) {
+      return {
+        success: false,
+        error: error.message,
+      }
+    }
+
     if (!data.user) {
       return {
         success: false,
@@ -64,18 +72,17 @@ export const signUp = async (
       }
     }
 
-    await supabase.auth.admin.updateUserById(data.user.id, {
+    const supabaseAdmin = createAdminClient()
+
+    const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(data.user.id, {
       app_metadata: {
         role: 'user',
         plan: 'free',
       },
     })
 
-    if (error) {
-      return {
-        success: false,
-        error: error.message,
-      }
+    if (updateError) {
+      console.error('Failed to update app_metadata:', updateError)
     }
 
     return {
