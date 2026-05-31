@@ -1,4 +1,3 @@
-import { createClient } from '@/lib/supabase/server'
 import { SupabaseClient } from '@supabase/supabase-js'
 
 export async function getCurrentUser(supabase: SupabaseClient) {

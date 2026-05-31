@@ -1,3 +1,4 @@
+/* global document */
 ;(function () {
   const script = document.currentScript
   const scriptOrigin = new URL(script.src).origin

@@ -49,7 +49,7 @@ export class PersistenceService {
 
     await pipeline.exec();
 
-    db.room.upsert({
+    void db.room.upsert({
       where: {
         id: roomName,
       },

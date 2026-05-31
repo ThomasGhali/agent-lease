@@ -11,7 +11,7 @@ import { WebhookService } from 'src/webhook/webhook.service';
 
 @Controller('webhook')
 export class WebhookController {
-  constructor(private readonly webhookService: WebhookService){};
+  constructor(private readonly webhookService: WebhookService) {}
 
   @Post('/')
   async handleWebhook(

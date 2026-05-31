@@ -98,7 +98,7 @@ async function ensureUserPlan(
   supabase: SupabaseClient,
   user: User,
 ): Promise<string> {
-  let plan = user.app_metadata.plan
+  const plan = user.app_metadata.plan
   const role = user.app_metadata.role
 
   if (!plan && role !== 'admin') {

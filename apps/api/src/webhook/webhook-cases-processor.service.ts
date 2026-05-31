@@ -1,4 +1,5 @@
 import { Logger, Injectable } from '@nestjs/common';
+import { SupabaseClient } from '@supabase/supabase-js';
 import { StripeCheckoutSession, StripeInvoice } from './webhook.types';
 import { PlanType } from '@repo/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
@@ -6,7 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class WebhookCasesProcessorService {
-  private readonly supabaseAdminClient;
+  private readonly supabaseAdminClient: SupabaseClient;
 
   constructor(
     private readonly supabaseService: SupabaseService,
@@ -58,12 +59,12 @@ export class WebhookCasesProcessorService {
         },
       });
 
-      const { error } = await this.supabaseAdminClient.auth.admin.updateUserById({
-        userId,
-        app_metadata: {
-          plan,
-        },
-      });
+      const { error } =
+        await this.supabaseAdminClient.auth.admin.updateUserById(userId, {
+          app_metadata: {
+            plan,
+          },
+        });
 
       if (error) {
         this.logger.error(

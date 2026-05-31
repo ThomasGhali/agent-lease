@@ -87,7 +87,7 @@ export default function CreateAgentForm() {
       reset()
       router.push('/dashboard/my-agents')
     }
-  }, [state, isPending, reset])
+  }, [state, isPending, reset, router])
 
   return (
     <div className="flex-center w-full">

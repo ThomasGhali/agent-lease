@@ -64,7 +64,7 @@ export class ChatService {
 
     const messages = this.socketRoomMap.get(roomName)!;
 
-    socket.join(roomName);
+    void socket.join(roomName);
     this.socketToRoomMap.set(socket.id, roomName);
     this.logger.log(`User ${userName} joined room: ${roomName}`);
 
@@ -78,7 +78,7 @@ export class ChatService {
 
   async handleMessage(
     socket: Socket,
-    messagePayload: any, // TODO: use dto here
+    messagePayload: { message: string; agentId: string; visitorId: string },
   ) {
     const { message, agentId, visitorId } = messagePayload;
     const roomName = `${agentId}:${visitorId}`;

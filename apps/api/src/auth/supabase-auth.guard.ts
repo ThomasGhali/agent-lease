@@ -4,6 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import type { Request } from 'express';
 import * as jwt from 'jsonwebtoken';
 
 interface SupabaseJwtPayload {
@@ -15,12 +16,16 @@ interface SupabaseJwtPayload {
   role?: string;
 }
 
+interface AuthenticatedRequest extends Request {
+  user?: { id: string };
+}
+
 @Injectable()
 export class SupabaseAuthGuard implements CanActivate {
   private readonly jwtSecret = process.env.SUPABASE_JWT_SECRET!;
 
   canActivate(context: ExecutionContext): boolean {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<AuthenticatedRequest>();
     const authHeader = request.headers['authorization'];
 
     if (!authHeader?.startsWith('Bearer ')) {

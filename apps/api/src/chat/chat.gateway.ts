@@ -37,7 +37,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('message')
   async handleMessage(
     @ConnectedSocket() socket: Socket,
-    @MessageBody() messagePayload: any, // TODO: use dto here
+    @MessageBody()
+    messagePayload: { message: string; agentId: string; visitorId: string },
   ) {
     return await this.chatService.handleMessage(socket, messagePayload);
   }

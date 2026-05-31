@@ -1,9 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
-import { getCurrentUser } from '@/lib/supabase/user'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 type AuthResult =
-  | { success: true; data: any }
+  | { success: true; data: unknown }
   | { success: false; error: string }
 
 export const signIn = async (

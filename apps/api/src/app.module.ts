@@ -6,6 +6,12 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [ChatModule, PaymentModule, WebhookModule, SupabaseModule, PrismaModule],
+  imports: [
+    ChatModule,
+    PaymentModule,
+    WebhookModule,
+    SupabaseModule,
+    PrismaModule,
+  ],
 })
 export class AppModule {}

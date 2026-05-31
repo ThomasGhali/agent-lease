@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-js';
 
 @Injectable()
 export class SupabaseService {
@@ -17,7 +17,7 @@ export class SupabaseService {
    * 🔴 ADMIN CLIENT (Bypasses RLS)
    * Use this for internal server operations, webhooks, or cron jobs.
    */
-  getAdminClient(): SupabaseClient {
+  getAdminClient() {
     return createClient(this.supabaseUrl, this.serviceRoleKey, {
       auth: {
         autoRefreshToken: false,
@@ -30,7 +30,7 @@ export class SupabaseService {
    * 🟢 USER-SCOPED CLIENT (Respects RLS)
    * Use this when acting on behalf of a user request.
    */
-  getClient(authHeader: string): SupabaseClient {
+  getClient(authHeader: string) {
     if (!authHeader) {
       throw new UnauthorizedException('Missing authorization header');
     }

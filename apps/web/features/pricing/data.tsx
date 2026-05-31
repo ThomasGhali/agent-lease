@@ -19,7 +19,7 @@ import {
 
 export const plans: PriceCardData[] = [
   {
-    planName: 'Starter' as any,
+    planName: 'Starter' as unknown as PlanType,
     planPrice: { type: 'free', monthly: '$0', yearly: '$0' },
     description:
       'Essential tools to start leasing and testing your first AI agents.',

@@ -10,4 +10,3 @@ import { SupabaseModule } from 'src/supabase/supabase.module';
   providers: [WebhookService, WebhookCasesProcessorService],
 })
 export class WebhookModule {}
-

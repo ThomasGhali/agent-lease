@@ -28,7 +28,7 @@ const InvalidPaymentResult = () => (
         </div>
         <CardTitle className="text-2xl font-bold">Invalid Request</CardTitle>
         <CardDescription>
-          We couldn't determine the status of your payment.
+          We couldn&apos;t determine the status of your payment.
         </CardDescription>
       </CardHeader>
       <CardFooter className="flex justify-center border-t-0 bg-transparent pt-0">

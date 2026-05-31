@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { GalleryVerticalEnd } from 'lucide-react'
 import { LoginForm } from '@/features/sign-in/components/login-form'
 
@@ -20,10 +21,11 @@ export default function SigninForm() {
         </div>
       </div>
       <div className="bg-muted relative hidden lg:block">
-        <img
+        <Image
           src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          alt="Sign in illustration"
+          fill
+          className="object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
     </div>
