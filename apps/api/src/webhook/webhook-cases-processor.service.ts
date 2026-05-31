@@ -1,5 +1,6 @@
 import { Logger, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
+import Stripe from 'stripe';
 import { StripeCheckoutSession, StripeInvoice } from './webhook.types';
 import { PlanType } from '@repo/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
@@ -8,12 +9,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class WebhookCasesProcessorService {
   private readonly supabaseAdminClient: SupabaseClient;
+  private readonly stripe: InstanceType<typeof Stripe>;
 
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly prisma: PrismaService,
   ) {
     this.supabaseAdminClient = this.supabaseService.getAdminClient();
+    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: '2026-04-22.dahlia',
+    });
   }
 
   private readonly logger = new Logger(WebhookCasesProcessorService.name);
@@ -42,6 +47,13 @@ export class WebhookCasesProcessorService {
           ? PlanType.PREMIUM
           : PlanType.ENTERPRISE;
 
+      // Retrieve the subscription to get the current billing period end
+      const subscription = await this.stripe.subscriptions.retrieve(
+        stripeSubscriptionId,
+      );
+      const currentPeriodEnd =
+        subscription.items.data[0]?.current_period_end;
+
       await this.prisma.client.subscription.upsert({
         where: { userId },
         update: {
@@ -49,6 +61,9 @@ export class WebhookCasesProcessorService {
           stripeSubscriptionId,
           status: 'ACTIVE',
           plan,
+          ...(currentPeriodEnd && {
+            currentPeriodEnd: new Date(currentPeriodEnd * 1000),
+          }),
         },
         create: {
           userId,
@@ -56,6 +71,9 @@ export class WebhookCasesProcessorService {
           stripeSubscriptionId,
           status: 'ACTIVE',
           plan,
+          ...(currentPeriodEnd && {
+            currentPeriodEnd: new Date(currentPeriodEnd * 1000),
+          }),
         },
       });
 

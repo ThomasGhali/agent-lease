@@ -24,9 +24,12 @@ export default function renderAgentCards(agents: Agent[]) {
   if (!agents || agents.length === 0) {
     return <EmptyAgentsState />
   }
-  
+
   return agents.map(agent => (
-    <div key={agent.id} className="group bg-card text-card-foreground dark:hover:border-primary/50 relative flex w-80 flex-col gap-4 rounded-xl border p-5 shadow-sm transition-all hover:shadow-md">
+    <div
+      key={agent.id}
+      className="group bg-card text-card-foreground dark:hover:border-primary/50 relative flex w-80 flex-col gap-4 rounded-xl border p-5 shadow-sm transition-all hover:shadow-md"
+    >
       <AgentCardHeader name={agent.name} agentRole={agent.agentRole} />
 
       {/* Domain Name */}
@@ -110,15 +113,16 @@ const AgentCardFooter = ({ isActive }: AgentCardFooterProps) => (
 )
 
 const EmptyAgentsState = () => (
-  <div className="bg-card/50 border-border/60 flex w-full max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed py-20 text-center shadow-sm transition-all animate-in fade-in zoom-in duration-500">
-    <div className="bg-primary/5 ring-primary/10 flex h-20 w-20 items-center justify-center rounded-full ring-8 mb-6">
+  <div className="bg-card/50 border-border/60 animate-in fade-in zoom-in flex w-full max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed py-20 text-center shadow-sm transition-all duration-500">
+    <div className="bg-primary/5 ring-primary/10 mb-6 flex h-20 w-20 items-center justify-center rounded-full ring-8">
       <TerminalSquare className="text-primary h-10 w-10 opacity-80" />
     </div>
     <h3 className="text-xl font-bold tracking-tight">No AI agents found</h3>
     <p className="text-muted-foreground mt-3 mb-8 max-w-[320px] text-sm leading-relaxed">
-      Create your first AI agent now! Customer support had never been easier and more efficient.
+      Create your first AI agent now! Customer support had never been easier and
+      more efficient.
     </p>
-    <Button className="h-11 px-6 font-medium shadow-md shadow-primary/20 transition-all hover:-translate-y-px active:translate-y-0 gap-2">
+    <Button className="shadow-primary/20 h-11 cursor-pointer gap-2 px-6 font-medium shadow-md transition-all hover:-translate-y-px active:translate-y-0">
       <Plus className="h-4 w-4" />
       Create Your First Agent
     </Button>

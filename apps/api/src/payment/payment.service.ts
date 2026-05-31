@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import Stripe from 'stripe';
 
 type CheckoutSession = Awaited<
@@ -13,12 +13,15 @@ export class PaymentService {
       apiVersion: '2026-04-22.dahlia',
     },
   );
+  private readonly logger = new Logger(PaymentService.name);
 
   async createCheckOutSession(
     priceId: string,
     userId: string,
     plan: string,
   ): Promise<CheckoutSession> {
+    this.logger.log('i ran');
+
     return this.stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],

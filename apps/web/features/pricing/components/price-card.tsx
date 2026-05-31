@@ -25,8 +25,11 @@ const PriceCard = ({
   isAnnual,
 }: PriceCardProps) => {
   const handleButtonClick = async (planName: PlanType) => {
-    if (planName !== PlanType.PREMIUM)
+    const uppercasePlan = planName.toUpperCase()
+    if (uppercasePlan !== PlanType.PREMIUM) {
+      toast.error('Invalid plan, please choose premium')
       return console.error('Invalid plan, please choose premium')
+    }
 
     const supabase = createAuthClient()
     const {
@@ -46,10 +49,9 @@ const PriceCard = ({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${session.access_token}`,
         },
-        body: JSON.stringify({ plan: planName }),
+        body: JSON.stringify({ plan: uppercasePlan }),
       },
     )
-
     const data = await res.json()
     window.location.href = data.url
   }

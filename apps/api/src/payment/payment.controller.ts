@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
 import { PlanType } from '@repo/common';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { SupabaseAuthGuard } from 'src/auth/supabase-auth.guard';
@@ -13,6 +13,7 @@ export class PaymentController {
   };
 
   constructor(private readonly paymentService: PaymentService) {}
+  private readonly logger = new Logger(PaymentController.name);
 
   @Post('create-checkout-session')
   @UseGuards(SupabaseAuthGuard)
@@ -28,6 +29,9 @@ export class PaymentController {
       userId,
       plan,
     );
+
+    this.logger.log('Session URL: ', session.url);
+
     return { url: session.url }; // Stripe's hosted payment page
   }
 }
