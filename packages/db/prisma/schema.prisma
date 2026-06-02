@@ -66,7 +66,7 @@ model Agent {
   name String
   agentRole String @default("Chat Bot") @map("agent_role")
   isActive Boolean @default(false) @map("is_active")
-  domain String
+  hostname String
   systemPrompt String @map("system_prompt")
   welcomeMessage String @map("welcome_message")
   fallbackMessage String? @map("fallback_message")

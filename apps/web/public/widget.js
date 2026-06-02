@@ -1,7 +1,8 @@
 /* global document */
 ;(function () {
   const script = document.currentScript
-  const scriptOrigin = new URL(script.src).origin
+  const scriptOrigin = script.src.split('/widget')[0]
+  const hostname = window.location.hostname
 
   const agentId = script.getAttribute('data-agent-id')
 
@@ -42,7 +43,7 @@
     }
 
     isOpen = true
-    iframe.src = `${scriptOrigin}/widget?agentId=${agentId}`
+    iframe.src = `${scriptOrigin}/widget?agentId=${agentId}&hostname=${hostname}`
     iframe.style.cssText = `
         position: fixed; bottom: 90px; right: 20px; width: 340px; height: 420px;
         border: none; border-radius: 16px; box-shadow: 0 10px 20px -12px rgb(0 0 0 / 0.4);

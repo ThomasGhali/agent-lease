@@ -17,7 +17,9 @@ export class ChatService {
   private socketToRoomMap = new Map<string, string>(); // Link socket.id -> roomName
 
   handleConnection(client: Socket) {
+    const auth = client.handshake.auth;
     this.logger.log(`User ${client.id} is connected to the websocket`);
+    this.logger.log(auth);
   }
 
   handleDisconnect(client: Socket) {
@@ -39,9 +41,6 @@ export class ChatService {
     // TODO: add room dto
     const userName = socket.id.substring(0, 4);
     const roomName = `${payload.agentId}:${payload.visitorId}`;
-
-    if (socket.rooms.size > 3)
-      return { status: 'error', message: 'Too many rooms for this connection' };
 
     if (socket.rooms.has(roomName)) {
       this.logger.log(`User ${userName} is already in room ${roomName}`);

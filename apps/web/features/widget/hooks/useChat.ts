@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { io, Socket } from 'socket.io-client'
 import { Message } from '@repo/common'
 
-export function useChat(agentId: string | null) {
+export function useChat(agentId: string, hostname: string) {
   const [chatMessages, setChatMessages] = useState<Message[]>([])
   const [typingStatus, setTypingStatus] = useState<string>('')
 
@@ -82,6 +82,10 @@ export function useChat(agentId: string | null) {
 
   useEffect(() => {
     const chat = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
+      auth: {
+        hostname,
+        agentId,
+      },
       autoConnect: false,
     })
     socketRef.current = chat

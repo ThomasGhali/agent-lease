@@ -1,12 +1,21 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
 import { useChat } from '@/features/widget/hooks/useChat'
 import MessageList from '@/features/widget/components/message-list'
 import ChatInput from '@/features/widget/components/chat-input'
+import MissingAgentData from '@/features/widget/components/missing-agent-data'
 
-export default function Widget() {
-  const agentId = useSearchParams().get('agentId')
+export default function Widget({
+  agentId,
+  hostname,
+}: {
+  agentId: string | null
+  hostname: string | null
+}) {
+  if (!agentId || !hostname) {
+    return <MissingAgentData />
+  }
+
   const {
     chatMessages,
     typingStatus,
@@ -15,7 +24,7 @@ export default function Widget() {
     handleSend,
     inputRef,
     formRef,
-  } = useChat(agentId)
+  } = useChat(agentId, hostname)
 
   return (
     <main>

@@ -1,9 +1,3 @@
-import Widget from './widget/page'
-
 export default function Home() {
-  return (
-    <>
-      <Widget />
-    </>
-  )
+  return <div>Landing page</div>
 }
