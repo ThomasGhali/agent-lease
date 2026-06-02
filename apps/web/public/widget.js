@@ -51,11 +51,3 @@
     document.body.appendChild(iframe)
   })
 })()
-
-/* 
-  - create a bubble (div) that is clickable and toggles a chat window
-  - check if data-agent-id exists, otherwise don't render the widget and return console error
-  - add styles to the bubble and chat window
-  - create hidden iframe with src set to next.js localhost:3000 and pass the agent id as a prop
-  - 
-*/
