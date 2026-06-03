@@ -13,25 +13,59 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from 'src/chat/chat.service';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
+export class ChatGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
+{
   constructor(private readonly chatService: ChatService) {}
 
   @WebSocketServer()
   server!: Server;
 
+  private readonly CONNECTIONS_RATE_WINDOW_MS = 60_000; // A minute
+  private readonly BLOCK_PERIOD_MS = 60_000; // A minute
+  private readonly MAX_ATTEMPTS = 3;
+
+  private connectionAttempts = new Map<
+    string,
+    { count: number; firstAttempt: number }
+  >();
+
   afterInit(server: Server) {
+    // Clean blocked IPs every 1 minute
+    setInterval(() => {
+      for (const [ip, entry] of this.connectionAttempts.entries()) {
+        if (Date.now() - entry.firstAttempt > this.BLOCK_PERIOD_MS)
+          this.connectionAttempts.delete(ip);
+      }
+    }, this.CONNECTIONS_RATE_WINDOW_MS);
+
     server.use(async (socket: Socket, next) => {
       try {
+        const ip = socket.handshake.address;
+        const entry = this.connectionAttempts.get(ip);
+
+        if (entry) {
+          if (entry.count >= this.MAX_ATTEMPTS)
+            return next(new Error('Too many attempts. Try again later.'));
+
+          entry.count++;
+        } else {
+          this.connectionAttempts.set(ip, { count: 1, firstAttempt: Date.now() });
+        }
+
         // Fallback to referer or empty string if origin is missing (e.g. from non-browser clients)
-        const origin = socket.handshake.headers.origin || socket.handshake.headers.referer || '';
+        const origin =
+          socket.handshake.headers.origin ||
+          socket.handshake.headers.referer ||
+          '';
         const { agentId } = socket.handshake.auth;
 
         const agent = await this.chatService.validateAgent(origin, agentId);
-        
+
         if (!agent) {
           return next(new Error('Invalid agent configuration'));
         }
-        
+
         next();
       } catch (error) {
         next(new Error('Internal server error'));
