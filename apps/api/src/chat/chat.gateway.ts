@@ -4,6 +4,7 @@ import {
   WebSocketServer,
   OnGatewayConnection,
   OnGatewayDisconnect,
+  OnGatewayInit,
   ConnectedSocket,
   MessageBody,
 } from '@nestjs/websockets';
@@ -12,11 +13,31 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from 'src/chat/chat.service';
 
 @WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit {
   constructor(private readonly chatService: ChatService) {}
 
   @WebSocketServer()
   server!: Server;
+
+  afterInit(server: Server) {
+    server.use(async (socket: Socket, next) => {
+      try {
+        // Fallback to referer or empty string if origin is missing (e.g. from non-browser clients)
+        const origin = socket.handshake.headers.origin || socket.handshake.headers.referer || '';
+        const { agentId } = socket.handshake.auth;
+
+        const agent = await this.chatService.validateAgent(origin, agentId);
+        
+        if (!agent) {
+          return next(new Error('Invalid agent configuration'));
+        }
+        
+        next();
+      } catch (error) {
+        next(new Error('Internal server error'));
+      }
+    });
+  }
 
   handleConnection(client: Socket) {
     this.chatService.handleConnection(client);

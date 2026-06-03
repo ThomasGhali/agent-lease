@@ -62,13 +62,15 @@ export const submitCreateAgentAction = async (
 
     const validatedData = result.data
 
+    const hostname = normalizeDomain(validatedData.hostname)
+
     await db.agent.create({
       data: {
         userId: user.id,
         name: validatedData.agentName,
         agentRole: validatedData.agentRole,
         isActive: Boolean(validatedData.isActive),
-        domain: validatedData.domain,
+        hostname,
         systemPrompt: validatedData.systemPrompt,
         welcomeMessage: validatedData.welcomeMessage,
         fallbackMessage: validatedData.fallbackMessage,
@@ -144,4 +146,12 @@ async function validateAgentLimit(
   }
 
   return null
+}
+
+function normalizeDomain(value: string) {
+  return value
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .split('/')[0]!
+    .toLowerCase()
 }

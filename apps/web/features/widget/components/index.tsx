@@ -7,12 +7,10 @@ import MissingAgentData from '@/features/widget/components/missing-agent-data'
 
 export default function Widget({
   agentId,
-  hostname,
 }: {
   agentId: string | null
-  hostname: string | null
 }) {
-  if (!agentId || !hostname) {
+  if (!agentId) {
     return <MissingAgentData />
   }
 
@@ -24,7 +22,7 @@ export default function Widget({
     handleSend,
     inputRef,
     formRef,
-  } = useChat(agentId, hostname)
+  } = useChat(agentId)
 
   return (
     <main>

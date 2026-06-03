@@ -32,7 +32,7 @@ export default function CreateAgentForm() {
     defaultValues: {
       agentName: '',
       agentRole: '',
-      domain: '',
+      hostname: '',
       systemPrompt: '',
       welcomeMessage: '',
       fallbackMessage: '',

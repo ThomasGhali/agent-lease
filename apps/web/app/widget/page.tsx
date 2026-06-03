@@ -2,7 +2,6 @@ import Widget from '@/features/widget/components'
 
 interface WidgetSearchParams {
   agentId: string
-  hostname: string
 }
 
 export default async function WidgetPage({
@@ -10,7 +9,7 @@ export default async function WidgetPage({
 }: {
   searchParams: Promise<WidgetSearchParams>
 }) {
-  const { agentId, hostname } = await searchParams
+  const { agentId } = await searchParams
 
-  return <Widget agentId={agentId} hostname={hostname} />
+  return <Widget agentId={agentId} />
 }

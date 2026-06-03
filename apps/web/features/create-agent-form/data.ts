@@ -18,8 +18,8 @@ export const inputFields: InputField[] = [
     className:'md:col-span-1'
   },
   {
-    name: 'domain',
-    label: 'Domain',
+    name: 'hostname',
+    label: 'Hostname',
     placeholder: 'e.g fakewebdevdomain.com',
     required: true,
     maxLength: 50,

@@ -4,6 +4,7 @@ import { Message as MessageDb, SenderType } from '@repo/db';
 import { Socket } from 'socket.io';
 import { AiService } from 'src/chat/ai/ai.service';
 import { PersistenceService } from 'src/chat/persistence/persistence.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class ChatService {
@@ -11,10 +12,40 @@ export class ChatService {
   constructor(
     private readonly persistenceService: PersistenceService,
     private readonly aiService: AiService,
+    private readonly prisma: PrismaService,
   ) {}
 
   private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
   private socketToRoomMap = new Map<string, string>(); // Link socket.id -> roomName
+
+  private normalizeDomain(value: string) {
+    return value
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .split('/')[0]
+      .toLowerCase();
+  }
+
+  async validateAgent(origin: string, agentId: string) {
+    if (!origin || !agentId) return null;
+
+    const agent = await this.prisma.client.agent.findFirst({
+      where: {
+        id: agentId,
+      },
+    });
+
+    if (!agent) return null;
+
+    if (this.normalizeDomain(origin) !== agent.hostname) {
+      this.logger.warn(
+        `Origin mismatch: provided ${origin} vs expected ${agent.hostname}`,
+      );
+      return null;
+    }
+
+    return agent;
+  }
 
   handleConnection(client: Socket) {
     const auth = client.handshake.auth;

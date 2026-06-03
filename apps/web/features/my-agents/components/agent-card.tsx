@@ -36,7 +36,7 @@ export default function renderAgentCards(agents: Agent[]) {
       <div className="grid grid-cols-1 gap-3">
         <div className="bg-muted/40 text-muted-foreground ring-border/50 flex items-center gap-2 rounded-md px-2.5 py-1.5 text-xs font-medium ring-1 ring-inset">
           <Globe className="h-3.5 w-3.5" />
-          <span className="truncate">{agent.domain}</span>
+          <span className="truncate">{agent.hostname}</span>
         </div>
       </div>
 
