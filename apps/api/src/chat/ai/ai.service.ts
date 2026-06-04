@@ -8,7 +8,7 @@ const roleMap = {
   [SenderType.VISITOR]: 'user',
   [SenderType.AI_SUPPORT]: 'assistant',
   [SenderType.HUMAN_SUPPORT]: 'assistant',
-};
+} as const;
 
 @Injectable()
 export class AiService {
@@ -18,7 +18,10 @@ export class AiService {
       model: groq('llama-3.3-70b-versatile'),
       messages: [
         ...messages.map((msg) => {
-          return { role: roleMap[msg.sender], content: msg.message };
+          return {
+            role: roleMap[msg.sender as keyof typeof roleMap],
+            content: msg.message,
+          };
         }),
       ],
     });

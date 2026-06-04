@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   SubscribeMessage,
   WebSocketGateway,
@@ -9,6 +10,7 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { WsRateLimitGuard } from 'src/chat/chat.guard';
 
 import { ChatService } from 'src/chat/chat.service';
 
@@ -39,37 +41,48 @@ export class ChatGateway
       }
     }, this.CONNECTIONS_RATE_WINDOW_MS);
 
-    server.use(async (socket: Socket, next) => {
-      try {
-        const ip = socket.handshake.address;
-        const entry = this.connectionAttempts.get(ip);
+    server.use((socket: Socket, next) => {
+      void (async () => {
+        try {
+          const xForwardedFor = socket.handshake.headers['x-forwarded-for'];
+          const ip = Array.isArray(xForwardedFor)
+            ? xForwardedFor[0]
+            : xForwardedFor?.split(',')[0].trim() || socket.handshake.address;
+          const entry = this.connectionAttempts.get(ip);
 
-        if (entry) {
-          if (entry.count >= this.MAX_ATTEMPTS)
-            return next(new Error('Too many attempts. Try again later.'));
+          if (entry) {
+            if (entry.count >= this.MAX_ATTEMPTS)
+              return next(new Error('Too many attempts. Try again later.'));
 
-          entry.count++;
-        } else {
-          this.connectionAttempts.set(ip, { count: 1, firstAttempt: Date.now() });
+            entry.count++;
+          } else {
+            this.connectionAttempts.set(ip, {
+              count: 1,
+              firstAttempt: Date.now(),
+            });
+          }
+
+          // Fallback to referer or empty string if origin is missing (e.g. from non-browser clients)
+          const origin =
+            socket.handshake.headers.origin ||
+            socket.handshake.headers.referer ||
+            '';
+          const { agentId } = socket.handshake.auth as { agentId?: string };
+
+          const agent = await this.chatService.validateAgent(
+            origin,
+            agentId ?? '',
+          );
+
+          if (!agent) {
+            return next(new Error('Invalid agent configuration'));
+          }
+
+          next();
+        } catch {
+          next(new Error('Internal server error'));
         }
-
-        // Fallback to referer or empty string if origin is missing (e.g. from non-browser clients)
-        const origin =
-          socket.handshake.headers.origin ||
-          socket.handshake.headers.referer ||
-          '';
-        const { agentId } = socket.handshake.auth;
-
-        const agent = await this.chatService.validateAgent(origin, agentId);
-
-        if (!agent) {
-          return next(new Error('Invalid agent configuration'));
-        }
-
-        next();
-      } catch (error) {
-        next(new Error('Internal server error'));
-      }
+      })();
     });
   }
 
@@ -90,6 +103,7 @@ export class ChatGateway
   }
 
   @SubscribeMessage('message')
+  @UseGuards(WsRateLimitGuard)
   async handleMessage(
     @ConnectedSocket() socket: Socket,
     @MessageBody()

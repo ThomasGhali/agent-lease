@@ -5,15 +5,7 @@ import MessageList from '@/features/widget/components/message-list'
 import ChatInput from '@/features/widget/components/chat-input'
 import MissingAgentData from '@/features/widget/components/missing-agent-data'
 
-export default function Widget({
-  agentId,
-}: {
-  agentId: string | null
-}) {
-  if (!agentId) {
-    return <MissingAgentData />
-  }
-
+export default function Widget({ agentId }: { agentId: string | null }) {
   const {
     chatMessages,
     typingStatus,
@@ -23,6 +15,10 @@ export default function Widget({
     inputRef,
     formRef,
   } = useChat(agentId)
+
+  if (!agentId) {
+    return <MissingAgentData />
+  }
 
   return (
     <main>

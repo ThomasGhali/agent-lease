@@ -48,11 +48,9 @@ export class WebhookCasesProcessorService {
           : PlanType.ENTERPRISE;
 
       // Retrieve the subscription to get the current billing period end
-      const subscription = await this.stripe.subscriptions.retrieve(
-        stripeSubscriptionId,
-      );
-      const currentPeriodEnd =
-        subscription.items.data[0]?.current_period_end;
+      const subscription =
+        await this.stripe.subscriptions.retrieve(stripeSubscriptionId);
+      const currentPeriodEnd = subscription.items.data[0]?.current_period_end;
 
       await this.prisma.client.subscription.upsert({
         where: { userId },
