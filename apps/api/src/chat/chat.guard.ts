@@ -14,17 +14,13 @@ export class WsRateLimitGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const client = context.switchToWs().getClient<Socket>();
-    const data = context.switchToWs().getData<{ agentId?: string }>();
+    const agent = client.data.agentId;
+    const ip = client.data.ip;
 
-    const agent = data?.agentId;
-
-    const rawIp =
-      client.handshake.headers['x-forwarded-for'] || client.handshake.address;
-    const ip = Array.isArray(rawIp) ? rawIp[0] : rawIp;
     const safeIp = ip ? String(ip) : 'unknown';
 
     if (!agent) {
-      throw new WsException('Missing agentId in request data');
+      throw new WsException('Missing agentId in connection data');
     }
 
     const identifier = `ratelimit:${agent}:${safeIp}`;

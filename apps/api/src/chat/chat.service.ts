@@ -65,13 +65,12 @@ export class ChatService {
     }
   }
 
-  async handleChatJoin(
-    socket: Socket,
-    payload: { agentId: string; visitorId: string },
-  ) {
+  async handleChatJoin(socket: Socket) {
     // TODO: add room dto
+    const agentId = socket.data.agentId;
+    const visitorId = socket.data.visitorId;
     const userName = socket.id.substring(0, 4);
-    const roomName = `${payload.agentId}:${payload.visitorId}`;
+    const roomName = `${agentId}:${visitorId}`;
 
     if (socket.rooms.has(roomName)) {
       this.logger.log(`User ${userName} is already in room ${roomName}`);
@@ -106,11 +105,10 @@ export class ChatService {
     return { status: 'success', message: 'User joined room' };
   }
 
-  async handleMessage(
-    socket: Socket,
-    messagePayload: { message: string; agentId: string; visitorId: string },
-  ) {
-    const { message, agentId, visitorId } = messagePayload;
+  async handleMessage(socket: Socket, messagePayload: { message: string }) {
+    const { message } = messagePayload;
+    const agentId = socket.data.agentId;
+    const visitorId = socket.data.visitorId;
     const roomName = `${agentId}:${visitorId}`;
 
     if (!message || !roomName)

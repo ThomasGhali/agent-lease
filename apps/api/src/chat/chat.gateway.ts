@@ -44,10 +44,15 @@ export class ChatGateway
     server.use((socket: Socket, next) => {
       void (async () => {
         try {
+          const visitorId = socket.handshake.auth.visitorId;
+          if (!visitorId) return next(new Error('Missing visitorId'));
+
           const xForwardedFor = socket.handshake.headers['x-forwarded-for'];
           const ip = Array.isArray(xForwardedFor)
             ? xForwardedFor[0]
             : xForwardedFor?.split(',')[0].trim() || socket.handshake.address;
+          socket.data.ip = ip;
+
           const entry = this.connectionAttempts.get(ip);
 
           if (entry) {
@@ -74,9 +79,10 @@ export class ChatGateway
             agentId ?? '',
           );
 
-          if (!agent) {
-            return next(new Error('Invalid agent configuration'));
-          }
+          if (!agent?.id) return next(new Error('Invalid agent configuration'));
+
+          socket.data.agentId = agent.id;
+          socket.data.visitorId = visitorId;
 
           next();
         } catch {
@@ -95,21 +101,17 @@ export class ChatGateway
   }
 
   @SubscribeMessage('join-chat')
-  async handleChatJoin(
-    @ConnectedSocket() socket: Socket,
-    @MessageBody() payload: { agentId: string; visitorId: string },
-  ) {
-    return await this.chatService.handleChatJoin(socket, payload);
+  async handleChatJoin(@ConnectedSocket() socket: Socket) {
+    return await this.chatService.handleChatJoin(socket);
   }
 
   @SubscribeMessage('message')
   @UseGuards(WsRateLimitGuard)
   async handleMessage(
     @ConnectedSocket() socket: Socket,
-    @MessageBody()
-    messagePayload: { message: string; agentId: string; visitorId: string },
+    @MessageBody() { message }: { message: string },
   ) {
-    return await this.chatService.handleMessage(socket, messagePayload);
+    return await this.chatService.handleMessage(socket, { message });
   }
 
   // @SubscribeMessage('typing')

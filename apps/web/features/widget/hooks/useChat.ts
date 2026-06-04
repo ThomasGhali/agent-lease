@@ -21,15 +21,10 @@ export function useChat(agentId?: string | null) {
     if (socket.connected) return console.log('Already connected.')
     if (socket.active) return console.log('Hold tight, connecting...')
 
-    const payload = {
-      agentId,
-      visitorId,
-    }
-
     socket.connect()
     socket.once('connect', () => {
       if (!visitorId) return console.error('No local visitorId.')
-      socket.emit('join-chat', payload)
+      socket.emit('join-chat')
     })
   }
 
@@ -40,6 +35,7 @@ export function useChat(agentId?: string | null) {
       localStorage.setItem('visitorId', visitorId)
     }
     roomName.current = visitorId
+    return visitorId
   }
 
   const handleTyping = () => {
@@ -55,8 +51,6 @@ export function useChat(agentId?: string | null) {
   }
 
   const handleSend = (formData: FormData) => {
-    if (!roomName.current) return console.error('No room created.')
-
     const socket = socketRef.current
     const message = formData.get('chat-input')
     if (typeof message !== 'string')
@@ -64,7 +58,7 @@ export function useChat(agentId?: string | null) {
         `Unsupported data format used ${typeof message} for message`,
       )
 
-    const payload = { message, visitorId: roomName.current, agentId }
+    const payload = { message }
 
     if (!socket || !socket.connected || !message)
       return console.log('No socket.')
@@ -81,17 +75,20 @@ export function useChat(agentId?: string | null) {
   }
 
   useEffect(() => {
-    if (!agentId) return
+    if (!agentId) return console.error('No agentId provided')
+
+    const visitorId = handleRoomName()
+
+    if (!visitorId) return console.error('No local visitorId.')
 
     const chat = io(process.env.NEXT_PUBLIC_WEBSOCKET_URL, {
       auth: {
         agentId,
+        visitorId,
       },
       autoConnect: false,
     })
     socketRef.current = chat
-
-    handleRoomName()
 
     chat.on('message', (message: Message[]) => {
       setChatMessages(prevMessages => [...prevMessages, ...message])
