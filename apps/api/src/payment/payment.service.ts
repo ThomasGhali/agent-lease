@@ -29,6 +29,12 @@ export class PaymentService {
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment-result?success=false`,
       client_reference_id: userId,
       metadata: { plan },
+      subscription_data: {
+        metadata: {
+          userId,
+          plan,
+        },
+      },
     });
   }
 }

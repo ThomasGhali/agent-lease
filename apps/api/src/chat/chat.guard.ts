@@ -7,10 +7,14 @@ import { WsException } from '@nestjs/websockets';
 
 @Injectable()
 export class WsRateLimitGuard implements CanActivate {
-  private ratelimit = new Ratelimit({
-    redis: Redis.fromEnv(),
-    limiter: Ratelimit.slidingWindow(4, '10 s'),
-  });
+  private ratelimit: Ratelimit;
+
+  constructor(private readonly redis: Redis) {
+    this.ratelimit = new Ratelimit({
+      redis: this.redis,
+      limiter: Ratelimit.slidingWindow(4, '10 s'),
+    });
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const client = context.switchToWs().getClient<Socket>();

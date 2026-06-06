@@ -1,4 +1,8 @@
-const AgentSetupPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+const AgentSetupPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) => {
   const { id } = await params
   return (
     <div>

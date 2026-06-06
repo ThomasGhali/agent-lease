@@ -4,9 +4,11 @@ import { PaymentModule } from './payment/payment.module';
 import { WebhookModule } from './webhook/webhook.module';
 import { SupabaseModule } from './supabase/supabase.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
+    RedisModule,
     ChatModule,
     PaymentModule,
     WebhookModule,

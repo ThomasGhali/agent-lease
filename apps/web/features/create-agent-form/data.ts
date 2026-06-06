@@ -7,7 +7,7 @@ export const inputFields: InputField[] = [
     placeholder: 'e.g Dev Mentor',
     required: true,
     maxLength: 50,
-    className:'md:col-span-1'
+    className: 'md:col-span-1',
   },
   {
     name: 'agentRole',
@@ -15,7 +15,7 @@ export const inputFields: InputField[] = [
     placeholder: 'e.g Coding Mentor',
     required: true,
     maxLength: 50,
-    className:'md:col-span-1'
+    className: 'md:col-span-1',
   },
   {
     name: 'hostname',

@@ -23,8 +23,8 @@ export class PersistenceService {
   >();
  */
   private readonly TTL = 3 * 60 * 60; // 3h expiry
-  private readonly redis = Redis.fromEnv();
 
+  constructor(private readonly redis: Redis) {}
   async saveMessage(
     message: string,
     agentId: string,

@@ -7,25 +7,24 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from '@/components/ui/dialog'
 
-import { Button } from '@/components/ui/button';
-import { FieldValues, UseFormReset } from 'react-hook-form';
-
+import { Button } from '@/components/ui/button'
+import { FieldValues, UseFormReset } from 'react-hook-form'
 
 export default function FormResetBtn<T extends FieldValues>({
   reset,
   success,
 }: {
-  reset: UseFormReset<T>;
-  success: boolean;
+  reset: UseFormReset<T>
+  success: boolean
 }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button
           type="button"
-          className="rounded-xs hover:border cursor-pointer hover:bg-gray-200"
+          className="cursor-pointer rounded-xs hover:border hover:bg-gray-200"
           variant="outline"
           disabled={success}
         >
@@ -60,5 +59,5 @@ export default function FormResetBtn<T extends FieldValues>({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

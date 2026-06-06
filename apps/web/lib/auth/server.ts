@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { redis } from '@/lib/redis/redis'
 
 type AuthResult =
   | { success: true; data: unknown }
@@ -67,21 +68,39 @@ export const signUp = async (
     if (!data.user) {
       return {
         success: false,
-        error: 'User not created',
+        error: 'User not created, please contact support.',
       }
     }
 
     const supabaseAdmin = createAdminClient()
 
-    const { error: updateError } = await supabaseAdmin.auth.admin.updateUserById(data.user.id, {
-      app_metadata: {
-        role: 'user',
-        plan: 'free',
-      },
-    })
+    try {
+      const { error: updateError } =
+        await supabaseAdmin.auth.admin.updateUserById(data.user.id, {
+          app_metadata: {
+            role: 'user',
+            plan: 'free',
+          },
+        })
+      if (updateError) throw updateError
+    } catch (metaError) {
+      console.error(
+        'Non-blocking signup error updating app_metadata:',
+        metaError,
+      )
+    }
 
-    if (updateError) {
-      console.error('Failed to update app_metadata:', updateError)
+    try {
+      await redis.hset(`user:${data.user.id}`, {
+        plan: 'free',
+        usage: '0',
+        role: 'user',
+      })
+    } catch (redisError) {
+      console.error(
+        'Non-blocking signup error updating Redis user cache:',
+        redisError,
+      )
     }
 
     return {
@@ -92,7 +111,10 @@ export const signUp = async (
     console.error('Error at AuthContext/signUp: ', error)
     return {
       success: false,
-      error: 'Something went wrong. Please try again.',
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown error at AuthContext/signUp',
     }
   }
 }
@@ -113,7 +135,10 @@ export const signOut = async (): Promise<AuthResult> => {
     console.error('Error at AuthContext/signOut: ', error)
     return {
       success: false,
-      error: 'Something went wrong.',
+      error:
+        error instanceof Error
+          ? error.message
+          : 'Unknown error at AuthContext/signOut',
     }
   }
 }

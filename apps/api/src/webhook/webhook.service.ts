@@ -61,6 +61,10 @@ export class WebhookService {
         // TODO (PROD): Handle cancellations, plan changes, and past_due transitions.
         const updatedSubscription = event.data.object as StripeSubscription;
 
+        await this.webhookCasesProcessorService.handleSubscriptionUpdated(
+          updatedSubscription,
+        );
+
         if (updatedSubscription.cancel_at_period_end) {
           // User requested cancellation, but the paid period hasn't ended.
           // Do NOT revoke access yet — store the scheduled cancellation date in your DB.

@@ -1,10 +1,15 @@
 import { Logger, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
-import { StripeCheckoutSession, StripeInvoice } from './webhook.types';
+import {
+  StripeCheckoutSession,
+  StripeInvoice,
+  StripeSubscription,
+} from './webhook.types';
 import { PlanType } from '@repo/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Redis } from '@upstash/redis';
 
 @Injectable()
 export class WebhookCasesProcessorService {
@@ -14,6 +19,7 @@ export class WebhookCasesProcessorService {
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly prisma: PrismaService,
+    private readonly redis: Redis,
   ) {
     this.supabaseAdminClient = this.supabaseService.getAdminClient();
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -52,40 +58,44 @@ export class WebhookCasesProcessorService {
         await this.stripe.subscriptions.retrieve(stripeSubscriptionId);
       const currentPeriodEnd = subscription.items.data[0]?.current_period_end;
 
-      await this.prisma.client.subscription.upsert({
-        where: { userId },
-        update: {
-          stripeCustomerId,
-          stripeSubscriptionId,
-          status: 'ACTIVE',
-          plan,
-          ...(currentPeriodEnd && {
-            currentPeriodEnd: new Date(currentPeriodEnd * 1000),
-          }),
-        },
-        create: {
-          userId,
-          stripeCustomerId,
-          stripeSubscriptionId,
-          status: 'ACTIVE',
-          plan,
-          ...(currentPeriodEnd && {
-            currentPeriodEnd: new Date(currentPeriodEnd * 1000),
-          }),
-        },
-      });
-
-      const { error } =
-        await this.supabaseAdminClient.auth.admin.updateUserById(userId, {
-          app_metadata: {
+      const [, supabaseResult] = await Promise.all([
+        this.prisma.client.subscription.upsert({
+          where: { userId },
+          update: {
+            stripeCustomerId,
+            stripeSubscriptionId,
+            status: 'ACTIVE',
             plan,
+            ...(currentPeriodEnd && {
+              currentPeriodEnd: new Date(currentPeriodEnd * 1000),
+            }),
           },
-        });
+          create: {
+            userId,
+            stripeCustomerId,
+            stripeSubscriptionId,
+            status: 'ACTIVE',
+            plan,
+            ...(currentPeriodEnd && {
+              currentPeriodEnd: new Date(currentPeriodEnd * 1000),
+            }),
+          },
+        }),
+        this.supabaseAdminClient.auth.admin.updateUserById(userId, {
+          app_metadata: { plan },
+        }),
+        this.redis.hset(`user:${userId}`, { plan }).catch((error) => {
+          this.logger.error(
+            `Non-critical: failed to update Redis for user ${userId}`,
+            error,
+          );
+        }),
+      ]);
 
-      if (error) {
+      if (supabaseResult.error) {
         this.logger.error(
-          `Failed to update user ${userId} metadata: ${error.message}`,
-          error,
+          `Failed to update user ${userId} metadata: ${supabaseResult.error.message}`,
+          supabaseResult.error,
         );
         return;
       }
@@ -139,6 +149,38 @@ export class WebhookCasesProcessorService {
       this.logger.error(
         `Error handling invoice paid event for invoice ${invoice.id}: ${(error as Error).message}`,
         error,
+      );
+    }
+  }
+
+  async handleSubscriptionUpdated(subscription: StripeSubscription) {
+    try {
+      let userId = subscription.metadata?.userId;
+      let plan = subscription.metadata?.plan;
+
+      if (!userId || !plan) {
+        // Fallback for older subscriptions that don't have metadata injected
+        const dbSubscription = await this.prisma.client.subscription.findFirst({
+          where: { stripeSubscriptionId: subscription.id },
+        });
+
+        if (!dbSubscription) {
+          this.logger.warn(
+            `No database record found for Stripe subscription ${subscription.id}`,
+          );
+          return;
+        }
+
+        userId = dbSubscription.userId;
+        plan = dbSubscription.plan;
+      }
+
+      await this.redis.hset(`user:${userId}`, {
+        plan,
+      });
+    } catch (error) {
+      this.logger.error(
+        `Error handling subscription updated: ${(error as Error).message}`,
       );
     }
   }
