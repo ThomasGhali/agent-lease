@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Message } from '@repo/common';
 import { Message as MessageDb, SenderType } from '@repo/db';
+import { Redis } from '@upstash/redis';
 import { Socket } from 'socket.io';
 import { AiService } from 'src/chat/ai/ai.service';
 import { PersistenceService } from 'src/chat/persistence/persistence.service';
@@ -13,6 +14,7 @@ export class ChatService {
     private readonly persistenceService: PersistenceService,
     private readonly aiService: AiService,
     private readonly prisma: PrismaService,
+    private readonly redis: Redis,
   ) {}
 
   private socketRoomMap = new Map<string, Message[]>(); // TODO: to be moved to own service
@@ -109,7 +111,7 @@ export class ChatService {
     const { message } = messagePayload;
     const agentId = socket.data.agentId;
     const visitorId = socket.data.visitorId;
-    const roomName = `${agentId}:${visitorId}`;
+    const roomName = `room:${agentId}:${visitorId}`;
 
     if (!message || !roomName)
       return { status: 'error', message: 'Missing message or roomName' };
@@ -144,7 +146,17 @@ export class ChatService {
 
     socket.emit('message', [{ sender: 'VISITOR', message }]);
 
-    const { response } = await this.aiService.aiGenerate(socketRoom);
+    const { response, usage } = await this.aiService.aiGenerate(socketRoom);
+
+    const ownerId = await this.redis.get(`agent:${agentId}:owner`);
+
+    if (ownerId && usage?.totalTokens) {
+      await this.redis.hincrby(
+        `user:${ownerId}`,
+        'usage',
+        usage.totalTokens,
+      );
+    }
 
     await this.persistenceService.saveMessage(
       response,

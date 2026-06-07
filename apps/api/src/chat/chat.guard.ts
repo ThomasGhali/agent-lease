@@ -4,6 +4,7 @@ import { Socket } from 'socket.io';
 import { Redis } from '@upstash/redis';
 import { Ratelimit } from '@upstash/ratelimit';
 import { WsException } from '@nestjs/websockets';
+import { PLAN_LIMITS, PlanType } from '@repo/common';
 
 @Injectable()
 export class WsRateLimitGuard implements CanActivate {
@@ -32,6 +33,37 @@ export class WsRateLimitGuard implements CanActivate {
 
     if (!success) {
       throw new WsException('Too many requests, please try again later.');
+    }
+
+    return true;
+  }
+}
+
+@Injectable()
+export class WsTokenQuotaGuard implements CanActivate {
+  constructor(private readonly redis: Redis) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const client = context.switchToWs().getClient<Socket>();
+    const ownerId: string | undefined = client.data.ownerId;
+
+    if (!ownerId) throw new WsException('Missing ownerId in connection data');
+
+    const data = await this.redis.hmget<{ plan: PlanType; usage: string }>(
+      `user:${ownerId}`,
+      'plan',
+      'usage',
+    );
+    const userPlan = data?.plan ?? null;
+    const userUsage = data?.usage != null ? Number(data.usage) : null;
+
+    if (userPlan == null || userUsage == null)
+      throw new WsException("User's plan or usage doesn't exist in redis");
+
+    const userTokenLimit = PLAN_LIMITS[userPlan].tokensLimit;
+
+    if (userUsage >= userTokenLimit) {
+      throw new WsException('Token quota exceeded. Please upgrade your plan.');
     }
 
     return true;

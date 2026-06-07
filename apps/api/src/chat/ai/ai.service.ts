@@ -14,7 +14,7 @@ const roleMap = {
 export class AiService {
   // TODO: add prompt that is determined by each user
   async aiGenerate(messages: Message[]) {
-    const { text } = await generateText({
+    const { text, usage } = await generateText({
       model: groq('llama-3.3-70b-versatile'),
       messages: [
         ...messages.map((msg) => {
@@ -26,6 +26,6 @@ export class AiService {
       ],
     });
 
-    return { response: text };
+    return { response: text, usage };
   }
 }

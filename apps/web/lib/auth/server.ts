@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { redis } from '@/lib/redis/redis'
+import { PlanType } from '@repo/common'
 
 type AuthResult =
   | { success: true; data: unknown }
@@ -79,7 +80,7 @@ export const signUp = async (
         await supabaseAdmin.auth.admin.updateUserById(data.user.id, {
           app_metadata: {
             role: 'user',
-            plan: 'free',
+            plan: PlanType.FREE,
           },
         })
       if (updateError) throw updateError
@@ -92,7 +93,7 @@ export const signUp = async (
 
     try {
       await redis.hset(`user:${data.user.id}`, {
-        plan: 'free',
+        plan: PlanType.FREE,
         usage: '0',
         role: 'user',
       })

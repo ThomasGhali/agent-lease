@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PlanType } from '@repo/common'
+import { PaidPlanType, PlanType } from '@repo/common'
 import { createAuthClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 
@@ -26,7 +26,7 @@ const PriceCard = ({
 }: PriceCardProps) => {
   const handleButtonClick = async (planName: PlanType) => {
     const uppercasePlan = planName.toUpperCase()
-    if (uppercasePlan !== PlanType.PREMIUM) {
+    if (uppercasePlan !== PaidPlanType.PREMIUM) {
       toast.error('Invalid plan, please choose premium')
       return console.error('Invalid plan, please choose premium')
     }

@@ -10,7 +10,7 @@ import {
   MessageBody,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { WsRateLimitGuard } from 'src/chat/chat.guard';
+import { WsRateLimitGuard, WsTokenQuotaGuard } from 'src/chat/chat.guard';
 
 import { ChatService } from 'src/chat/chat.service';
 
@@ -83,6 +83,7 @@ export class ChatGateway
 
           socket.data.agentId = agent.id;
           socket.data.visitorId = visitorId;
+          socket.data.ownerId = agent.userId;
 
           next();
         } catch {
@@ -106,7 +107,7 @@ export class ChatGateway
   }
 
   @SubscribeMessage('message')
-  @UseGuards(WsRateLimitGuard)
+  @UseGuards(WsRateLimitGuard, WsTokenQuotaGuard)
   async handleMessage(
     @ConnectedSocket() socket: Socket,
     @MessageBody() { message }: { message: string },

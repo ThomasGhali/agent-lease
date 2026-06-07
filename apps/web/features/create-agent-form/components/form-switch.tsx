@@ -30,10 +30,10 @@ export default function FormSwitch<T extends FieldValues>({
               )}
             </div>
             <Switch
+              {...field}
               id={name}
               checked={value}
               onCheckedChange={onChange}
-              {...field}
             />
           </div>
           {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

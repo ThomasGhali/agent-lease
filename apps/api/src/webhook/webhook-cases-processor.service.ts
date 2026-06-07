@@ -6,7 +6,7 @@ import {
   StripeInvoice,
   StripeSubscription,
 } from './webhook.types';
-import { PlanType } from '@repo/common';
+import { PaidPlanType, PlanType } from '@repo/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Redis } from '@upstash/redis';
@@ -49,9 +49,9 @@ export class WebhookCasesProcessorService {
       }
 
       const plan =
-        session.metadata?.plan === PlanType.PREMIUM
-          ? PlanType.PREMIUM
-          : PlanType.ENTERPRISE;
+        session.metadata?.plan === PaidPlanType.PREMIUM
+          ? PaidPlanType.PREMIUM
+          : PaidPlanType.ENTERPRISE;
 
       // Retrieve the subscription to get the current billing period end
       const subscription =
@@ -172,7 +172,7 @@ export class WebhookCasesProcessorService {
         }
 
         userId = dbSubscription.userId;
-        plan = dbSubscription.plan;
+        plan = dbSubscription.plan as PlanType;
       }
 
       await this.redis.hset(`user:${userId}`, {

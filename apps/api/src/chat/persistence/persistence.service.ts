@@ -47,8 +47,6 @@ export class PersistenceService {
     pipeline.expire(messageKey, this.TTL);
     pipeline.expire(userKey, this.TTL);
 
-    await pipeline.exec();
-
     void db.room.upsert({
       where: {
         id: roomName,
@@ -74,15 +72,7 @@ export class PersistenceService {
       },
     });
 
-    /* 
-      in redis we'll have this structure: user:${userId}:rooms 
-        to store the rooms that user has.
-        
-        we'll also have: room:${roomId}:data which should 
-        have the room data.
-        also trim last 10 messages to make sure that the context is
-        not too much (expensive tokens)
-    */
+    await pipeline.exec();
   }
 
   async getMessages(roomName: string) {
@@ -95,39 +85,3 @@ export class PersistenceService {
     return data || [];
   }
 }
-
-// TODO: combine three layers caching
-/* 
-async saveMessage(roomId: string, userId: string, message: any) {
-  // Check our "Shield" (Local Map) BEFORE we modify it
-  const isNewRoomLocally = !this.roomsMap.has(roomId);
-
-  // 1. UPDATE LOCAL (The Brains)
-  const room = this.roomsMap.get(roomId) || { messages: [], lastActive: Date.now() };
-  room.messages.push(message);
-  
-  // Local map handles the heavy lifting of trimming
-  if (room.messages.length > 15) room.messages.shift();
-  room.lastActive = Date.now();
-  
-  this.roomsMap.set(roomId, room);
-
-  // 2. DYNAMIC UPSTASH WRITES (Cost Saving)
-  const redisCommands = [];
-
-  // ONLY write to the User's Set if the room wasn't in our local memory
-  if (isNewRoomLocally) {
-    redisCommands.push(this.redis.sadd(`user:${userId}:rooms`, roomId));
-  }
-
-  // EXACTLY 1 WRITE: Overwrite the Redis key with the perfectly trimmed local array
-  redisCommands.push(this.redis.set(`room:${roomId}:messages`, JSON.stringify(room.messages)));
-
-  // Execute whatever commands we gathered dynamically
-  await Promise.all(redisCommands);
-
-  // 3. BACKGROUND SUPABASE SYNC
-  this.supabase.from('messages').insert({ room_id: roomId, ...message })
-    .then(({ error }) => { if (error) console.error(error); });
-}
-*/

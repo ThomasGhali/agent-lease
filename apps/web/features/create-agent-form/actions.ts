@@ -11,12 +11,14 @@ import { getAgentsCount } from '@/lib/prisma/agents-count'
 import { createClient } from '@/lib/supabase/server'
 import { getCurrentUser } from '@/lib/supabase/user'
 import { redirect } from 'next/navigation'
+import { redis } from '@/lib/redis/redis'
+import { PLAN_LIMITS, PlanType } from '@repo/common'
 
-const PLAN_LIMITS: Record<string, number> = {
-  free: 1,
-  premium: 3,
-  enterprise: 10,
-}
+// const PLAN_LIMITS: Record<string, number> = {
+//   free: 1,
+//   premium: 3,
+//   enterprise: 10,
+// }
 
 export const submitCreateAgentAction = async (
   prevState: FormState,
@@ -64,7 +66,7 @@ export const submitCreateAgentAction = async (
 
     const hostname = normalizeDomain(validatedData.hostname)
 
-    await db.agent.create({
+    const newAgent = await db.agent.create({
       data: {
         userId: user.id,
         name: validatedData.agentName,
@@ -77,6 +79,8 @@ export const submitCreateAgentAction = async (
         themeColor: validatedData.themeColor,
       },
     })
+
+    await redis.set(`agent:${newAgent.id}:owner`, user.id)
 
     return {
       success: true,
@@ -99,20 +103,20 @@ export const submitCreateAgentAction = async (
 async function ensureUserPlan(
   supabase: SupabaseClient,
   user: User,
-): Promise<string> {
-  const plan = user.app_metadata.plan
+): Promise<PlanType> {
+  const plan: PlanType = user.app_metadata.plan
   const role = user.app_metadata.role
 
   if (!plan && role !== 'admin') {
     await supabase.auth.admin.updateUserById(user.id, {
       app_metadata: {
         role: 'user',
-        plan: 'free',
+        plan: PlanType.FREE,
       },
     })
-    return 'free'
+    return PlanType.FREE
   }
-  return plan || 'free'
+  return plan || PlanType.FREE
 }
 
 /**
@@ -120,7 +124,7 @@ async function ensureUserPlan(
  */
 async function validateAgentLimit(
   userId: string,
-  plan: string,
+  plan: PlanType,
 ): Promise<FormState | null> {
   const { count, error } = await getAgentsCount(userId)
 
@@ -132,7 +136,7 @@ async function validateAgentLimit(
     }
   }
 
-  const limit = PLAN_LIMITS[plan]
+  const limit = PLAN_LIMITS[plan].agentsLimit
   if (limit !== undefined && count >= limit) {
     console.error(
       `You have reached the limit of ${limit} agent(s) for your ${plan} plan.`,

@@ -11,7 +11,7 @@ const baseSchema = z.object({
     .min(1, 'Agent role is required')
     .max(50)
     .default('ChatBot'),
-  isActive: z.boolean().default(false),
+  isActive: z.preprocess(val => val === 'true' || val === true, z.boolean()).default(false),
   hostname: z.string().min(1, 'Domain is required').max(50),
   systemPrompt: z.string().min(1, 'System prompt is required').max(500),
   welcomeMessage: z.string().max(250).optional(),
