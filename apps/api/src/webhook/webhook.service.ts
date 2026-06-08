@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import Stripe from 'stripe';
+import { StripeService } from '../stripe/stripe.service';
 import { WebhookCasesProcessorService } from './webhook-cases-processor.service';
 
 import {
@@ -11,11 +11,8 @@ import {
 
 @Injectable()
 export class WebhookService {
-  private readonly stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2026-04-22.dahlia',
-  });
-
   constructor(
+    private readonly stripe: StripeService,
     private readonly webhookCasesProcessorService: WebhookCasesProcessorService,
   ) {}
 

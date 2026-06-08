@@ -1,19 +1,18 @@
 import { Injectable, Logger } from '@nestjs/common';
 import Stripe from 'stripe';
+import { StripeService } from '../stripe/stripe.service';
 
 type CheckoutSession = Awaited<
-  ReturnType<InstanceType<typeof Stripe>['checkout']['sessions']['create']>
+  ReturnType<
+    InstanceType<typeof StripeService>['checkout']['sessions']['create']
+  >
 >;
 
 @Injectable()
 export class PaymentService {
-  private stripe: InstanceType<typeof Stripe> = new Stripe(
-    process.env.STRIPE_SECRET_KEY!,
-    {
-      apiVersion: '2026-04-22.dahlia',
-    },
-  );
   private readonly logger = new Logger(PaymentService.name);
+
+  constructor(private readonly stripe: StripeService) {}
 
   async createCheckOutSession(
     priceId: string,

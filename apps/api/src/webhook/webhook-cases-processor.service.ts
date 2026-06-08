@@ -1,6 +1,5 @@
 import { Logger, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
-import Stripe from 'stripe';
 import {
   StripeCheckoutSession,
   StripeInvoice,
@@ -10,21 +9,19 @@ import { PaidPlanType, PlanType } from '@repo/common';
 import { SupabaseService } from 'src/supabase/supabase.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Redis } from '@upstash/redis';
+import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class WebhookCasesProcessorService {
   private readonly supabaseAdminClient: SupabaseClient;
-  private readonly stripe: InstanceType<typeof Stripe>;
 
   constructor(
     private readonly supabaseService: SupabaseService,
     private readonly prisma: PrismaService,
     private readonly redis: Redis,
+    private readonly stripe: StripeService,
   ) {
     this.supabaseAdminClient = this.supabaseService.getAdminClient();
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2026-04-22.dahlia',
-    });
   }
 
   private readonly logger = new Logger(WebhookCasesProcessorService.name);
