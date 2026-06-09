@@ -25,15 +25,13 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   const user = props.user
   const username =
     capitalizeWords(user?.user_metadata.username) || 'Unknown User'
+  const userEmail = user?.email
 
-  let emailHash
+  let avatarUrl = ''
 
-  if (user?.email) {
-    emailHash = user.email.trim().toLowerCase()
+  if (userEmail) {
+    avatarUrl = `https://api.dicebear.com/9.x/identicon/svg?seed=${encodeURIComponent(userEmail)}`
   }
-
-  const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?d=identicon`
-  console.log('user:', user)
 
   const userData: UserInfo = {
     name: username,
