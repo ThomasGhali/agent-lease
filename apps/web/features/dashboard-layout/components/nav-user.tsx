@@ -27,6 +27,7 @@ import {
 } from 'lucide-react'
 import { useTransition } from 'react'
 import { signOut } from '../actions'
+import Link from 'next/link'
 
 export function NavUser({ user }: { user: UserInfo }) {
   const { isMobile } = useSidebar()
@@ -78,9 +79,11 @@ export function NavUser({ user }: { user: UserInfo }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <SparklesIcon />
-                Upgrade to Pro
+              <DropdownMenuItem asChild>
+                <Link href="/pricing">
+                  <SparklesIcon />
+                  Upgrade to Pro
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

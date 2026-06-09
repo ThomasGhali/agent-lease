@@ -9,7 +9,6 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { ProjectByRole } from '@/features/dashboard-layout/types'
-import { Session } from '@supabase/supabase-js'
 import { MoreHorizontalIcon } from 'lucide-react'
 import React from 'react'
 
