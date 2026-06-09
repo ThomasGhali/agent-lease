@@ -5,7 +5,7 @@ import { Geist } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
-import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/layout/theme-provider'
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-geist' })
 

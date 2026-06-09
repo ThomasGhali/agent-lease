@@ -6,13 +6,17 @@ import { getCurrentUser } from '@/lib/supabase/user'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
 
-export default async function Dashboard({ children }: { children: React.ReactNode }) {
+export default async function Dashboard({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const supabaseClient = await createClient()
-  const user = await getCurrentUser(supabaseClient) as User | null
+  const user = (await getCurrentUser(supabaseClient)) as User | null
 
   return (
     <SidebarProvider>
-      <AppSidebar user={user} />
+      <AppSidebar variant="inset" user={user} />
       <SidebarInset>
         <DashboardBreadCrumb />
         {children}
