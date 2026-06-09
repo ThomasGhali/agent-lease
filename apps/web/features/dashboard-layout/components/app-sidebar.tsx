@@ -13,8 +13,36 @@ import {
 } from '@/components/ui/sidebar'
 
 import { data } from '@/features/dashboard-layout/data'
+import { User } from '@supabase/supabase-js'
+import { UserInfo } from '@/features/dashboard-layout/types'
+import { capitalizeWords } from '@/lib/utils'
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  user: User | null
+}
+
+export function AppSidebar({ ...props }: AppSidebarProps) {
+  const user = props.user
+  const username =
+    capitalizeWords(user?.user_metadata.username) || 'Unknown User'
+
+  let emailHash
+
+  if (user?.email) {
+    emailHash = user.email.trim().toLowerCase()
+  }
+
+  const avatarUrl = `https://www.gravatar.com/avatar/${emailHash}?d=identicon`
+  console.log('user:', user)
+
+  const userData: UserInfo = {
+    name: username,
+    email: user?.email || '',
+    avatar: avatarUrl || '/avatars/default.png',
+  }
+
+  const isAdmin = user?.app_metadata?.role === 'admin'
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -22,10 +50,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavProjects projects={data.projects} isAdmin={isAdmin} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={userData} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

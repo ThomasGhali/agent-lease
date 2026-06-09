@@ -34,7 +34,6 @@ export function NavMain({ items }: { items: NavItem[] }) {
               </SidebarMenuItem>
             )
           }
-
           return (
             <Collapsible
               key={item.title}

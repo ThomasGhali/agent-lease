@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import { AuthContextProvider } from '../context/AuthContext'
 import { Geist } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { TooltipProvider } from '@/components/ui/tooltip'
@@ -30,14 +29,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn('font-sans', geist.variable)}>
-      <AuthContextProvider>
-        <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
           <TooltipProvider>
             {children}
             <Toaster />
           </TooltipProvider>
-        </body>
-      </AuthContextProvider>
+      </body>
     </html>
   )
 }

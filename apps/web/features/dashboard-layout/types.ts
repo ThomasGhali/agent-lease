@@ -11,12 +11,6 @@ export interface NavItem {
   }[]
 }
 
-export interface ProjectItem {
-  name: string
-  url: string
-  icon?: ReactNode
-}
-
 export interface TeamInfo {
   name: string
   logo: ReactNode
@@ -29,9 +23,20 @@ export interface UserInfo {
   avatar: string
 }
 
+export interface ProjectItem {
+  name: string
+  url: string
+  icon?: ReactNode
+}
+
+export interface ProjectByRole {
+  title: string
+  role: 'user' | 'admin'
+  options: ProjectItem[]
+}
+
 export interface DashboardData {
-  user: UserInfo
   team: TeamInfo
   navMain: NavItem[]
-  projects: ProjectItem[]
+  projects: ProjectByRole[]
 }

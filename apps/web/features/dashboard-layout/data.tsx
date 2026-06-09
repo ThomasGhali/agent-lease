@@ -1,6 +1,7 @@
 import {
   BookOpenIcon,
   BotIcon,
+  CreditCardIcon,
   GalleryVerticalEndIcon,
   Plus,
   Settings2Icon,
@@ -10,11 +11,6 @@ import {
 import { DashboardData } from '@/features/dashboard-layout/types'
 
 export const data: DashboardData = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   team: {
     name: 'Acme Inc',
     logo: <GalleryVerticalEndIcon />,
@@ -73,15 +69,31 @@ export const data: DashboardData = {
   ],
   projects: [
     {
-      name: 'Create an Agent',
-      url: '/dashboard/my-agents/create',
-      icon: <Plus />,
+      title: 'Control',
+      role: 'user',
+      options: [
+        {
+          name: 'Create an Agent',
+          url: '/dashboard/my-agents/create',
+          icon: <Plus />,
+        },
+        {
+          name: 'Settings',
+          url: '#',
+          icon: <Settings2Icon />,
+        },
+      ],
     },
     {
-      name: 'Settings',
-      url: '#',
-      icon: <Settings2Icon />,
+      title: 'Admin',
+      role: 'admin',
+      options: [
+        {
+          name: 'Billing',
+          url: '/dashboard/admin/billing',
+          icon: <CreditCardIcon />,
+        },
+      ],
     },
-    // ...
   ],
 }
