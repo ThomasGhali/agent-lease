@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Message } from '@repo/common';
+import { Message, PlanType } from '@repo/common';
 import { Message as MessageDb, SenderType } from '@repo/db';
 import { Redis } from '@upstash/redis';
 import { Socket } from 'socket.io';
@@ -109,26 +109,30 @@ export class ChatService {
 
   async handleMessage(socket: Socket, messagePayload: { message: string }) {
     const { message } = messagePayload;
-    const agentId = socket.data.agentId;
-    const visitorId = socket.data.visitorId;
+    const { agentId, ownerId, ownerPlan, visitorId } = socket.data;
     const roomName = `room:${agentId}:${visitorId}`;
 
-    if (!message || !roomName)
-      return { status: 'error', message: 'Missing message or roomName' };
+    if (!message) {
+      socket.emit('chat_error', {
+        message: 'Message not sent, please try again later',
+      });
+      return {
+        status: 'error',
+        message: 'Message not sent, please try again later',
+      };
+    }
 
     // If room exists, don't fetch from db
     let socketRoom = this.socketRoomMap.get(roomName);
     if (!socketRoom) {
       const rawMessages = await this.persistenceService.getMessages(roomName);
-      if (!rawMessages || rawMessages.length === 0) {
-        return { status: 'error', message: 'No room found' };
-      }
-      socketRoom = rawMessages.map(
-        (m: MessageDb): Message => ({
-          sender: m.sender,
-          message: m.content || '',
-        }),
-      );
+
+      // If no room history exists at all, handle gracefully or create it
+      socketRoom = (rawMessages || []).map((m: MessageDb) => ({
+        sender: m.sender,
+        message: m.content || '',
+      }));
+
       this.socketRoomMap.set(roomName, socketRoom);
     }
 
@@ -137,42 +141,60 @@ export class ChatService {
       message,
     });
 
-    await this.persistenceService.saveMessage(
-      message,
-      agentId,
-      SenderType.VISITOR,
-      roomName,
-    );
-
-    socket.emit('message', [{ sender: 'VISITOR', message }]);
-
-    const { response, usage } = await this.aiService.aiGenerate(socketRoom);
-
-    const ownerId = await this.redis.get(`agent:${agentId}:owner`);
-
-    if (ownerId && usage?.totalTokens) {
-      await this.redis.hincrby(
-        `user:${ownerId}`,
-        'usage',
-        usage.totalTokens,
+    try {
+      await this.persistenceService.saveMessage(
+        message,
+        agentId,
+        SenderType.VISITOR,
+        roomName,
       );
+
+      socket.emit('message', [{ sender: SenderType.VISITOR, message }]);
+
+      const { response, usage } = await this.aiService.aiGenerate(socketRoom);
+
+      if (!usage?.totalTokens) {
+        this.logger.error(
+          `No usage found from LLM API for agentId: ${agentId} with visitorId: ${visitorId}`,
+        );
+        socket.emit('chat_error', {
+          message: 'Internal server error, try again later.',
+        });
+        return { status: 'error', message: 'Internal server error' };
+      }
+
+      const pipeline = this.redis.pipeline();
+      pipeline.hincrby(`user:${ownerId}`, 'usage', usage.totalTokens);
+      pipeline.incrby(`global_tokens:${ownerPlan}:usage`, usage.totalTokens);
+
+      await Promise.all([
+        pipeline.exec(),
+        this.persistenceService.saveMessage(
+          response,
+          agentId,
+          SenderType.AI_SUPPORT,
+          roomName,
+        ),
+      ]);
+
+      socketRoom.push({
+        sender: SenderType.AI_SUPPORT,
+        message: response,
+      });
+
+      socket.emit('message', [
+        { sender: SenderType.AI_SUPPORT, message: response },
+      ]);
+    } catch (error) {
+      this.logger.error(
+        `Error in handleMessage for agentId: ${agentId} with visitorId: ${visitorId}: `,
+        error,
+      );
+      socket.emit('chat_error', {
+        message: 'Internal server error, try again later.',
+      });
+      return { status: 'error', message: 'Internal server error' };
     }
-
-    await this.persistenceService.saveMessage(
-      response,
-      agentId,
-      SenderType.AI_SUPPORT,
-      roomName,
-    );
-
-    socketRoom.push({
-      sender: SenderType.AI_SUPPORT,
-      message: response,
-    });
-
-    socket.emit('message', [
-      { sender: SenderType.AI_SUPPORT, message: response },
-    ]);
 
     return { status: 'success' };
   }

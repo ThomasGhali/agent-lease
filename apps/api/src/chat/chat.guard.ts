@@ -62,6 +62,8 @@ export class WsTokenQuotaGuard implements CanActivate {
 
     const userTokenLimit = PLAN_LIMITS[userPlan].tokensLimit;
 
+    client.data.ownerPlan = userPlan;
+
     if (userUsage >= userTokenLimit) {
       throw new WsException('Token quota exceeded. Please upgrade your plan.');
     }
