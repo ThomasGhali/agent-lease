@@ -1,7 +1,7 @@
 import {
   BookOpenIcon,
   BotIcon,
-  CreditCardIcon,
+  DatabaseIcon,
   GalleryVerticalEndIcon,
   Plus,
   Settings2Icon,
@@ -89,9 +89,9 @@ export const data: DashboardData = {
       role: 'admin',
       options: [
         {
-          name: 'Billing',
-          url: '/dashboard/admin/billing',
-          icon: <CreditCardIcon />,
+          name: 'Data',
+          url: '/dashboard/admin/data',
+          icon: <DatabaseIcon />,
         },
       ],
     },
