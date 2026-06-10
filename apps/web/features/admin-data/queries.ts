@@ -15,6 +15,10 @@ export const getAdminDashboardData =
 
     const startOfMonth = Math.floor(date.getTime() / 1000) // time in ms
 
+    const lastMonthDate = new Date(date)
+    lastMonthDate.setMonth(lastMonthDate.getMonth() - 1)
+    const startOfLastMonth = Math.floor(lastMonthDate.getTime() / 1000)
+
     const [
       globalFreeTokensUsage,
       globalPremiumTokensUsage,
@@ -33,14 +37,38 @@ export const getAdminDashboardData =
       }),
       stripe.charges
         .list({
-          created: { gte: startOfMonth },
+          created: { gte: startOfLastMonth },
+          limit: 100,
         })
         .catch(() => ({ data: [] })),
     ])) as AdminDataQuery
 
-    const revenueThisMonth = stripeCharges.data
-      .filter(charge => charge.status === 'succeeded' && !charge.refunded)
-      .reduce((sum, charge) => sum + charge.amount / 100, 0)
+    const successfulCharges = stripeCharges.data.filter(
+      charge => charge.status === 'succeeded' && !charge.refunded
+    )
+
+    const currentMonthCharges = successfulCharges.filter(
+      charge => charge.created >= startOfMonth
+    )
+    const lastMonthCharges = successfulCharges.filter(
+      charge => charge.created >= startOfLastMonth && charge.created < startOfMonth
+    )
+
+    const revenueThisMonth = currentMonthCharges.reduce(
+      (sum, charge) => sum + charge.amount / 100,
+      0
+    )
+
+    const revenueLastMonth = lastMonthCharges.reduce(
+      (sum, charge) => sum + charge.amount / 100,
+      0
+    )
+
+    let revenuePercentageChange: number | null = null
+    if (revenueLastMonth > 0) {
+      revenuePercentageChange =
+        ((revenueThisMonth - revenueLastMonth) / revenueLastMonth) * 100
+    }
 
     const recentPayments: RecentPayment[] = stripeCharges.data.map(charge => ({
       id: charge.id,
@@ -61,6 +89,7 @@ export const getAdminDashboardData =
         globalPremiumTokensUsage: globalPremiumTokensUsage ?? '0',
         totalPayingCustomers,
         revenueThisMonth: revenueThisMonth.toFixed(2),
+        revenuePercentageChange,
       },
       recentPayments,
     }

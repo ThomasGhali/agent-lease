@@ -9,6 +9,14 @@ export type AdminDataQuery = [
   },
 ]
 
+export type Metrics = {
+  globalFreeTokensUsage: string
+  globalPremiumTokensUsage: string
+  totalPayingCustomers: number
+  revenueThisMonth: string
+  revenuePercentageChange: number | null
+}
+
 export type RecentPayment = {
   id: string
   email: string
@@ -19,11 +27,6 @@ export type RecentPayment = {
 }
 
 export interface AdminDashboardResult {
-  metrics: {
-    globalFreeTokensUsage: string
-    globalPremiumTokensUsage: string
-    totalPayingCustomers: number
-    revenueThisMonth: string
-  }
+  metrics: Metrics
   recentPayments: RecentPayment[]
 }
