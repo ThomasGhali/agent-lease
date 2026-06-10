@@ -1,6 +1,8 @@
 import { SectionCards } from './section-cards'
+import { getAdminDashboardData } from '../queries'
 
-const AdminData = () => {
+const AdminData = async () => {
+  const data = await getAdminDashboardData()
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">

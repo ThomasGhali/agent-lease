@@ -109,7 +109,12 @@ export class ChatService {
 
   async handleMessage(socket: Socket, messagePayload: { message: string }) {
     const { message } = messagePayload;
-    const { agentId, ownerId, ownerPlan, visitorId } = socket.data;
+    const { agentId, ownerId, ownerPlan, visitorId } = socket.data as {
+      agentId: string;
+      ownerId: string;
+      ownerPlan: PlanType;
+      visitorId: string;
+    };
     const roomName = `room:${agentId}:${visitorId}`;
 
     if (!message) {
