@@ -1,3 +1,7 @@
-export default function Home() {
-  return <div>Landing page</div>
+import LandingPageComponents from '@/features/landing-page/components'
+
+const LandingPage = () => {
+  return <LandingPageComponents />
 }
+
+export default LandingPage
