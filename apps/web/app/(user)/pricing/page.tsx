@@ -1,5 +1,5 @@
-import Pricing from '@/features/pricing/components'
+import PricingSection from '@/features/shared/pricing/components'
 
 export default function PricingPage() {
-  return <Pricing />
+  return <PricingSection />
 }

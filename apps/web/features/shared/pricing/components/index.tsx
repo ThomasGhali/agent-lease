@@ -1,11 +1,37 @@
 'use client'
 
-import { useState } from 'react'
-import PriceCard from './price-card'
-import { HelpCircle } from 'lucide-react'
-import { faqs, plans } from '@/features/pricing/data'
+import { Check } from 'lucide-react'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import {
+  FAQList,
+  FAQProps,
+  plans,
+} from '@/features/shared/pricing/pricing-data'
+import { JSX, useState } from 'react'
 
-export default function Pricing() {
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { PaidPlanType, PlanType } from '@repo/common'
+import { createAuthClient } from '@/lib/supabase/client'
+import { toast } from 'sonner'
+import { PriceCardProps } from '@/features/shared/pricing/types/pricing-types'
+import { PriceCard } from '@/features/shared/pricing/components/pricing-card'
+import { PricingFaqs } from '@/features/shared/pricing/components/pricing-faqs'
+
+export default function PricingSection() {
   const [isAnnual, setIsAnnual] = useState(false)
 
   return (
@@ -17,7 +43,7 @@ export default function Pricing() {
         {/* Header Section */}
         <div className="text-center">
           <h1 className="text-foreground text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
-            Simple, transparent pricing
+            Simple, transparent <span className="text-primary">pricing</span>
           </h1>
           <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-lg">
             Choose the plan that fits your workflow. Scale up seamlessly as your
@@ -72,36 +98,7 @@ export default function Pricing() {
           ))}
         </div>
 
-        {/* FAQ Section */}
-        <div className="border-border/80 mx-auto mt-24 max-w-4xl border-t pt-16">
-          <div className="text-center">
-            <h2 className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-muted-foreground mt-4 text-sm">
-              Have questions about billing, limits, or enterprise options?
-              We&apos;re here to help.
-            </p>
-          </div>
-
-          <dl className="mt-12 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
-            {faqs.map((faq, index) => (
-              <div key={index} className="flex gap-4">
-                <div className="bg-muted text-muted-foreground mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg">
-                  <HelpCircle className="h-4 w-4" />
-                </div>
-                <div>
-                  <dt className="text-foreground text-sm font-semibold">
-                    {faq.question}
-                  </dt>
-                  <dd className="text-muted-foreground mt-2 text-sm">
-                    {faq.answer}
-                  </dd>
-                </div>
-              </div>
-            ))}
-          </dl>
-        </div>
+        <PricingFaqs />
       </div>
     </div>
   )

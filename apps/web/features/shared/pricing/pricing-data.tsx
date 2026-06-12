@@ -1,4 +1,4 @@
-import type { PriceCardData } from '@/features/pricing/types'
+import { PriceCardData } from '@/features/shared/pricing/types/pricing-types'
 import { PlanType } from '@repo/common'
 
 import {
@@ -46,7 +46,7 @@ export const plans: PriceCardData[] = [
   },
   {
     planName: 'Premium' as PlanType.PREMIUM,
-    planPrice: { type: 'paid', monthly: '$39', yearly: '$374' },
+    planPrice: { type: 'paid', monthly: '$10', yearly: '$96' },
     description:
       'Advanced agent management and higher task limits for production usage.',
     isPopular: true,
@@ -110,25 +110,41 @@ export const plans: PriceCardData[] = [
   },
 ]
 
-export const faqs = [
+export interface FAQProps {
+  question: string
+  answer: string
+  value: string
+}
+
+export const FAQList: FAQProps[] = [
   {
-    question: 'How do monthly task limits work?',
-    answer:
-      "Every time an agent executes an action (e.g., replying to a customer, making an API call, running a search), it counts as a task. If you reach your limit, we'll notify you so you can upgrade. Tasks do not roll over to the next month.",
+    question: 'Is this template free?',
+    answer: 'Yes. It is a free ChadcnUI template.',
+    value: 'item-1',
   },
   {
-    question: 'Can I upgrade or downgrade my plan at any time?',
+    question: 'Lorem ipsum dolor sit amet consectetur adipisicing elit?',
     answer:
-      'Yes, you can easily change your subscription from your dashboard. Upgrades are applied immediately on a pro-rated basis, while downgrades take effect at the start of your next billing cycle.',
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.',
+    value: 'item-2',
   },
   {
-    question: 'Do you offer custom model integration?',
+    question:
+      'Lorem ipsum dolor sit amet  Consectetur natus dolores minus quibusdam?',
     answer:
-      'Yes! Our Enterprise plan allows you to bring your own models (e.g., custom fine-tuned GPTs, Claude, or open-source LLMs hosted in your infrastructure) and connect them seamlessly with the platform.',
+      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis necessitatibus maxime quis ipsa vitae cumque quo?',
+    value: 'item-3',
   },
   {
-    question: 'Is my data secure?',
+    question: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit?',
+    answer: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    value: 'item-4',
+  },
+  {
+    question:
+      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus?',
     answer:
-      'Security is our top priority. We use enterprise-grade encryption for all agent configurations and credentials. Data transmitted through our API is encrypted in transit and at rest.',
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.',
+    value: 'item-5',
   },
 ]

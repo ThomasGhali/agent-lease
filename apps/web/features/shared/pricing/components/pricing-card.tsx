@@ -1,5 +1,7 @@
+import { PriceCardProps } from "@/features/shared/pricing/types/pricing-types"
+import { PaidPlanType, PlanType } from "@repo/common"
+import { toast } from "sonner"
 import { Check } from 'lucide-react'
-import { PriceCardProps } from '@/features/pricing/types'
 import {
   Card,
   CardHeader,
@@ -10,11 +12,9 @@ import {
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { PaidPlanType, PlanType } from '@repo/common'
 import { createAuthClient } from '@/lib/supabase/client'
-import { toast } from 'sonner'
 
-const PriceCard = ({
+export const PriceCard = ({
   styles,
   planName,
   planPrice,
@@ -143,5 +143,3 @@ const PriceCard = ({
     </Card>
   )
 }
-
-export default PriceCard
