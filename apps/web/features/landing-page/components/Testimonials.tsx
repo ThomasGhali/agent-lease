@@ -62,9 +62,9 @@ const testimonials: TestimonialProps[] = [
 export const Testimonials = () => {
   return (
     <section id="testimonials" className="container py-24 sm:py-32">
-      <h2 className="max-w-4xl text-3xl font-bold md:text-4xl">
+      <h2 className="max-w-4xl text-3xl md:text-4xl font-bold">
         Discover Why
-        <span className="text-primary">
+        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           {' '}
           People Love{' '}
         </span>

@@ -110,8 +110,8 @@ export const Team = () => {
 
   return (
     <section id="team" className="container py-24 sm:py-32">
-      <h2 className="text-3xl font-bold md:text-4xl">
-        <span className="text-primary">
+      <h2 className="text-3xl md:text-4xl font-bold">
+        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           Our Dedicated{' '}
         </span>
         Crew
@@ -129,17 +129,17 @@ export const Team = () => {
               key={name}
               className="landing-card relative mt-10 flex flex-col items-center justify-center overflow-visible pt-14 text-center"
             >
-              <CardHeader className="flex items-center justify-center pb-2">
-                <Avatar className="border-card absolute -top-12 h-24 w-24 border-4">
+              <CardHeader className="flex flex-col items-center justify-center pb-2">
+                <Avatar className="absolute -top-12 h-24 w-24">
                   <AvatarImage src={imageUrl} alt={`${name} ${position}`} />
                   <AvatarFallback>
                     {name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <CardTitle className="text-center text-xl font-bold">
+                <CardTitle className="text-center text-xl font-bold text-nowrap">
                   {name}
                 </CardTitle>
-                <CardDescription className="text-primary text-sm font-semibold">
+                <CardDescription className="text-primary text-nowrap text-sm font-semibold">
                   {position}
                 </CardDescription>
               </CardHeader>

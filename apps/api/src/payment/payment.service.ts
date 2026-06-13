@@ -1,5 +1,4 @@
 import { Injectable, Logger } from '@nestjs/common';
-import Stripe from 'stripe';
 import { StripeService } from '../stripe/stripe.service';
 
 type CheckoutSession = Awaited<
@@ -19,8 +18,6 @@ export class PaymentService {
     userId: string,
     plan: string,
   ): Promise<CheckoutSession> {
-    this.logger.log('i ran');
-
     return this.stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],

@@ -16,8 +16,8 @@ import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
 
 export const HeroCards = () => {
   return (
-    <div className="relative h-[570px] w-[720px] flex-row flex-wrap gap-8 xl:flex">
-      <Card className="landing-card absolute top-8 left-0 w-[340px]">
+    <div className="relative justify-center h-[570px] w-[720px] flex-row flex-wrap gap-8 xl:flex">
+      <Card className="landing-card -mt-15 h-min w-[340px] self-start">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar className="h-11 w-11">
             <AvatarImage alt="" src="https://github.com/shadcn.png" />
@@ -25,9 +25,7 @@ export const HeroCards = () => {
           </Avatar>
 
           <div className="flex flex-col">
-            <CardTitle className="text-lg font-semibold">
-              John Doe React
-            </CardTitle>
+            <CardTitle className="text-lg">John Doe React</CardTitle>
             <CardDescription className="text-sm">@john_doe</CardDescription>
           </div>
         </CardHeader>
@@ -37,22 +35,22 @@ export const HeroCards = () => {
         </CardContent>
       </Card>
 
-      <Card className="landing-card absolute top-12 right-0 flex w-[320px] flex-col items-center justify-center overflow-visible pt-14 text-center">
-        <CardHeader className="flex items-center justify-center pb-1">
-          <Avatar className="border-card absolute -top-11 h-24 w-24 border-4">
+      <Card className="landing-card flex h-min w-[320px] flex-col items-center justify-center overflow-visible pt-14 text-center">
+        <CardHeader className="flex flex-col items-center justify-center pb-1">
+          <Avatar className="absolute -top-11 h-24 w-24">
             <AvatarImage
               alt="Leo Miranda"
               src="https://i.pravatar.cc/150?img=58"
             />
             <AvatarFallback>LM</AvatarFallback>
           </Avatar>
-          <CardTitle className="text-xl font-bold">Leo Miranda</CardTitle>
-          <CardDescription className="text-primary text-sm font-semibold">
+          <CardTitle className="text-center text-nowrap">Leo Miranda</CardTitle>
+          <CardDescription className="text-primary text-sm font-normal text-nowrap">
             Frontend Developer
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="max-w-[250px] px-6 pb-2 text-center text-sm text-muted-foreground">
+        <CardContent className="text-muted-foreground max-w-[250px] px-6 pb-2 text-center text-sm">
           <p>
             I really enjoy transforming ideas into functional software that
             exceeds expectations
@@ -93,7 +91,7 @@ export const HeroCards = () => {
         </CardFooter>
       </Card>
 
-      <Card className="landing-card absolute top-[285px] left-12 w-[320px]">
+      <Card className="landing-card -mt-72 h-min w-[320px]">
         <CardHeader>
           <CardTitle className="flex items-center justify-between gap-3">
             Free
@@ -124,7 +122,7 @@ export const HeroCards = () => {
             {['4 Team member', '4 GB Storage', 'Upto 6 pages'].map(
               (benefit: string) => (
                 <span key={benefit} className="flex items-center">
-                  <Check className="text-primary h-4 w-4" />{' '}
+                  <Check className="h-4 w-4 text-green-500" />{' '}
                   <h3 className="ml-2">{benefit}</h3>
                 </span>
               ),
@@ -133,15 +131,13 @@ export const HeroCards = () => {
         </CardFooter>
       </Card>
 
-      <Card className="landing-card absolute right-0 bottom-[78px] w-[310px]">
+      <Card className="landing-card -mt-22 h-min w-[310px]">
         <CardHeader className="flex items-start justify-start gap-4 space-y-1 md:flex-row">
           <div className="bg-primary/15 text-primary mt-1 rounded-lg p-2">
             <LightBulbIcon />
           </div>
           <div>
-            <CardTitle className="text-lg font-bold">
-              Light & dark mode
-            </CardTitle>
+            <CardTitle className="text-lg">Light & dark mode</CardTitle>
             <CardDescription className="mt-2 text-base">
               Lorem ipsum dolor sit amet consect adipisicing elit. Consectetur
               natusm.

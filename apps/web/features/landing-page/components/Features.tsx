@@ -54,9 +54,9 @@ const featureList: string[] = [
 export const Features = () => {
   return (
     <section id="features" className="container space-y-8 py-24 sm:py-32">
-      <h2 className="text-3xl font-bold md:text-center lg:text-4xl">
+      <h2 className="text-3xl md:text-center lg:text-4xl font-bold">
         Many{' '}
-        <span className="text-primary">
+        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           Great Features
         </span>
       </h2>

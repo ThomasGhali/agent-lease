@@ -1,6 +1,6 @@
-import { PriceCardProps } from "@/features/shared/pricing/types/pricing-types"
-import { PaidPlanType, PlanType } from "@repo/common"
-import { toast } from "sonner"
+import { PriceCardProps } from '@/features/shared/pricing/types/pricing-types'
+import { PaidPlanType, PlanType } from '@repo/common'
+import { toast } from 'sonner'
 import { Check } from 'lucide-react'
 import {
   Card,
@@ -37,8 +37,7 @@ export const PriceCard = ({
     } = await supabase.auth.getSession()
 
     if (!session) {
-      toast.error('You must be logged in to subscribe')
-      return console.error('You must be logged in to subscribe')
+      window.location.href = '/sign-in'
     }
 
     const res = await fetch(
@@ -86,12 +85,10 @@ export const PriceCard = ({
         <CardContent className="p-6 pt-0">
           <div className="text-foreground my-4 flex items-baseline">
             {planPrice.type === 'custom' ? (
-              <span className="text-4xl font-extrabold tracking-tight">
-                Custom
-              </span>
+              <span className="text-3xl font-bold tracking-tight">Custom</span>
             ) : (
               <>
-                <span className="text-4xl font-extrabold tracking-tight">
+                <span className="text-3xl font-bold tracking-tight">
                   {isAnnual ? planPrice.yearly : planPrice.monthly}
                 </span>
 

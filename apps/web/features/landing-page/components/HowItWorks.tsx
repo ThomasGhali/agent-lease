@@ -41,14 +41,14 @@ export const HowItWorks = () => {
       id="howItWorks"
       className="container text-center py-24 sm:py-32"
     >
-      <h2 className="text-3xl md:text-4xl font-bold ">
+      <h2 className="text-3xl md:text-4xl font-bold">
         How It{" "}
-        <span className="text-primary">
+        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           Works{" "}
         </span>
         Step-by-Step Guide
       </h2>
-      <p className="text-muted-foreground mx-auto mt-4 mb-8 max-w-3xl text-lg leading-8 md:text-xl">
+      <p className="text-xl text-muted-foreground mx-auto mt-4 mb-8 max-w-3xl leading-8">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
         dolor pariatur sit!
       </p>
@@ -60,7 +60,7 @@ export const HowItWorks = () => {
             className="landing-card"
           >
             <CardHeader>
-              <CardTitle className="grid place-items-center gap-4 text-lg font-bold">
+              <CardTitle className="grid gap-4 place-items-center">
                 {icon}
                 {title}
               </CardTitle>

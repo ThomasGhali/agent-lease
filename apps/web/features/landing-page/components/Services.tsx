@@ -41,14 +41,14 @@ export const Services = () => {
     <section className="container py-24 sm:py-32">
       <div className="grid place-items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
         <div className="w-full">
-          <h2 className="text-3xl font-bold md:text-4xl">
-            <span className="text-primary">
+          <h2 className="text-3xl md:text-4xl font-bold">
+            <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
               Client-Centric{' '}
             </span>
             Services
           </h2>
 
-          <p className="text-muted-foreground mt-4 mb-8 max-w-2xl text-lg leading-8 md:text-xl">
+          <p className="text-xl text-muted-foreground mt-4 mb-8 max-w-2xl leading-8">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
             dolor.
           </p>
@@ -61,7 +61,7 @@ export const Services = () => {
                     {icon}
                   </div>
                   <div>
-                    <CardTitle className="text-lg font-bold">{title}</CardTitle>
+                    <CardTitle>{title}</CardTitle>
                     <CardDescription className="mt-2 text-base">
                       {description}
                     </CardDescription>

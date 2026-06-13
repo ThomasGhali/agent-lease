@@ -97,7 +97,7 @@ export function SectionCards({ metrics }: { metrics: Metrics }) {
             {totalPayingCustomers.toLocaleString()}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="text-muted-foreground mt-2 text-xs">
+        <CardFooter className="text-muted-foreground mt-2 h-full text-xs">
           Currently active premium plans
         </CardFooter>
       </Card>
@@ -115,7 +115,7 @@ export function SectionCards({ metrics }: { metrics: Metrics }) {
             {parseInt(globalPremiumTokensUsage || '0').toLocaleString()}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="text-muted-foreground mt-2 text-xs">
+        <CardFooter className="text-muted-foreground mt-2 text-xs h-full">
           Global usage across paid tiers
         </CardFooter>
       </Card>
@@ -133,7 +133,7 @@ export function SectionCards({ metrics }: { metrics: Metrics }) {
             {parseInt(globalFreeTokensUsage || '0').toLocaleString()}
           </CardTitle>
         </CardHeader>
-        <CardFooter className="text-muted-foreground mt-2 text-xs">
+        <CardFooter className="text-muted-foreground mt-2 h-full text-xs">
           Global usage across free tiers
         </CardFooter>
       </Card>
