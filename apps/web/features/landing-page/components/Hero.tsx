@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button'
 import { HeroCards } from './HeroCards'
-import { FaGithub } from 'react-icons/fa6'
 
 export const Hero = () => {
   return (
@@ -16,29 +15,28 @@ export const Hero = () => {
       <div className="max-w-3xl space-y-6 xl:text-start">
         <main className="text-5xl leading-[1.08] font-bold tracking-normal text-balance md:text-6xl">
           <h1 className="inline">
-            <span className="landing-word-shadcn inline">Shadcn</span> landing
-            page
+            <span className="landing-word-shadcn inline">AI Chatbot</span> for
+            your website
           </h1>{' '}
-          for{' '}
+          in{' '}
           <h2 className="inline">
-            <span className="landing-word-react inline">React</span> developers
+            <span className="landing-word-react inline">one line</span> of code
           </h2>
         </main>
 
         <p className="text-muted-foreground mx-auto max-w-2xl text-xl leading-8 xl:mx-0">
-          Build your React landing page effortlessly with the required sections
-          to your project.
+          Lease a customizable AI agent, paste one script into your site, and
+          let visitors chat with your personalized chatbot instantly.
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center xl:justify-start">
           <Button size="lg" className="w-full sm:w-auto sm:min-w-40">
-            Get Started
+            Start Free Trial
           </Button>
 
           <a
             rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-            target="_blank"
+            href="#howItWorks"
             className={`landing-cta-button w-full sm:w-auto sm:min-w-48 ${buttonVariants(
               {
                 variant: 'outline',
@@ -46,8 +44,7 @@ export const Hero = () => {
               },
             )}`}
           >
-            Github Repository
-            <FaGithub className="ml-2 h-5 w-5" />
+            See How It Works
           </a>
         </div>
       </div>

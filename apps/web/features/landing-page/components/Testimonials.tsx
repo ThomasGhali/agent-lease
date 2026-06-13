@@ -17,45 +17,44 @@ interface TestimonialProps {
 const testimonials: TestimonialProps[] = [
   {
     image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe',
-    comment: 'This landing page is awesome!',
+    name: 'Sarah Chen',
+    userName: '@sarahchen_dev',
+    comment: 'Agent Lease cut our support tickets by 40% in the first week. The one-line setup was literally copy-paste.',
   },
   {
     image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe1',
+    name: 'Marcus Rivera',
+    userName: '@marcusrivera',
     comment:
-      'Lorem ipsum dolor sit amet,empor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.',
-  },
-
-  {
-    image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe2',
-    comment:
-      'Lorem ipsum dolor sit amet,exercitation. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.',
+      'I was skeptical about adding a chatbot to our e-commerce store, but the customization options are incredible. Our customers love the instant responses.',
   },
   {
     image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe3',
+    name: 'Emily Park',
+    userName: '@emilypark_ux',
     comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.',
+      'The analytics dashboard alone is worth the subscription. We can see exactly what questions our visitors are asking and optimize our content accordingly.',
   },
   {
     image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe4',
+    name: 'James Wilson',
+    userName: '@jameswilson',
     comment:
-      'Lorem ipsum dolor sit amet, tempor incididunt  aliqua. Ut enim ad minim veniam, quis nostrud.',
+      'We went from zero chatbot to a fully trained AI agent answering customer questions in under 10 minutes. The onboarding experience is flawless.',
   },
   {
     image: 'https://github.com/shadcn.png',
-    name: 'John Doe React',
-    userName: '@john_Doe5',
+    name: 'Priya Sharma',
+    userName: '@priyasharma_io',
     comment:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      'As a freelancer, I embed Agent Lease on every client site I build. It\'s become my secret weapon for delivering extra value.',
+  },
+  {
+    image: 'https://github.com/shadcn.png',
+    name: 'David Kim',
+    userName: '@davidkim_saas',
+    comment:
+      'The API access on the Pro plan lets us integrate agent data directly into our CRM. Game changer for our sales team.',
   },
 ]
 
@@ -66,14 +65,14 @@ export const Testimonials = () => {
         Discover Why
         <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
           {' '}
-          People Love{' '}
+          Teams Love{' '}
         </span>
-        This Landing Page
+        Agent Lease
       </h2>
 
       <p className="text-muted-foreground max-w-3xl pt-4 pb-8 text-lg leading-8 md:text-xl">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non unde error
-        facere hic reiciendis illo
+        Join hundreds of businesses using Agent Lease to deliver instant,
+        intelligent support to their website visitors.
       </p>
 
       <div className="mx-auto columns-1 gap-6 space-y-4 sm:columns-2 lg:columns-3 lg:space-y-6">

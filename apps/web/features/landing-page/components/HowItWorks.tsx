@@ -11,27 +11,27 @@ interface FeatureProps {
 const features: FeatureProps[] = [
   {
     icon: <MedalIcon />,
-    title: "Accessibility",
+    title: "Sign Up",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum quas provident cum",
+      "Create your account in seconds and choose a plan that fits your needs — start free, upgrade anytime.",
   },
   {
     icon: <MapIcon />,
-    title: "Community",
+    title: "Customize Your Agent",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum quas provident cum",
+      "Configure your AI chatbot's personality, knowledge base, and appearance from an intuitive dashboard.",
   },
   {
     icon: <PlaneIcon />,
-    title: "Scalability",
+    title: "Embed in One Line",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum quas provident cum",
+      "Copy a single script tag from the setup page and paste it into your website's HTML. That's it.",
   },
   {
     icon: <GiftIcon />,
-    title: "Gamification",
+    title: "Engage Visitors",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum quas provident cum",
+      "A chat bubble appears on your site instantly. Visitors can talk to your custom AI agent 24/7.",
   },
 ];
 
@@ -49,8 +49,8 @@ export const HowItWorks = () => {
         Step-by-Step Guide
       </h2>
       <p className="text-xl text-muted-foreground mx-auto mt-4 mb-8 max-w-3xl leading-8">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-        dolor pariatur sit!
+        From sign-up to a live chatbot on your website in under 5 minutes.
+        No coding experience needed.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

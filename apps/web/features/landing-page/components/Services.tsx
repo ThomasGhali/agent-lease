@@ -17,21 +17,21 @@ interface ServiceProps {
 
 const serviceList: ServiceProps[] = [
   {
-    title: 'Code Collaboration',
+    title: 'Agent Customization Studio',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'Design your chatbot\'s personality, tone, and knowledge base. Upload documents, set conversation rules, and preview in real time.',
     icon: <ChartIcon />,
   },
   {
-    title: 'Project Management',
+    title: 'Conversation Analytics',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'Track every visitor interaction with detailed analytics. Monitor response quality, engagement rates, and common questions.',
     icon: <WalletIcon />,
   },
   {
-    title: 'Task Automation',
+    title: 'Seamless Integration',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'One script tag is all it takes. Works with any website — WordPress, Shopify, Next.js, static HTML, and more.',
     icon: <MagnifierIcon />,
   },
 ]
@@ -43,14 +43,14 @@ export const Services = () => {
         <div className="w-full">
           <h2 className="text-3xl md:text-4xl font-bold">
             <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-              Client-Centric{' '}
+              Everything You Need{' '}
             </span>
-            Services
+            To Deploy AI
           </h2>
 
           <p className="text-xl text-muted-foreground mt-4 mb-8 max-w-2xl leading-8">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-            dolor.
+            Powerful tools to create, manage, and optimize your AI chatbot
+            agents — all from one platform.
           </p>
 
           <div className="flex flex-col gap-6">

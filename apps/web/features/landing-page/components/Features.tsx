@@ -20,35 +20,35 @@ interface FeatureProps {
 
 const features: FeatureProps[] = [
   {
-    title: 'Responsive Design',
+    title: 'One-Line Embed',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'Paste a single script tag into your website and a fully functional AI chat bubble appears instantly. No complex setup required.',
     image: image4,
   },
   {
-    title: 'Intuitive user interface',
+    title: 'Custom Agent Training',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'Train your chatbot with your own data, brand voice, and business rules from an intuitive dashboard. Your agent, your way.',
     image: image3,
   },
   {
-    title: 'AI-Powered insights',
+    title: 'Real-Time Analytics',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi nesciunt est nostrum omnis ab sapiente.',
+      'Monitor every conversation, track visitor engagement, and gain actionable insights to improve your customer experience.',
     image,
   },
 ]
 
 const featureList: string[] = [
-  'Dark/Light theme',
-  'Reviews',
-  'Features',
-  'Pricing',
-  'Contact form',
-  'Our team',
-  'Responsive design',
-  'Newsletter',
-  'Minimalist',
+  'One-Line Setup',
+  'Custom Branding',
+  'Multi-Agent Support',
+  'Conversation Logs',
+  'Visitor Analytics',
+  'Webhook Integrations',
+  'Dark/Light Widget',
+  'API Access',
+  '24/7 Availability',
 ]
 
 export const Features = () => {

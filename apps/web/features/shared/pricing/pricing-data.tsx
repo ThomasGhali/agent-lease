@@ -118,33 +118,33 @@ export interface FAQProps {
 
 export const FAQList: FAQProps[] = [
   {
-    question: 'Is this template free?',
-    answer: 'Yes. It is a free ChadcnUI template.',
+    question: 'How does the one-line embed work?',
+    answer:
+      'After creating and customizing your agent in the dashboard, you\'ll receive a single <script> tag. Paste it into your website\'s HTML (before the closing </body> tag), and a chat bubble will appear automatically for your visitors.',
     value: 'item-1',
   },
   {
-    question: 'Lorem ipsum dolor sit amet consectetur adipisicing elit?',
+    question: 'Can I customize how the chatbot looks and behaves?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.',
+      'Absolutely. You can configure the chatbot\'s name, avatar, personality, conversation tone, knowledge base, and widget appearance (colors, position, welcome message) — all from the dashboard.',
     value: 'item-2',
   },
   {
-    question:
-      'Lorem ipsum dolor sit amet  Consectetur natus dolores minus quibusdam?',
+    question: 'What websites does Agent Lease work with?',
     answer:
-      'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore qui nostrum reiciendis veritatis necessitatibus maxime quis ipsa vitae cumque quo?',
+      'Agent Lease works with any website that supports HTML — WordPress, Shopify, Squarespace, Wix, Next.js, static HTML, and more. If you can add a script tag, you can use Agent Lease.',
     value: 'item-3',
   },
   {
-    question: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit?',
-    answer: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+    question: 'Is there a free plan available?',
+    answer:
+      'Yes! Our Starter plan is completely free and includes 2 active AI agents with up to 500 tasks per month. It\'s perfect for testing and small projects.',
     value: 'item-4',
   },
   {
-    question:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus?',
+    question: 'How is my data and my visitors\' data handled?',
     answer:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint labore quidem quam? Consectetur sapiente iste rerum reiciendis animi nihil nostrum sit quo, modi quod.',
+      'We take security seriously. All conversations are encrypted in transit and at rest. We never sell your data or your visitors\' data. Enterprise plans include dedicated hosting and VPC options for maximum security.',
     value: 'item-5',
   },
 ]

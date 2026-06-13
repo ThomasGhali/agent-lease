@@ -40,7 +40,7 @@ export const Navbar = () => {
             className="flex min-w-0 items-center text-lg font-bold tracking-normal sm:text-xl"
           >
             <LogoIcon />
-            <span className="truncate">ShadcnUI/React</span>
+            <span className="truncate">Agent Lease</span>
           </Link>
         </div>
 
@@ -63,7 +63,7 @@ export const Navbar = () => {
               <SheetHeader>
                 <SheetTitle className="flex items-center text-xl font-bold">
                   <LogoIcon />
-                  Shadcn/React
+                  Agent Lease
                 </SheetTitle>
               </SheetHeader>
               <nav className="mt-6 flex flex-col items-stretch gap-2">
@@ -83,7 +83,7 @@ export const Navbar = () => {
                 ))}
                 <a
                   rel="noreferrer noopener"
-                  href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+                  href="https://github.com/"
                   target="_blank"
                   className={`mt-2 border ${buttonVariants({
                     variant: 'secondary',
@@ -117,7 +117,7 @@ export const Navbar = () => {
         <div className="hidden items-center gap-2 lg:flex">
           <a
             rel="noreferrer noopener"
-            href="https://github.com/leoMirandaa/shadcn-landing-page.git"
+            href="https://github.com/"
             target="_blank"
             className={`border ${buttonVariants({
               variant: 'secondary',

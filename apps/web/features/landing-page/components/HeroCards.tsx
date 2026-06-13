@@ -13,10 +13,11 @@ import {
 import { Check } from 'lucide-react'
 import { LightBulbIcon } from './Icons'
 import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
+import thomasGhaliPic from '@/public/portofolio-pic3-crop.png'
 
 export const HeroCards = () => {
   return (
-    <div className="relative justify-center h-[570px] w-[720px] flex-row flex-wrap gap-8 xl:flex">
+    <div className="relative h-[570px] w-[720px] flex-row flex-wrap justify-center gap-8 xl:flex">
       <Card className="landing-card -mt-15 h-min w-[340px] self-start">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar className="h-11 w-11">
@@ -25,35 +26,35 @@ export const HeroCards = () => {
           </Avatar>
 
           <div className="flex flex-col">
-            <CardTitle className="text-lg">John Doe React</CardTitle>
-            <CardDescription className="text-sm">@john_doe</CardDescription>
+            <CardTitle className="text-lg">Sarah Chen</CardTitle>
+            <CardDescription className="text-sm">
+              @sarahchen_dev
+            </CardDescription>
           </div>
         </CardHeader>
 
         <CardContent className="text-[0.95rem]">
-          This landing page is awesome!
+          Agent Lease cut our support tickets by 40% in the first week!
         </CardContent>
       </Card>
 
       <Card className="landing-card flex h-min w-[320px] flex-col items-center justify-center overflow-visible pt-14 text-center">
         <CardHeader className="flex flex-col items-center justify-center pb-1">
           <Avatar className="absolute -top-11 h-24 w-24">
-            <AvatarImage
-              alt="Leo Miranda"
-              src="https://i.pravatar.cc/150?img=58"
-            />
-            <AvatarFallback>LM</AvatarFallback>
+            <AvatarImage alt="Thomas Ghali" src={thomasGhaliPic.src} />
+            <AvatarFallback>TG</AvatarFallback>
           </Avatar>
-          <CardTitle className="text-center text-nowrap">Leo Miranda</CardTitle>
+          <CardTitle className="text-center text-nowrap">
+            Thomas Ghali
+          </CardTitle>
           <CardDescription className="text-primary text-sm font-normal text-nowrap">
-            Frontend Developer
+            Founder & Developer
           </CardDescription>
         </CardHeader>
 
         <CardContent className="text-muted-foreground max-w-[250px] px-6 pb-2 text-center text-sm">
           <p>
-            I really enjoy transforming ideas into functional software that
-            exceeds expectations
+            Building tools that let businesses deploy AI agents effortlessly
           </p>
         </CardContent>
 
@@ -61,7 +62,7 @@ export const HeroCards = () => {
           <div className="flex items-center justify-center gap-1">
             <a
               rel="noreferrer noopener"
-              href="https://github.com/leoMirandaa"
+              href="https://github.com/ThomasGhali"
               target="_blank"
               className="landing-social-link"
             >
@@ -70,7 +71,7 @@ export const HeroCards = () => {
             </a>
             <a
               rel="noreferrer noopener"
-              href="https://twitter.com/leo_mirand4"
+              href="https://twitter.com"
               target="_blank"
               className="landing-social-link"
             >
@@ -80,7 +81,7 @@ export const HeroCards = () => {
 
             <a
               rel="noreferrer noopener"
-              href="https://www.linkedin.com/in/leopoldo-miranda/"
+              href="https://www.linkedin.com"
               target="_blank"
               className="landing-social-link"
             >
@@ -95,8 +96,11 @@ export const HeroCards = () => {
         <CardHeader>
           <CardTitle className="flex items-center justify-between gap-3">
             Free
-            <Badge variant="secondary" className="text-primary text-xs">
-              Most popular
+            <Badge
+              variant="secondary"
+              className="text-primary/90 px-3! text-xs font-semibold!"
+            >
+              No Credit Card Required
             </Badge>
           </CardTitle>
           <div>
@@ -105,13 +109,13 @@ export const HeroCards = () => {
           </div>
 
           <CardDescription>
-            Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.
+            Get started with your first AI chatbot agent, completely free.
           </CardDescription>
         </CardHeader>
 
         <CardContent>
           <Button size="lg" className="w-full">
-            Start Free Trial
+            Get started for free
           </Button>
         </CardContent>
 
@@ -119,7 +123,7 @@ export const HeroCards = () => {
 
         <CardFooter className="flex">
           <div className="space-y-4 text-sm">
-            {['4 Team member', '4 GB Storage', 'Upto 6 pages'].map(
+            {['2 AI Agents', '500 tasks/month', 'Basic analytics'].map(
               (benefit: string) => (
                 <span key={benefit} className="flex items-center">
                   <Check className="h-4 w-4 text-green-500" />{' '}
@@ -137,10 +141,10 @@ export const HeroCards = () => {
             <LightBulbIcon />
           </div>
           <div>
-            <CardTitle className="text-lg">Light & dark mode</CardTitle>
+            <CardTitle className="text-lg">One-Line Embed</CardTitle>
             <CardDescription className="mt-2 text-base">
-              Lorem ipsum dolor sit amet consect adipisicing elit. Consectetur
-              natusm.
+              Paste a single script tag and your AI chat bubble appears
+              instantly on any website.
             </CardDescription>
           </div>
         </CardHeader>

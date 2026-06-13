@@ -13,6 +13,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { createAuthClient } from '@/lib/supabase/client'
+import { useRouter } from 'next/navigation'
 
 export const PriceCard = ({
   styles,
@@ -24,6 +25,8 @@ export const PriceCard = ({
   buttonText = 'Get Started',
   isAnnual,
 }: PriceCardProps) => {
+  const router = useRouter()
+
   const handleButtonClick = async (planName: PlanType) => {
     const uppercasePlan = planName.toUpperCase()
     if (uppercasePlan !== PaidPlanType.PREMIUM) {
@@ -37,7 +40,8 @@ export const PriceCard = ({
     } = await supabase.auth.getSession()
 
     if (!session) {
-      window.location.href = '/sign-in'
+      router.push('/sign-in')
+      return
     }
 
     const res = await fetch(

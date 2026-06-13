@@ -10,10 +10,13 @@ import {
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa6'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
+import thomasGhaliPic from '@/public/portofolio-pic-crop2.png'
+
 interface TeamProps {
   imageUrl: string
   name: string
   position: string
+  description: string
   socialNetworks: SociaNetworkslProps[]
 }
 
@@ -27,14 +30,12 @@ const teamList: TeamProps[] = [
     imageUrl: 'https://i.pravatar.cc/150?img=35',
     name: 'Emma Smith',
     position: 'Product Manager',
+    description:
+      'Guiding the roadmap and ensuring our chatbot customization tools are incredibly easy to use.',
     socialNetworks: [
       {
         name: 'Linkedin',
-        url: 'https://www.linkedin.com/in/leopoldo-miranda/',
-      },
-      {
-        name: 'Facebook',
-        url: 'https://www.facebook.com/',
+        url: 'https://www.linkedin.com/',
       },
       {
         name: 'Instagram',
@@ -43,34 +44,33 @@ const teamList: TeamProps[] = [
     ],
   },
   {
-    imageUrl: 'https://i.pravatar.cc/150?img=60',
-    name: 'John Doe',
-    position: 'Tech Lead',
+    imageUrl: thomasGhaliPic.src,
+    name: 'Thomas Ghali',
+    position: 'Founder & Lead Developer',
+    description:
+      'Architecting the core messaging infrastructure and designing the one-line embed script.',
     socialNetworks: [
       {
-        name: 'Linkedin',
-        url: 'https://www.linkedin.com/in/leopoldo-miranda/',
+        name: 'Github',
+        url: 'https://github.com/ThomasGhali',
       },
       {
         name: 'Facebook',
         url: 'https://www.facebook.com/',
-      },
-      {
-        name: 'Instagram',
-        url: 'https://www.instagram.com/',
       },
     ],
   },
   {
     imageUrl: 'https://i.pravatar.cc/150?img=36',
     name: 'Ashley Ross',
-    position: 'Frontend Developer',
+    position: 'AI/ML Engineer',
+    description:
+      'Fine-tuning our LLM models and training chatbots to respond intelligently to customer data.',
     socialNetworks: [
       {
         name: 'Linkedin',
-        url: 'https://www.linkedin.com/in/leopoldo-miranda/',
+        url: 'https://www.linkedin.com/',
       },
-
       {
         name: 'Instagram',
         url: 'https://www.instagram.com/',
@@ -80,11 +80,13 @@ const teamList: TeamProps[] = [
   {
     imageUrl: 'https://i.pravatar.cc/150?img=17',
     name: 'Bruce Rogers',
-    position: 'Backend Developer',
+    position: 'Backend Engineer',
+    description:
+      'Optimizing API endpoints, event streams, and database systems for low-latency responses.',
     socialNetworks: [
       {
         name: 'Linkedin',
-        url: 'https://www.linkedin.com/in/leopoldo-miranda/',
+        url: 'https://www.linkedin.com/',
       },
       {
         name: 'Facebook',
@@ -110,21 +112,27 @@ export const Team = () => {
 
   return (
     <section id="team" className="container py-24 sm:py-32">
-      <h2 className="text-3xl md:text-4xl font-bold">
-        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
-          Our Dedicated{' '}
+      <h2 className="text-3xl font-bold md:text-4xl">
+        <span className="from-primary/60 to-primary bg-linear-to-b bg-clip-text text-transparent">
+          Meet the{' '}
         </span>
-        Crew
+        Team
       </h2>
 
       <p className="text-muted-foreground mt-4 mb-10 max-w-3xl text-lg leading-8 md:text-xl">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Veritatis
-        dolor pariatur sit!
+        The people behind Agent Lease, working to make AI accessible for every
+        website owner.
       </p>
 
       <div className="grid gap-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
         {teamList.map(
-          ({ imageUrl, name, position, socialNetworks }: TeamProps) => (
+          ({
+            imageUrl,
+            name,
+            position,
+            description,
+            socialNetworks,
+          }: TeamProps) => (
             <Card
               key={name}
               className="landing-card relative mt-10 flex flex-col items-center justify-center overflow-visible pt-14 text-center"
@@ -139,13 +147,13 @@ export const Team = () => {
                 <CardTitle className="text-center text-xl font-bold text-nowrap">
                   {name}
                 </CardTitle>
-                <CardDescription className="text-primary text-nowrap text-sm font-semibold">
+                <CardDescription className="text-primary text-sm font-semibold text-nowrap">
                   {position}
                 </CardDescription>
               </CardHeader>
 
               <CardContent className="text-muted-foreground px-6 pb-2 text-center text-base">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                <p>{description}</p>
               </CardContent>
 
               <CardFooter className="justify-center gap-1 border-0 bg-transparent p-0 pb-5">

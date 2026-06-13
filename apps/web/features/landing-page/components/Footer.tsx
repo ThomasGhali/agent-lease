@@ -1,24 +1,21 @@
 import Link from 'next/link'
-import { LogoIcon } from "./Icons";
+import { LogoIcon } from './Icons'
 
 export const Footer = () => {
   return (
     <footer id="footer">
-      <hr className="w-11/12 mx-auto" />
+      <hr className="mx-auto w-11/12" />
 
-      <section className="container py-20 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-x-12 gap-y-8">
+      <section className="container grid grid-cols-2 gap-x-12 gap-y-8 py-20 md:grid-cols-4 xl:grid-cols-6">
         <div className="col-span-full xl:col-span-2">
-          <Link
-            href="/"
-            className="font-bold text-xl flex"
-          >
+          <Link href="/" className="flex text-xl font-bold">
             <LogoIcon />
-            ShadcnUI/React
+            Agent Lease
           </Link>
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Follow US</h3>
+          <h3 className="text-lg font-bold">Follow US</h3>
           <div>
             <a
               rel="noreferrer noopener"
@@ -45,20 +42,20 @@ export const Footer = () => {
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Dribbble
+              LinkedIn
             </a>
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Platforms</h3>
+          <h3 className="text-lg font-bold">Resources</h3>
           <div>
             <a
               rel="noreferrer noopener"
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Web
+              Documentation
             </a>
           </div>
 
@@ -68,7 +65,7 @@ export const Footer = () => {
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Mobile
+              Blog
             </a>
           </div>
 
@@ -78,13 +75,13 @@ export const Footer = () => {
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Desktop
+              Status Page
             </a>
           </div>
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">About</h3>
+          <h3 className="text-lg font-bold">About</h3>
           <div>
             <a
               rel="noreferrer noopener"
@@ -117,14 +114,14 @@ export const Footer = () => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <h3 className="font-bold text-lg">Community</h3>
+          <h3 className="text-lg font-bold">Support</h3>
           <div>
             <a
               rel="noreferrer noopener"
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Youtube
+              Help Center
             </a>
           </div>
 
@@ -134,7 +131,7 @@ export const Footer = () => {
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Discord
+              Contact Us
             </a>
           </div>
 
@@ -144,7 +141,7 @@ export const Footer = () => {
               href="#"
               className="opacity-60 hover:opacity-100"
             >
-              Twitch
+              Feedback
             </a>
           </div>
         </div>
@@ -152,17 +149,17 @@ export const Footer = () => {
 
       <section className="container pb-14 text-center">
         <h3>
-          &copy; 2024 Landing page made by{" "}
+          &copy; {new Date().getFullYear()} Agent Lease. Built by{' '}
           <a
             rel="noreferrer noopener"
             target="_blank"
-            href="https://www.linkedin.com/in/leopoldo-miranda/"
-            className="text-primary transition-all border-primary hover:border-b-2"
+            href="https://github.com/"
+            className="text-primary border-primary transition-all hover:border-b-2"
           >
-            Leo Miranda
+            Thomas Ghali
           </a>
         </h3>
       </section>
     </footer>
-  );
-};
+  )
+}

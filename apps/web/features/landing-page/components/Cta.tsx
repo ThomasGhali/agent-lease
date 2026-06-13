@@ -9,23 +9,23 @@ export const Cta = () => {
             All Your
             <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
               {' '}
-              Ideas & Concepts{' '}
+              AI Agents{' '}
             </span>
-            In One Interface
+            In One Dashboard
           </h2>
           <p className="text-muted-foreground mt-4 max-w-3xl text-lg leading-8 md:text-xl">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque,
-            beatae. Ipsa tempore ipsum iste quibusdam illum ducimus eos. Quasi,
-            sed!
+            Create, customize, and manage all your chatbot agents from a single
+            dashboard. Monitor conversations, adjust behavior, and deploy
+            updates — all in real time.
           </p>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
           <Button size="lg" className="w-full sm:w-auto">
-            Request a Demo
+            Try It Free
           </Button>
           <Button size="lg" variant="outline" className="w-full sm:w-auto">
-            View all features
+            View All Features
           </Button>
         </div>
       </div>
