@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from 'react-icons/fa6'
+import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa6'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import thomasGhaliPic from '@/public/portofolio-pic-crop2.png'
@@ -107,6 +107,9 @@ export const Team = () => {
 
       case 'Instagram':
         return <FaInstagram className="h-4 w-4" />
+
+      case 'Github':
+        return <FaGithub className="h-4 w-4" />
     }
   }
 
