@@ -35,10 +35,7 @@ export class ChatGateway
   afterInit(server: Server) {
     // Clean blocked IPs every 1 minute
     setInterval(() => {
-      for (const [ip, entry] of this.connectionAttempts.entries()) {
-        if (Date.now() - entry.firstAttempt > this.BLOCK_PERIOD_MS)
-          this.connectionAttempts.delete(ip);
-      }
+      this.connectionAttempts.clear();
     }, this.CONNECTIONS_RATE_WINDOW_MS);
 
     server.use((socket: Socket, next) => {

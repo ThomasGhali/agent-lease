@@ -15,7 +15,7 @@ export const About = () => {
           <div className="flex min-w-0 flex-col justify-between">
             <div className="pb-6">
               <h2 className="text-3xl md:text-4xl font-bold">
-                <span className="bg-gradient-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+                <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
                   About{' '}
                 </span>
                 Agent Lease
