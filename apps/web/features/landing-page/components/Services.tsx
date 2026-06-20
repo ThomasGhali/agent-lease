@@ -61,8 +61,8 @@ export const Services = () => {
                     {icon}
                   </div>
                   <div>
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription className="mt-2 text-base">
+                    <CardTitle className='text-2xl'>{title}</CardTitle>
+                    <CardDescription className="mt-2 text-base text-muted-foreground">
                       {description}
                     </CardDescription>
                   </div>

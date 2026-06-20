@@ -78,7 +78,7 @@ export const Features = () => {
               <CardTitle className="text-xl font-bold">{title}</CardTitle>
             </CardHeader>
 
-            <CardContent className="text-muted-foreground text-base">
+            <CardContent className="text-foreground/90 text-base">
               {description}
             </CardContent>
 

@@ -41,7 +41,7 @@ export const HowItWorks = () => {
       <h2 className="text-3xl font-bold md:text-4xl">
         How It Works Step-by-Step Guide
       </h2>
-      <p className="text-muted-foreground mx-auto mt-4 mb-8 max-w-3xl text-xl leading-8">
+      <p className="text-foreground/90 mx-auto mt-4 mb-8 max-w-3xl text-xl leading-8">
         From sign-up to a live chatbot on your website in{' '}
         <span className="text-primary">
           under 5 minutes, and no coding experience needed!
@@ -57,7 +57,7 @@ export const HowItWorks = () => {
                 {title}
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground text-base">
+            <CardContent className="text-foreground/90 text-base">
               {description}
             </CardContent>
           </Card>

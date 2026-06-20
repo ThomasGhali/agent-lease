@@ -1,32 +1,51 @@
-import { RefObject } from 'react'
+import { IoMdSend } from 'react-icons/io'
+import { RefObject, useTransition } from 'react'
+import { ArrowUp, Square } from 'lucide-react'
+import { TooltipButton } from '@/components/ui/tooltip-button'
 
 interface ChatInputProps {
   formRef: RefObject<HTMLFormElement | null>
-  inputRef: RefObject<HTMLInputElement | null>
-  handleSend: (formData: FormData) => void
+  textareaRef: RefObject<HTMLTextAreaElement | null>
+  handleSend: (formData: FormData) => Promise<void>
   handleTyping: () => void
 }
 
 export default function ChatInput({
   formRef,
-  inputRef,
+  textareaRef,
   handleSend,
   handleTyping,
 }: ChatInputProps) {
+  const [isPending, startTransition] = useTransition()
+
+  const onSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      await handleSend(formData)
+    })
+  }
+
   return (
-    <div className="flex gap-4">
-      <form ref={formRef} action={handleSend}>
-        <input
-          ref={inputRef}
+    <div className="bg-muted flex gap-4 rounded-2xl">
+      <form
+        ref={formRef}
+        action={onSubmit}
+        className="border-muted-foreground flex w-full items-end justify-between gap-2 rounded-2xl border-[1.5px] p-2"
+      >
+        <textarea
+          ref={textareaRef}
           autoComplete="off"
           name="chat-input"
-          className="rounded-md border border-gray-300 p-2"
-          type="text"
+          className="my-auto field-sizing-content max-h-30 min-h-6 flex-1 resize-none overflow-y-auto rounded-md border-none px-2 outline-none [scrollbar-color:rgb(161,161,170)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-400/50 [&::-webkit-scrollbar-track]:bg-transparent"
           onChange={handleTyping}
+          placeholder="Ask me anything"
         />
-        <button type="submit" className="secondary-btn">
-          Send
-        </button>
+
+        <TooltipButton
+          type={isPending ? "button" : "submit"}
+          icon={isPending ? Square : ArrowUp}
+          label={isPending ? "Responding..." : "Send"}
+          className={"bg-primary flex-center hover:bg-primary-hover text-white size-9 rounded-full" + (isPending ? " bg-foreground/20!" : " cursor-pointer")}
+        />
       </form>
     </div>
   )

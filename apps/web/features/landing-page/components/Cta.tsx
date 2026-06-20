@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 
 export const Cta = () => {
   return (
-    <section id="cta" className="bg-muted/40 my-20 py-14 sm:my-28">
+    <section id="cta" className="bg-muted my-15 py-15 sm:py-20 sm:my-20">
       <div className="container grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">

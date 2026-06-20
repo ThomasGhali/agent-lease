@@ -7,7 +7,13 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import { FaFacebookF, FaGithub, FaInstagram, FaLinkedinIn } from 'react-icons/fa6'
+import {
+  FaFacebookF,
+  FaGithub,
+  FaInstagram,
+  FaLinkedinIn,
+  FaUpwork,
+} from 'react-icons/fa6'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 import thomasGhaliPic from '@/public/portofolio-pic-crop2.png'
@@ -55,8 +61,8 @@ const teamList: TeamProps[] = [
         url: 'https://github.com/ThomasGhali',
       },
       {
-        name: 'Facebook',
-        url: 'https://www.facebook.com/',
+        name: 'Upwork',
+        url: 'https://www.upwork.com/freelancers/~014d7571347da08a17?mp_source=share',
       },
     ],
   },
@@ -110,6 +116,9 @@ export const Team = () => {
 
       case 'Github':
         return <FaGithub className="h-4 w-4" />
+
+      case 'Upwork':
+        return <FaUpwork className="h-4 w-4" />
     }
   }
 
@@ -138,7 +147,7 @@ export const Team = () => {
           }: TeamProps) => (
             <Card
               key={name}
-              className="landing-card relative mt-10 flex flex-col items-center justify-center overflow-visible pt-14 text-center"
+              className="landing-card bg-muted relative mt-10 flex flex-col items-center justify-center overflow-visible pt-14 text-center"
             >
               <CardHeader className="flex flex-col items-center justify-center pb-2">
                 <Avatar className="absolute -top-12 h-24 w-24">
@@ -147,7 +156,7 @@ export const Team = () => {
                     {name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
-                <CardTitle className="text-center text-xl font-bold text-nowrap">
+                <CardTitle className="text-center text-2xl font-semibold text-nowrap">
                   {name}
                 </CardTitle>
                 <CardDescription className="text-primary text-sm font-semibold text-nowrap">
@@ -155,7 +164,7 @@ export const Team = () => {
                 </CardDescription>
               </CardHeader>
 
-              <CardContent className="text-muted-foreground px-6 pb-2 text-center text-base">
+              <CardContent className="text-foreground/80 px-6 pb-2 text-center text-base font-light">
                 <p>{description}</p>
               </CardContent>
 

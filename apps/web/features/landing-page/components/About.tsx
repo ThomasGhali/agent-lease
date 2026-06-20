@@ -20,7 +20,7 @@ export const About = () => {
                 </span>
                 Agent Lease
               </h2>
-              <p className="text-muted-foreground mt-4 max-w-3xl text-lg leading-8 md:text-xl">
+              <p className="text-foreground/70 mt-4 max-w-3xl text-lg leading-8 md:text-xl">
                 Agent Lease is a micro-SaaS that lets you deploy customizable AI
                 chatbot agents on any website. Sign up, customize your agent in
                 the dashboard, and paste a single line of code into your site.

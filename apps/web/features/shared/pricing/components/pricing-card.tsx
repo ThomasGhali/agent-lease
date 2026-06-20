@@ -81,7 +81,7 @@ export const PriceCard = ({
               </span>
             )}
           </div>
-          <CardDescription className="text-muted-foreground mt-2 min-h-10 text-sm">
+          <CardDescription className="text-foreground/90 mt-2 min-h-10 text-sm">
             {description}
           </CardDescription>
         </CardHeader>
@@ -96,7 +96,7 @@ export const PriceCard = ({
                   {isAnnual ? planPrice.yearly : planPrice.monthly}
                 </span>
 
-                <span className="text-muted-foreground ml-1 text-sm font-medium">
+                <span className="text-foreground/70 ml-1 text-sm font-medium">
                   {isAnnual ? '/ year' : '/ month'}
                 </span>
               </>

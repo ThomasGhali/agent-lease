@@ -1,0 +1,63 @@
+:root {
+  --base-padding: 1.2rem;
+  --widget-size: 40px;
+}
+
+.my-container {
+  position: fixed;
+  right: var(--base-padding);
+  bottom: calc(var(--base-padding) * 2 + var(--widget-size));
+  display: flex;
+  width: 400px;
+  height: 85vh;
+  pointer-events: none;
+  z-index: 1000;
+  transform: scale(0.9);
+  opacity: 0;
+  transform-origin: bottom right;
+  transition:
+    transform 0.15s ease-in-out,
+    opacity 0.15s ease-in-out;
+  will-change: transform, opacity;
+}
+
+.container-active {
+  opacity: 1;
+  transform: none;
+}
+
+.bubble {
+  position: fixed;
+  bottom: var(--base-padding);
+  right: var(--base-padding);
+  width: 40px;
+  height: 40px;
+  background: hsl(142.1 76.2% 36.3%);
+  border-radius: 50%;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  transition: transform 0.12s ease-in-out;
+}
+
+.bubble:hover {
+  transform: scale(1.1);
+  background-color: hsl(142.1 76.2% 26.3%);
+}
+
+.symbol {
+  position: absolute;
+  opacity: 0;
+  transform: scale(0.6) rotate(-45deg);
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease-in-out;
+}
+
+.symbol.is-active {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}

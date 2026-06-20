@@ -1,6 +1,7 @@
 export * from './plan-type'
+import { SenderType } from '@repo/db'
 
 export interface Message {
-  sender: string
+  sender: SenderType
   message: string
 }

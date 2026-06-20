@@ -8,7 +8,7 @@ export function useChat(agentId?: string | null) {
 
   const socketRef = useRef<Socket | null>(null)
   const roomName = useRef<string | null>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -50,7 +50,7 @@ export function useChat(agentId?: string | null) {
     }, 1500)
   }
 
-  const handleSend = (formData: FormData) => {
+  const handleSend = async (formData: FormData) => {
     const socket = socketRef.current
     const message = formData.get('chat-input')
     if (typeof message !== 'string')
@@ -58,19 +58,25 @@ export function useChat(agentId?: string | null) {
         `Unsupported data format used ${typeof message} for message`,
       )
 
+    if (textareaRef.current?.value.trim().length === 0)
+      return console.error('Empty message.')
+
     const payload = { message }
 
-    if (!socket || !socket.connected || !message)
-      return console.log('No socket.')
+    if (!socket || !socket.connected) return console.error('No socket.')
 
-    socket.emit('message', payload, (response: { status: string }) => {
-      inputRef.current!.disabled = true
-      if (response.status === 'success') {
-        if (inputRef.current) inputRef.current.value = ''
-      } else {
-        console.error('Server rejected message')
-      }
-      inputRef.current!.disabled = false
+    if (textareaRef.current) textareaRef.current.disabled = true
+
+    return new Promise<void>(resolve => {
+      socket.emit('message', payload, (response: { status: string }) => {
+        if (response.status === 'success') {
+          if (textareaRef.current) textareaRef.current.value = ''
+        } else {
+          console.error('Server rejected message')
+        }
+        if (textareaRef.current) textareaRef.current.disabled = false
+        resolve()
+      })
     })
   }
 
@@ -98,6 +104,8 @@ export function useChat(agentId?: string | null) {
       setTypingStatus(status)
     })
 
+    joinChat()
+
     return () => {
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
       socketRef.current?.disconnect()
@@ -108,10 +116,9 @@ export function useChat(agentId?: string | null) {
   return {
     chatMessages,
     typingStatus,
-    joinChat,
     handleTyping,
     handleSend,
-    inputRef,
+    textareaRef,
     formRef,
   }
 }

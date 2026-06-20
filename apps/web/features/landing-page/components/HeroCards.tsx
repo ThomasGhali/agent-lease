@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card'
 import { Check } from 'lucide-react'
 import { LightBulbIcon } from './Icons'
-import { FaGithub, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6'
+import { FaGithub, FaLinkedinIn, FaUpwork, FaXTwitter } from 'react-icons/fa6'
 import thomasGhaliPic from '@/public/portofolio-pic3-crop.png'
 
 export const HeroCards = () => {
@@ -52,7 +52,7 @@ export const HeroCards = () => {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="text-muted-foreground max-w-[250px] px-6 pb-2 text-center text-sm">
+        <CardContent className="text-foreground/90 max-w-[250px] px-6 pb-2 text-center text-sm">
           <p>
             Building tools that let businesses deploy AI agents effortlessly
           </p>
@@ -71,22 +71,12 @@ export const HeroCards = () => {
             </a>
             <a
               rel="noreferrer noopener"
-              href="https://twitter.com"
+              href="https://www.upwork.com/freelancers/~014d7571347da08a17?mp_source=share"
               target="_blank"
               className="landing-social-link"
             >
-              <span className="sr-only">X icon</span>
-              <FaXTwitter className="h-4 w-4" />
-            </a>
-
-            <a
-              rel="noreferrer noopener"
-              href="https://www.linkedin.com"
-              target="_blank"
-              className="landing-social-link"
-            >
-              <span className="sr-only">LinkedIn icon</span>
-              <FaLinkedinIn className="h-4 w-4" />
+              <span className="sr-only">Upwork icon</span>
+              <FaUpwork className="h-4.5 w-4.5" />
             </a>
           </div>
         </CardFooter>

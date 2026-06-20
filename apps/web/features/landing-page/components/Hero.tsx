@@ -6,25 +6,17 @@ import { HeroCards } from './HeroCards'
 
 export const Hero = () => {
   return (
-    <section className="container relative isolate grid min-h-[calc(100svh-4rem)] justify-items-end! justify-center items-center gap-10 overflow-visible py-16 md:py-24 xl:grid-cols-[minmax(0,0.9fr)_minmax(720px,1fr)] xl:py-28">
-      <div
-        className="shadow pointer-events-none"
-        aria-hidden="true"
-      />
+    <section className="relative isolate container grid items-center justify-between gap-10 overflow-visible py-24 md:py-32 xl:grid-cols-[minmax(0,0.9fr)_minmax(720px,1fr)] xl:py-40">
+      <div className="pointer-events-none shadow" aria-hidden="true" />
 
       <div className="max-w-3xl space-y-6 xl:text-start">
-        <main className="text-5xl leading-[1.08] font-bold tracking-normal text-balance md:text-6xl">
-          <h1 className="inline">
-            <span className="landing-word-shadcn inline">AI Chatbot</span> for
-            your website
-          </h1>{' '}
-          in{' '}
-          <h2 className="inline">
-            <span className="landing-word-react inline">one line</span> of code
-          </h2>
+        <main className="text-5xl leading-[1.08] font-bold tracking-normal text-balance max-xl:text-center md:text-6xl">
+          <span className="landing-word-shadcn inline">AI Chatbot</span> for
+          your website in{' '}
+          <span className="landing-word-react inline">one line</span> of code
         </main>
 
-        <p className="text-muted-foreground mx-auto max-w-2xl text-xl leading-8 xl:mx-0">
+        <p className="text-foreground/90 mx-auto max-w-2xl text-xl leading-8 xl:mx-0">
           Lease a customizable AI agent, paste one script into your site, and
           let visitors chat with your personalized chatbot instantly.
         </p>
@@ -49,7 +41,7 @@ export const Hero = () => {
         </div>
       </div>
 
-      <div className="z-10 hidden xl:block">
+      <div className="hidden xl:block">
         <HeroCards />
       </div>
     </section>
