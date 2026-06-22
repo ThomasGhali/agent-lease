@@ -14,7 +14,7 @@ export default function TestPage() {
         inert={!isBubbleOpen}
         className={`my-container ${isBubbleOpen ? 'container-active' : ''}`}
       >
-        <Widget agentId="asd" />
+        <Widget agentId='asd' />
       </div>
 
       <button className="bubble" onClick={() => setIsBubbleOpen(!isBubbleOpen)}>

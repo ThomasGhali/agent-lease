@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Socket } from 'socket.io';
 
 import { Redis } from '@upstash/redis';
@@ -8,6 +13,7 @@ import { PLAN_LIMITS, PlanType } from '@repo/common';
 
 @Injectable()
 export class WsRateLimitGuard implements CanActivate {
+  private readonly logger = new Logger(WsRateLimitGuard.name);
   private ratelimit: Ratelimit;
 
   constructor(private readonly redis: Redis) {
@@ -41,6 +47,8 @@ export class WsRateLimitGuard implements CanActivate {
 
 @Injectable()
 export class WsTokenQuotaGuard implements CanActivate {
+  private readonly logger = new Logger(WsTokenQuotaGuard.name);
+
   constructor(private readonly redis: Redis) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -54,10 +62,14 @@ export class WsTokenQuotaGuard implements CanActivate {
       'plan',
       'usage',
     );
-    const userPlan = data?.plan ?? null;
-    const userUsage = data?.usage != null ? Number(data.usage) : null;
 
-    if (userPlan == null || userUsage == null)
+    if (data === null)
+      throw new WsException("User data doesn't exist in redis");
+
+    const userPlan = data.plan as PlanType;
+    const userUsage = Number(data.usage);
+
+    if (!userPlan || !userUsage)
       throw new WsException("User's plan or usage doesn't exist in redis");
 
     const userTokenLimit = PLAN_LIMITS[userPlan].tokensLimit;

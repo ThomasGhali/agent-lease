@@ -1,6 +1,5 @@
-import { IoMdSend } from 'react-icons/io'
 import { RefObject, useTransition } from 'react'
-import { ArrowUp, Square } from 'lucide-react'
+import { ArrowUp, LoaderCircle, Square } from 'lucide-react'
 import { TooltipButton } from '@/components/ui/tooltip-button'
 
 interface ChatInputProps {
@@ -41,10 +40,14 @@ export default function ChatInput({
         />
 
         <TooltipButton
-          type={isPending ? "button" : "submit"}
-          icon={isPending ? Square : ArrowUp}
-          label={isPending ? "Responding..." : "Send"}
-          className={"bg-primary flex-center hover:bg-primary-hover text-white size-9 rounded-full" + (isPending ? " bg-foreground/20!" : " cursor-pointer")}
+          type={isPending ? 'button' : 'submit'}
+          icon={isPending ? LoaderCircle : ArrowUp}
+          label={isPending ? 'Responding...' : 'Send'}
+          className={
+            'bg-primary flex-center hover:bg-primary-hover size-9 rounded-full text-white' +
+            (isPending ? ' bg-foreground/20! cursor-wait' : ' cursor-pointer')
+          }
+          iconClassName={isPending ? ' animate-spin' : ''}
         />
       </form>
     </div>

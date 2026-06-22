@@ -5,6 +5,7 @@ import { Message } from '@repo/common'
 export function useChat(agentId?: string | null) {
   const [chatMessages, setChatMessages] = useState<Message[]>([])
   const [typingStatus, setTypingStatus] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(true)
 
   const socketRef = useRef<Socket | null>(null)
   const roomName = useRef<string | null>(null)
@@ -98,6 +99,7 @@ export function useChat(agentId?: string | null) {
 
     chat.on('message', (message: Message[]) => {
       setChatMessages(prevMessages => [...prevMessages, ...message])
+      setIsLoading(false)
     })
 
     chat.on('typing-status', (status: string) => {
@@ -116,6 +118,7 @@ export function useChat(agentId?: string | null) {
   return {
     chatMessages,
     typingStatus,
+    isLoading,
     handleTyping,
     handleSend,
     textareaRef,

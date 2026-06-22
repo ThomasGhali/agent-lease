@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { WsException } from '@nestjs/websockets';
 import { Message, PlanType } from '@repo/common';
 import { Message as MessageDb, SenderType } from '@repo/db';
 import { Redis } from '@upstash/redis';
@@ -29,7 +30,8 @@ export class ChatService {
   }
 
   async validateAgent(origin: string, agentId: string) {
-    if (!origin || !agentId) return null;
+    if (!origin || !agentId)
+      throw new WsException('Missing agentId in connection data');
 
     const agent = await this.prisma.client.agent.findFirst({
       where: {
@@ -37,9 +39,14 @@ export class ChatService {
       },
     });
 
-    if (!agent) return null;
+    if (!agent) throw new WsException('Agent not found');
 
-    if (this.normalizeDomain(origin) !== agent.hostname) {
+    const normalizedOrigin = this.normalizeDomain(origin);
+    const isLocalhost =
+      normalizedOrigin === 'localhost' || normalizedOrigin === 'localhost:3000';
+    const isDev = process.env.NODE_ENV !== 'production';
+
+    if (normalizedOrigin !== agent.hostname && !isLocalhost && !isDev) {
       this.logger.warn(
         `Origin mismatch: provided ${origin} vs expected ${agent.hostname}`,
       );
@@ -68,7 +75,7 @@ export class ChatService {
   }
 
   async handleChatJoin(socket: Socket) {
-    // TODO: add room dto
+    // TODO (PROD): add room dto
     const agentId = socket.data.agentId;
     const visitorId = socket.data.visitorId;
     const userName = socket.id.substring(0, 4);
@@ -82,6 +89,8 @@ export class ChatService {
     if (!this.socketRoomMap.has(roomName)) {
       const rawMessages: MessageDb[] =
         await this.persistenceService.getMessages(roomName);
+
+      this.logger.log('from handleChatJoin rawMessages: ', rawMessages);
       this.socketRoomMap.set(
         roomName,
         rawMessages.map(
@@ -94,15 +103,16 @@ export class ChatService {
     }
 
     const messages = this.socketRoomMap.get(roomName)!;
+    this.logger.warn(
+      'from handleChatJoin messages from the socketRoomMap: ',
+      messages,
+    );
 
     void socket.join(roomName);
     this.socketToRoomMap.set(socket.id, roomName);
     this.logger.log(`User ${userName} joined room: ${roomName}`);
 
     socket.emit('message', messages);
-    socket.emit('message', [
-      { sender: 'SYSTEM', message: `You have joined room: ${roomName}` },
-    ]);
 
     return { status: 'success', message: 'User joined room' };
   }
@@ -115,7 +125,8 @@ export class ChatService {
       ownerPlan: PlanType;
       visitorId: string;
     };
-    const roomName = `room:${agentId}:${visitorId}`;
+    const roomName = `${agentId}:${visitorId}`;
+    const mapRoomName = `room:${roomName}`;
 
     if (!message) {
       socket.emit('chat_error', {
@@ -128,7 +139,7 @@ export class ChatService {
     }
 
     // If room exists, don't fetch from db
-    let socketRoom = this.socketRoomMap.get(roomName);
+    let socketRoom = this.socketRoomMap.get(mapRoomName);
     if (!socketRoom) {
       const rawMessages = await this.persistenceService.getMessages(roomName);
 
@@ -138,7 +149,7 @@ export class ChatService {
         message: m.content || '',
       }));
 
-      this.socketRoomMap.set(roomName, socketRoom);
+      this.socketRoomMap.set(mapRoomName, socketRoom);
     }
 
     socketRoom.push({

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { db } from '@repo/db';
 import { Redis } from '@upstash/redis';
 import { SenderType } from '@repo/db';
@@ -6,7 +6,7 @@ import { Message } from '@repo/db';
 
 @Injectable()
 export class PersistenceService {
-  // TODO: add feature
+  // TODO (PROD): add feature
   /*   // Track which room each socket belongs to
   // Cons: if you have multiple servers, the other server
   //  won't be able to read that map, so it would have to
@@ -23,6 +23,7 @@ export class PersistenceService {
   >();
  */
   private readonly TTL = 3 * 60 * 60; // 3h expiry
+  private readonly logger = new Logger(PersistenceService.name);
 
   constructor(private readonly redis: Redis) {}
   async saveMessage(
@@ -47,30 +48,34 @@ export class PersistenceService {
     pipeline.expire(messageKey, this.TTL);
     pipeline.expire(userKey, this.TTL);
 
-    void db.room.upsert({
-      where: {
-        id: roomName,
-      },
-      update: {
-        updatedAt: new Date(),
-        messages: {
-          create: {
-            content: message,
-            sender: sender,
+    void db.room
+      .upsert({
+        where: {
+          id: roomName,
+        },
+        update: {
+          updatedAt: new Date(),
+          messages: {
+            create: {
+              content: message,
+              sender: sender,
+            },
           },
         },
-      },
-      create: {
-        agentId: agentId,
-        id: roomName,
-        messages: {
-          create: {
-            content: message,
-            sender: sender,
+        create: {
+          agentId: agentId,
+          id: roomName,
+          messages: {
+            create: {
+              content: message,
+              sender: sender,
+            },
           },
         },
-      },
-    });
+      })
+      .catch((err) => {
+        this.logger.error('Failed to persist message to DB:', err);
+      });
 
     await pipeline.exec();
   }
