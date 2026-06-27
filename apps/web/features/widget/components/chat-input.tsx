@@ -23,6 +23,13 @@ export default function ChatInput({
     })
   }
 
+  const handleSendOnEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      formRef.current?.requestSubmit()
+    }
+  }
+
   return (
     <div className="bg-muted flex gap-4 rounded-2xl">
       <form
@@ -37,6 +44,7 @@ export default function ChatInput({
           className="my-auto field-sizing-content max-h-30 min-h-6 flex-1 resize-none overflow-y-auto rounded-md border-none px-2 outline-none [scrollbar-color:rgb(161,161,170)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-400/50 [&::-webkit-scrollbar-track]:bg-transparent"
           onChange={handleTyping}
           placeholder="Ask me anything"
+          onKeyDown={handleSendOnEnter}
         />
 
         <TooltipButton

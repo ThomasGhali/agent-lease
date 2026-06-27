@@ -76,7 +76,8 @@ model Agent {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   user UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  
+  messages Message[]
   rooms Room[]
 
   @@map("agents")
@@ -106,6 +107,10 @@ model Message {
   roomId String @map("room_id")
   room Room @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
+  agentId String @map("agent_id")
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
   @@index([roomId, createdAt])
+  @@index([agentId, sender])
   @@map("messages")
 }

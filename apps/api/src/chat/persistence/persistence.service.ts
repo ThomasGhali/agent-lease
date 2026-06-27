@@ -59,6 +59,7 @@ export class PersistenceService {
             create: {
               content: message,
               sender: sender,
+              agentId: agentId,
             },
           },
         },
@@ -69,6 +70,7 @@ export class PersistenceService {
             create: {
               content: message,
               sender: sender,
+              agentId: agentId,
             },
           },
         },

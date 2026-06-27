@@ -1,6 +1,6 @@
 'use server'
 
-import { SupabaseClient, User } from '@supabase/supabase-js'
+import { User } from '@supabase/supabase-js'
 import { z } from 'zod'
 
 import { db } from '@repo/db'
@@ -8,17 +8,12 @@ import { createAgentFormSchema } from '@repo/validation'
 
 import { FormState } from '@/features/create-agent-form/components/types'
 import { getAgentsCount } from '@/lib/prisma/agents-count'
-import { createClient } from '@/lib/supabase/server'
-import { getCurrentUser } from '@/lib/supabase/user'
+import { getCachedCurrentUser } from '@/lib/supabase/user'
 import { redirect } from 'next/navigation'
 import { redis } from '@/lib/redis/redis'
 import { PLAN_LIMITS, PlanType } from '@repo/common'
-
-// const PLAN_LIMITS: Record<string, number> = {
-//   free: 1,
-//   premium: 3,
-//   enterprise: 10,
-// }
+import { createAdminClient } from '@/lib/supabase/admin'
+import { updateTag } from 'next/cache'
 
 export const submitCreateAgentAction = async (
   prevState: FormState,
@@ -34,8 +29,7 @@ export const submitCreateAgentAction = async (
     }
 
     // Authentication and Authorization
-    const supabase = await createClient()
-    const user = await getCurrentUser(supabase)
+    const user = await getCachedCurrentUser()
     if (!user) {
       return {
         success: false,
@@ -44,7 +38,7 @@ export const submitCreateAgentAction = async (
       }
     }
 
-    const userPlan = await ensureUserPlan(supabase, user)
+    const userPlan = await ensureUserPlan(user)
 
     const limitError = await validateAgentLimit(user.id, userPlan)
     if (limitError) redirect('/pricing')
@@ -82,6 +76,9 @@ export const submitCreateAgentAction = async (
 
     await redis.set(`agent:${newAgent.id}:owner`, user.id)
 
+    updateTag(`user-agents-${user.id}`)
+    updateTag(`user-stats-${user.id}`)
+
     return {
       success: true,
       message: 'Agent created successfully!',
@@ -100,10 +97,8 @@ export const submitCreateAgentAction = async (
 /**
  * Ensures the user has a valid plan set in their app_metadata (defaults to 'free').
  */
-async function ensureUserPlan(
-  supabase: SupabaseClient,
-  user: User,
-): Promise<PlanType> {
+async function ensureUserPlan(user: User): Promise<PlanType> {
+  const supabase = createAdminClient()
   const plan: PlanType = user.app_metadata.plan
   const role = user.app_metadata.role
 

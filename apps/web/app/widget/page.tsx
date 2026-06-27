@@ -1,3 +1,4 @@
+import { getCachedAgent } from '@/features/my-agents/utils'
 import Widget from '@/features/widget/components'
 
 interface WidgetSearchParams {
@@ -11,5 +12,7 @@ export default async function WidgetPage({
 }) {
   const { agentId } = await searchParams
 
-  return <Widget agentId={agentId} />
+  const agentData = await getCachedAgent(agentId)
+
+  return <Widget agentId={agentId} agentData={agentData} />
 }

@@ -1,5 +1,9 @@
+import UserDashboard from '@/features/user-dashboard/components'
+
+export const dynamic = 'force-dynamic'
+
 const DashboardPage = () => {
-  return <div>Client's DashboardPage</div>
+  return <UserDashboard />
 }
 
 export default DashboardPage

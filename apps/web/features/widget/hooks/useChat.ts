@@ -19,8 +19,8 @@ export function useChat(agentId?: string | null) {
 
     if (!socket) return console.error('No socket.')
     if (!visitorId) return console.error('No local visitorId.')
-    if (socket.connected) return console.log('Already connected.')
-    if (socket.active) return console.log('Hold tight, connecting...')
+    if (socket.connected) return console.warn('Already connected.')
+    if (socket.active) return console.warn('Hold tight, connecting...')
 
     socket.connect()
     socket.once('connect', () => {
