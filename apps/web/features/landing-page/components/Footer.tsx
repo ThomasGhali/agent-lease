@@ -9,7 +9,7 @@ export const Footer = () => {
       <section className="container grid grid-cols-2 gap-x-12 gap-y-8 py-20 md:grid-cols-4 xl:grid-cols-6">
         <div className="col-span-full xl:col-span-2">
           <Link href="/" className="flex items-center gap-2 text-xl font-bold">
-            <LogoIcon className="w-14 h-auto" />
+            <LogoIcon className="w-6 h-6" />
             Agent Lease
           </Link>
         </div>

@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
-import { ModeToggle } from '@/features/dashboard-layout/components/mode-toggle'
+import { ModeToggle } from '@/components/ui/mode-toggle'
 
 const formatSegment = (segment: string) => {
   return segment
@@ -68,7 +68,7 @@ const DashboardBreadCrumb = () => {
         </Breadcrumb>
       </div>
 
-      <ModeToggle className="mr-6" />
+      <ModeToggle className="border-border mr-4 border md:mr-6" />
     </header>
   )
 }

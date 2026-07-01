@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { GalleryVerticalEnd } from 'lucide-react'
 import { LoginForm } from '@/features/sign-in/components/login-form'
 import backgroundImage from '@/public/sign-up&in-bg.jpg'
 import { LogoIcon } from '@/components/ui/Icons'
@@ -10,7 +9,7 @@ export default function SigninForm() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center gap-2 md:justify-start">
           <a href="#" className="flex items-center gap-2 font-medium text-lg">
-            <LogoIcon className="w-14 h-auto" />
+            <LogoIcon className="w-6 h-6" />
             Agent Lease
           </a>
         </div>

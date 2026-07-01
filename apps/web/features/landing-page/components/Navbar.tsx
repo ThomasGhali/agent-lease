@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sheet'
 
 import { Menu } from 'lucide-react'
-import { ModeToggle } from '@/features/landing-page/components/mode-toggle'
+import { ModeToggle } from '@/components/ui/mode-toggle'
 import { LogoIcon } from '@/components/ui/Icons'
 import { buttonVariants } from '@/components/ui/button'
 import { FaGithub } from 'react-icons/fa6'
@@ -39,7 +39,7 @@ export const Navbar = () => {
             href="/"
             className="flex min-w-0 items-center gap-2 text-lg font-bold tracking-normal sm:text-xl"
           >
-            <LogoIcon className="w-14 h-auto" />
+            <LogoIcon className="w-6 h-6" />
             <span className="truncate">Agent Lease</span>
           </Link>
         </div>
@@ -62,7 +62,7 @@ export const Navbar = () => {
             <SheetContent side="left">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2 text-xl font-bold">
-                  <LogoIcon className="w-14 h-auto" />
+                  <LogoIcon className="w-6 h-6" />
                   Agent Lease
                 </SheetTitle>
               </SheetHeader>

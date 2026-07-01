@@ -1,27 +1,18 @@
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import logo from '@/public/logo.png'
+import { BrainCircuit } from 'lucide-react'
 
 export const LogoIcon = ({
-  width = 54,
-  height = 20,
   className,
 }: {
   width?: number
   height?: number
   className?: string
 }) => {
-  return (
-    <Image
-      src={logo}
-      alt="Logo"
-      width={width}
-      height={height}
-      className={cn('object-contain', className)}
-      priority
-    />
-  )
+  return <BrainCircuit className={cn('text-primary', className)} />
 }
+
 
 export const MedalIcon = () => {
   return (
