@@ -81,6 +81,13 @@ export class ChatGateway
           socket.data.agentId = agent.id;
           socket.data.visitorId = visitorId;
           socket.data.ownerId = agent.userId;
+          socket.data.agentPrompt = {
+            prompt: agent.systemPrompt,
+            agentRole: agent.agentRole,
+            hostname: agent.hostname,
+            fallbackMessage: agent.fallbackMessage,
+            welcomeMessage: agent.welcomeMessage,
+          };
 
           next();
         } catch {

@@ -13,13 +13,14 @@ export interface PlanConfig {
   agentsLimit: number
 }
 
+// TODO: change those limit to higher numbers after documentation is done
 export const PLAN_LIMITS: Record<PlanType, PlanConfig> = {
   [PlanType.FREE]: {
-    tokensLimit: 100_000,
+    tokensLimit: 500,
     agentsLimit: 1,
   },
   [PlanType.PREMIUM]: {
-    tokensLimit: 3_000_000,
+    tokensLimit: 3000,
     agentsLimit: 3,
   },
   [PlanType.ENTERPRISE]: {

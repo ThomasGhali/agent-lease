@@ -44,7 +44,9 @@ export class ChatService {
     const normalizedOrigin = this.normalizeDomain(origin);
     const isLocalhost =
       normalizedOrigin === 'localhost' || normalizedOrigin === 'localhost:3000';
-    const isDev = process.env.NODE_ENV !== 'production' && process.env.CURRENT_ENV === 'development';
+    const isDev =
+      process.env.NODE_ENV !== 'production' &&
+      process.env.CURRENT_ENV === 'development';
 
     if (normalizedOrigin !== agent.hostname && !isLocalhost && !isDev) {
       this.logger.warn(
@@ -119,12 +121,20 @@ export class ChatService {
 
   async handleMessage(socket: Socket, messagePayload: { message: string }) {
     const { message } = messagePayload;
-    const { agentId, ownerId, ownerPlan, visitorId } = socket.data as {
-      agentId: string;
-      ownerId: string;
-      ownerPlan: PlanType;
-      visitorId: string;
-    };
+    const { agentId, ownerId, ownerPlan, visitorId, agentPrompt } =
+      socket.data as {
+        agentId: string;
+        ownerId: string;
+        ownerPlan: PlanType;
+        visitorId: string;
+        agentPrompt: {
+          prompt: string;
+          agentRole: string;
+          hostname: string;
+          fallbackMessage: string;
+          welcomeMessage: string;
+        };
+      };
     const roomName = `${agentId}:${visitorId}`;
     const mapRoomName = `room:${roomName}`;
 
@@ -167,7 +177,12 @@ export class ChatService {
 
       socket.emit('message', [{ sender: SenderType.VISITOR, message }]);
 
-      const { response, usage } = await this.aiService.aiGenerate(socketRoom);
+      const { response, usage } = await this.aiService.aiGenerate(
+        socketRoom,
+        agentPrompt?.prompt,
+        agentPrompt?.agentRole,
+        agentPrompt?.hostname,
+      );
 
       if (!usage?.totalTokens) {
         this.logger.error(

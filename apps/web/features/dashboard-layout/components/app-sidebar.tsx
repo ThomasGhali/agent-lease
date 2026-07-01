@@ -23,8 +23,7 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
   const user = props.user
-  const username =
-    capitalizeWords(user?.user_metadata.username) || 'Unknown User'
+  const username = user?.user_metadata.username || 'Unknown User'
   const userEmail = user?.email
 
   let avatarUrl = ''
