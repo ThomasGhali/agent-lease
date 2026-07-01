@@ -88,35 +88,44 @@ flowchart LR
 ```
 
 ## Core Features
-### 1. Onboarding & Configuration
+### 1. Onboarding
 Modern sign in/up UI using **Tailwind CSS** & **Shadcn UI**, backed by **Supabase Auth** secure session management.
 
-### 2. 
+<div align="center">
+    <img src="docs/sign-up.jpg">
+    <small>User Signing up</small>
+</div>
 
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
 
+### 2. Dashboard
+Built using **Shadcn UI + Tailwind CSS** as well.
 
+Once signed in, the user is **redirected to the dashboard** where he can create and manage his AI agents (empty so far, but we'll create one next).
 
+<div align="center">
+    <div><img src="docs/no-agents.jpg" ></div>
+    <small>Dashboard > My Agents (empty state)</small>
+</div>
 
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
 
-| <!--                         | Feature                                                                              | Description | Status |
-| :--------------------------- | :----------------------------------------------------------------------------------- | :---------: |
-| **Embeddable Chat Widget**   | Deploy AI agents to any website via a single `<script>` tag.                         |      ✅      |
-| **Real-time AI Chat**        | WebSocket-powered interface with streaming AI responses using Llama 3/3.3 via Groq.  |      ✅      |
-| **Agent Management**         | Create, edit, and manage multiple AI agents with subscription-based limits.          |      ✅      |
-| **White-labeling & Config**  | Customize agent system prompts, roles, fallback messages, and UI theme colors.       |      ✅      |
-| **Domain Whitelisting**      | Restrict widget embedding to authorized domains to prevent quota theft.              |      ✅      |
-| **Chat Transcript Viewer**   | Browse historical conversations and read past chat sessions from the dashboard.      |      ✅      |
-| **User Analytics Dashboard** | Monitor agent performance, track token usage metrics, and view real-time statistics. |      ✅      |
-| **Subscription Billing**     | Stripe-powered subscription system handling Free, Premium, and Enterprise tiers.     |      ✅      |
-| **Quotas & Rate Limiting**   | Enforce message quotas, token limits, and rate limiting based on active plans.       |      ✅      |
-| **Admin Analytics**          | Monitor global platform usage, active subscriptions, revenue, and system stats.      |      ✅      |
-| **Chat History Persistence** | Store conversations reliably in Redis (fast-access) and PostgreSQL (long-term).      |      ✅      |
-| **Auth & RBAC**              | Secure login and protected routes using Supabase, with Role-Based Access Control.    |      ✅      |
-| **Payment Management**       | Handle Stripe checkouts, customer portals, and webhook-driven lifecycle events.      |      ✅      |
-| **WebSocket Infrastructure** | Scalable real-time communication layer with strict authentication guards.            |      ✅      |
-| **Redis Caching Layer**      | High-performance caching and ephemeral chat persistence using Upstash Redis.         |      ✅      |
-| **Database & ORM**           | Type-safe relational data modeling and querying using Prisma ORM and PostgreSQL.     |      ✅      |
-| **Schema Validation**        | End-to-end type safety using shared Zod validation schemas across the stack.         |      ✅      |
-| **Monorepo Architecture**    | Turborepo-powered workspace enabling shared packages and fast builds.                |      ✅      |
-| **Dark Mode Support**        | Built-in dark and light theme support across the dashboard and embeddable widget.    |      ✅      |
-| **Automated Testing**        | Jest-powered testing infrastructure for API stability and core flows.                |      ⚠️      | -->    |
+### 3. Create Agent
+Create & configure a custom AI agent Through a secure form. `zod` validation used to **ensure limits met**.
+
+<div align="center">
+    <img src="docs/create-agent.jpg">
+    <small>Creating an agent</small>
+</div>
+
+> **Note:** the agent created **only works with the provided domain and no other**; this is a security precaution to prevent being used on other websites without permission from the agent owner (the creator).
+
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
+
+### 4. 

@@ -16,7 +16,7 @@ const CreateAgentButton = () => {
           className="fixed right-6 bottom-6 size-15 rounded-full"
           asChild
         >
-          <Link href="/dashboard/my-agents/create">
+          <Link href="/dashboard/my-agents/create-an-agent">
             <Plus className="size-6" />
           </Link>
         </Button>

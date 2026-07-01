@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 
 import { Agent } from '@repo/db'
+import Link from 'next/link'
 
 export default function renderAgentCards(agents: Agent[]) {
   if (!agents || agents.length === 0) {
@@ -122,9 +123,15 @@ const EmptyAgentsState = () => (
       Create your first AI agent now! Customer support had never been easier and
       more efficient.
     </p>
-    <Button className="shadow-primary/20 h-11 cursor-pointer gap-2 px-6 font-medium shadow-md transition-all hover:-translate-y-px active:translate-y-0">
-      <Plus className="h-4 w-4" />
-      Create Your First Agent
+
+    <Button
+      className="shadow-primary/20 h-11 cursor-pointer gap-2 px-6 font-medium shadow-md transition-all hover:-translate-y-px active:translate-y-0"
+      asChild
+    >
+      <Link href="/dashboard/my-agents/create-an-agent">
+        <Plus className="h-4 w-4" />
+        Create Your First Agent
+      </Link>
     </Button>
   </div>
 )

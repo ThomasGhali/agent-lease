@@ -1,4 +1,3 @@
-import { getUserStatsData } from '@/features/user-dashboard/queries'
 import {
   AgentsData,
   ConversationsData,
@@ -17,19 +16,19 @@ export const PLAN_STYLES = {
   },
   premium: {
     icon: Zap,
-    color: 'text-violet-500',
-    bg: 'bg-violet-500/10 group-hover:bg-violet-500/20',
-    border: 'border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.1)]',
-    text: 'bg-gradient-to-br from-violet-500 to-fuchsia-500 bg-clip-text text-transparent',
-    gradient: 'from-violet-500/10',
-  },
-  enterprise: {
-    icon: Shield,
     color: 'text-emerald-500',
     bg: 'bg-emerald-500/10 group-hover:bg-emerald-500/20',
     border: 'border-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.1)]',
     text: 'bg-gradient-to-br from-emerald-500 to-teal-500 bg-clip-text text-transparent',
     gradient: 'from-emerald-500/10',
+  },
+  enterprise: {
+    icon: Shield,
+    color: 'text-violet-500',
+    bg: 'bg-violet-500/10 group-hover:bg-violet-500/20',
+    border: 'border-violet-500/30 shadow-[0_0_20px_rgba(139,92,246,0.1)]',
+    text: 'bg-gradient-to-br from-violet-500 to-fuchsia-500 bg-clip-text text-transparent',
+    gradient: 'from-violet-500/10',
   },
 }
 
