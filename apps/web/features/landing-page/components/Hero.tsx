@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { buttonVariants } from '@/components/ui/button'
 import { HeroCards } from './HeroCards'
+import Link from 'next/link'
 
 export const Hero = () => {
   return (
@@ -22,9 +23,11 @@ export const Hero = () => {
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:justify-center xl:justify-start">
-          <Button size="lg" className="w-full sm:w-auto sm:min-w-40">
-            Start Free Trial
-          </Button>
+          <Link href="/sign-in">
+            <Button size="lg" className="w-full sm:w-auto sm:min-w-40">
+              Start Free Trial
+            </Button>
+          </Link>
 
           <a
             rel="noreferrer noopener"

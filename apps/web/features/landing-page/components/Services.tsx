@@ -4,9 +4,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { MagnifierIcon, WalletIcon, ChartIcon } from './Icons'
+import {
+  MagnifierIcon,
+  WalletIcon,
+  ChartIcon,
+} from '../../../components/ui/Icons'
 import type { ReactElement } from 'react'
-import cubeLegImg from '@/features/landing-page/assets/cube-leg.png'
+import pointingRobot from '@/public/pointing-robot.png'
 import Image from 'next/image'
 
 interface ServiceProps {
@@ -19,7 +23,7 @@ const serviceList: ServiceProps[] = [
   {
     title: 'Agent Customization Studio',
     description:
-      'Design your chatbot\'s personality, tone, and knowledge base. Upload documents, set conversation rules, and preview in real time.',
+      "Design your chatbot's personality, tone, and knowledge base. Upload documents, set conversation rules, and preview in real time.",
     icon: <ChartIcon />,
   },
   {
@@ -39,16 +43,16 @@ const serviceList: ServiceProps[] = [
 export const Services = () => {
   return (
     <section className="container py-24 sm:py-32">
-      <div className="grid place-items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
+      <div className="grid place-items-center gap-10 md:grid-cols-[minmax(0,1fr)_minmax(320px,0.9fr)]">
         <div className="w-full">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+          <h2 className="text-3xl font-bold md:text-4xl">
+            <span className="from-primary/60 to-primary bg-linear-to-b bg-clip-text text-transparent">
               Everything You Need{' '}
             </span>
             To Deploy AI
           </h2>
 
-          <p className="text-xl text-muted-foreground mt-4 mb-8 max-w-2xl leading-8">
+          <p className="text-muted-foreground mt-4 mb-8 max-w-2xl text-xl leading-8">
             Powerful tools to create, manage, and optimize your AI chatbot
             agents — all from one platform.
           </p>
@@ -61,8 +65,8 @@ export const Services = () => {
                     {icon}
                   </div>
                   <div>
-                    <CardTitle className='text-2xl'>{title}</CardTitle>
-                    <CardDescription className="mt-2 text-base text-muted-foreground">
+                    <CardTitle className="text-2xl">{title}</CardTitle>
+                    <CardDescription className="text-muted-foreground mt-2 text-base">
                       {description}
                     </CardDescription>
                   </div>
@@ -73,8 +77,8 @@ export const Services = () => {
         </div>
 
         <Image
-          src={cubeLegImg}
-          className="w-full max-w-[300px] object-contain md:max-w-[500px] lg:max-w-[600px]"
+          src={pointingRobot}
+          className="h-[50%] w-full max-w-[300px] object-contain max-md:hidden md:max-w-[500px] lg:max-w-[600px]"
           alt="About services"
         />
       </div>

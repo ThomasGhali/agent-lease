@@ -9,13 +9,9 @@ import {
 } from 'lucide-react'
 
 import { DashboardData } from '@/features/dashboard-layout/types'
+import { LogoIcon } from '@/components/ui/Icons'
 
-export const data: DashboardData = {
-  team: {
-    name: 'Acme Inc',
-    logo: <GalleryVerticalEndIcon />,
-    plan: 'Enterprise',
-  },
+export let data: DashboardData = {
   navMain: [
     {
       title: 'My Agents',
@@ -74,7 +70,7 @@ export const data: DashboardData = {
       options: [
         {
           name: 'Create an Agent',
-          url: '/dashboard/my-agents/create',
+          url: '/dashboard/my-agents/create-an-agent',
           icon: <Plus />,
         },
         {
@@ -90,7 +86,7 @@ export const data: DashboardData = {
       options: [
         {
           name: 'Data',
-          url: '/dashboard/admin/data',
+          url: '/dashboard/admin-data',
           icon: <DatabaseIcon />,
         },
       ],

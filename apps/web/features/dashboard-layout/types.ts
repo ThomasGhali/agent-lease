@@ -14,7 +14,7 @@ export interface NavItem {
 export interface TeamInfo {
   name: string
   logo: ReactNode
-  plan: string
+  plan?: string
 }
 
 export interface UserInfo {
@@ -36,7 +36,7 @@ export interface ProjectByRole {
 }
 
 export interface DashboardData {
-  team: TeamInfo
+  team?: TeamInfo
   navMain: NavItem[]
   projects: ProjectByRole[]
 }

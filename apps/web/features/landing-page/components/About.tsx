@@ -1,5 +1,5 @@
 import { Statistics } from './Statistics'
-import pilot from '@/features/landing-page/assets/pilot.png'
+import robotSideView from '@/public/robot-sideview.png'
 import Image from 'next/image'
 
 export const About = () => {
@@ -8,7 +8,7 @@ export const About = () => {
       <div className="bg-muted/40 rounded-lg border py-10 md:py-12">
         <div className="flex flex-col-reverse items-center gap-8 px-6 md:flex-row md:items-stretch md:gap-12 md:px-10">
           <Image
-            src={pilot}
+            src={robotSideView}
             alt=""
             className="w-full max-w-[300px] rounded-lg object-contain md:self-center"
           />

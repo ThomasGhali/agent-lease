@@ -7,6 +7,14 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
+import person1 from '@/public/person1.png'
+import person2 from '@/public/person2.png'
+import person3 from '@/public/person3.png'
+import person4 from '@/public/person4.png'
+import person5 from '@/public/person5.png'
+import person6 from '@/public/person6.png'
+import person7 from '@/public/person7.png'
+
 interface TestimonialProps {
   image: string
   name: string
@@ -16,41 +24,42 @@ interface TestimonialProps {
 
 const testimonials: TestimonialProps[] = [
   {
-    image: 'https://github.com/shadcn.png',
+    image: person2.src,
     name: 'Sarah Chen',
     userName: '@sarahchen_dev',
-    comment: 'Agent Lease cut our support tickets by 40% in the first week. The one-line setup was literally copy-paste.',
+    comment:
+      'Agent Lease cut our support tickets by 40% in the first week. The one-line setup was literally copy-paste.',
   },
   {
-    image: 'https://github.com/shadcn.png',
+    image: person3.src,
     name: 'Marcus Rivera',
     userName: '@marcusrivera',
     comment:
       'I was skeptical about adding a chatbot to our e-commerce store, but the customization options are incredible. Our customers love the instant responses.',
   },
   {
-    image: 'https://github.com/shadcn.png',
+    image: person5.src,
     name: 'Emily Park',
     userName: '@emilypark_ux',
     comment:
       'The analytics dashboard alone is worth the subscription. We can see exactly what questions our visitors are asking and optimize our content accordingly.',
   },
   {
-    image: 'https://github.com/shadcn.png',
+    image: person1.src,
     name: 'James Wilson',
     userName: '@jameswilson',
     comment:
       'We went from zero chatbot to a fully trained AI agent answering customer questions in under 10 minutes. The onboarding experience is flawless.',
   },
   {
-    image: 'https://github.com/shadcn.png',
+    image: person6.src,
     name: 'Priya Sharma',
     userName: '@priyasharma_io',
     comment:
-      'As a freelancer, I embed Agent Lease on every client site I build. It\'s become my secret weapon for delivering extra value.',
+      "As a freelancer, I embed Agent Lease on every client site I build. It's become my secret weapon for delivering extra value.",
   },
   {
-    image: 'https://github.com/shadcn.png',
+    image: person7.src,
     name: 'David Kim',
     userName: '@davidkim_saas',
     comment:
@@ -61,9 +70,9 @@ const testimonials: TestimonialProps[] = [
 export const Testimonials = () => {
   return (
     <section id="testimonials" className="container py-24 sm:py-32">
-      <h2 className="max-w-4xl text-3xl md:text-4xl font-bold">
+      <h2 className="max-w-4xl text-3xl font-bold md:text-4xl">
         Discover Why
-        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+        <span className="from-primary/60 to-primary bg-linear-to-b bg-clip-text text-transparent">
           {' '}
           Teams Love{' '}
         </span>

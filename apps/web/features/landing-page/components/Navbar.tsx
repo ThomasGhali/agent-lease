@@ -11,7 +11,7 @@ import {
 
 import { Menu } from 'lucide-react'
 import { ModeToggle } from '@/features/landing-page/components/mode-toggle'
-import { LogoIcon } from '@/features/landing-page/components/Icons'
+import { LogoIcon } from '@/components/ui/Icons'
 import { buttonVariants } from '@/components/ui/button'
 import { FaGithub } from 'react-icons/fa6'
 import Link from 'next/link'
@@ -37,9 +37,9 @@ export const Navbar = () => {
         <div className="flex min-w-0 font-bold">
           <Link
             href="/"
-            className="flex min-w-0 items-center text-lg font-bold tracking-normal sm:text-xl"
+            className="flex min-w-0 items-center gap-2 text-lg font-bold tracking-normal sm:text-xl"
           >
-            <LogoIcon />
+            <LogoIcon className="w-14 h-auto" />
             <span className="truncate">Agent Lease</span>
           </Link>
         </div>
@@ -61,8 +61,8 @@ export const Navbar = () => {
 
             <SheetContent side="left">
               <SheetHeader>
-                <SheetTitle className="flex items-center text-xl font-bold">
-                  <LogoIcon />
+                <SheetTitle className="flex items-center gap-2 text-xl font-bold">
+                  <LogoIcon className="w-14 h-auto" />
                   Agent Lease
                 </SheetTitle>
               </SheetHeader>
@@ -117,7 +117,7 @@ export const Navbar = () => {
         <div className="hidden items-center gap-2 lg:flex">
           <a
             rel="noreferrer noopener"
-            href="https://github.com/"
+            href="https://github.com/ThomasGhali"
             target="_blank"
             className={`border ${buttonVariants({
               variant: 'secondary',

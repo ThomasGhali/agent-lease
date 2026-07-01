@@ -54,7 +54,7 @@ const teamList: TeamProps[] = [
     name: 'Thomas Ghali',
     position: 'Founder & Lead Developer',
     description:
-      'Architecting the core messaging infrastructure and designing the one-line embed script.',
+      'Built this entire SaaS on caffeine and passion. Optimized for scale, performance, and clean code.',
     socialNetworks: [
       {
         name: 'Github',

@@ -40,11 +40,12 @@ export function AppSidebar({ ...props }: AppSidebarProps) {
   }
 
   const isAdmin = user?.app_metadata?.role === 'admin'
+  const userPlan = user?.app_metadata?.plan?.toLowerCase() || 'Free'
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher team={data.team} />
+        <TeamSwitcher userPlan={userPlan} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

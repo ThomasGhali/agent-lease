@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LogoIcon } from './Icons'
+import { LogoIcon } from '../../../components/ui/Icons'
 
 export const Footer = () => {
   return (
@@ -8,8 +8,8 @@ export const Footer = () => {
 
       <section className="container grid grid-cols-2 gap-x-12 gap-y-8 py-20 md:grid-cols-4 xl:grid-cols-6">
         <div className="col-span-full xl:col-span-2">
-          <Link href="/" className="flex text-xl font-bold">
-            <LogoIcon />
+          <Link href="/" className="flex items-center gap-2 text-xl font-bold">
+            <LogoIcon className="w-14 h-auto" />
             Agent Lease
           </Link>
         </div>
@@ -153,7 +153,7 @@ export const Footer = () => {
           <a
             rel="noreferrer noopener"
             target="_blank"
-            href="https://github.com/"
+            href="https://github.com/ThomasGhali"
             className="text-primary border-primary transition-all hover:border-b-2"
           >
             Thomas Ghali

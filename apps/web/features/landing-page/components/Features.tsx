@@ -6,9 +6,9 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 
-import image from '@/features/landing-page/assets/growth.png'
-import image3 from '@/features/landing-page/assets/reflecting.png'
-import image4 from '@/features/landing-page/assets/looking-ahead.png'
+import analyticsImage from '@/public/analytics.png'
+import customizeAgentsImage from '@/public/cutomiseagents.png'
+import oneLineCodeImage from '@/public/onelinecode.png'
 import { Badge } from '@/components/ui/badge'
 import Image, { type StaticImageData } from 'next/image'
 
@@ -16,6 +16,7 @@ interface FeatureProps {
   title: string
   description: string
   image: StaticImageData
+  imageClassName?: string
 }
 
 const features: FeatureProps[] = [
@@ -23,22 +24,23 @@ const features: FeatureProps[] = [
     title: 'One-Line Embed',
     description:
       'Paste a single script tag into your website and a fully functional AI chat bubble appears instantly. No complex setup required.',
-    image: image4,
+    image: oneLineCodeImage,
   },
   {
     title: 'Custom Agent Training',
     description:
       'Train your chatbot with your own data, brand voice, and business rules from an intuitive dashboard. Your agent, your way.',
-    image: image3,
+    image: customizeAgentsImage,
   },
   {
     title: 'Real-Time Analytics',
     description:
       'Monitor every conversation, track visitor engagement, and gain actionable insights to improve your customer experience.',
-    image,
+    image: analyticsImage,
+    imageClassName: 'h-[190px]',
   },
 ]
-
+// w-full max-w-[220px] object-contain lg:max-w-[280px]
 const featureList: string[] = [
   'One-Line Setup',
   'Custom Branding',
@@ -54,9 +56,9 @@ const featureList: string[] = [
 export const Features = () => {
   return (
     <section id="features" className="container space-y-8 py-24 sm:py-32">
-      <h2 className="text-3xl md:text-center lg:text-4xl font-bold">
+      <h2 className="text-3xl font-bold md:text-center lg:text-4xl">
         Many{' '}
-        <span className="bg-linear-to-b from-primary/60 to-primary text-transparent bg-clip-text">
+        <span className="from-primary/60 to-primary bg-linear-to-b bg-clip-text text-transparent">
           Great Features
         </span>
       </h2>
@@ -72,25 +74,34 @@ export const Features = () => {
       </div>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {features.map(({ title, description, image }: FeatureProps) => (
-          <Card key={title} className="landing-card">
-            <CardHeader>
-              <CardTitle className="text-xl font-bold">{title}</CardTitle>
-            </CardHeader>
+        {features.map(
+          ({
+            title,
+            description,
+            image,
+            imageClassName: itemImageClassName,
+          }: FeatureProps) => (
+            <Card key={title} className="landing-card">
+              <CardHeader>
+                <CardTitle className="text-xl font-bold">{title}</CardTitle>
+              </CardHeader>
 
-            <CardContent className="text-foreground/90 text-base">
-              {description}
-            </CardContent>
+              <CardContent className="text-foreground/90 text-base">
+                {description}
+              </CardContent>
 
-            <CardFooter className="border-0 bg-transparent pt-0">
-              <Image
-                src={image}
-                alt="About feature"
-                className="mx-auto w-full max-w-[220px] object-contain lg:max-w-[280px]"
-              />
-            </CardFooter>
-          </Card>
-        ))}
+              <CardFooter className="border-0 bg-transparent pt-0">
+                <Image
+                  src={image}
+                  alt="About feature"
+                  className={`mx-auto w-full max-w-[220px] object-contain lg:max-w-[280px] dark:invert-92 ${
+                    itemImageClassName || ''
+                  }`}
+                />
+              </CardFooter>
+            </Card>
+          ),
+        )}
       </div>
     </section>
   )

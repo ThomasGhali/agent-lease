@@ -11,9 +11,11 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { Check } from 'lucide-react'
-import { LightBulbIcon } from './Icons'
+import { LightBulbIcon } from '../../../components/ui/Icons'
 import { FaGithub, FaLinkedinIn, FaUpwork, FaXTwitter } from 'react-icons/fa6'
-import thomasGhaliPic from '@/public/portofolio-pic3-crop.png'
+import thomasGhaliPic from '@/public/portofolio-pic-crop2.png'
+import person2 from '@/public/person2.png'
+import Link from 'next/link'
 
 export const HeroCards = () => {
   return (
@@ -21,7 +23,7 @@ export const HeroCards = () => {
       <Card className="landing-card -mt-15 h-min w-[340px] self-start">
         <CardHeader className="flex flex-row items-center gap-4 pb-2">
           <Avatar className="h-11 w-11">
-            <AvatarImage alt="" src="https://github.com/shadcn.png" />
+            <AvatarImage alt="" src={person2.src} />
             <AvatarFallback>SH</AvatarFallback>
           </Avatar>
 
@@ -45,7 +47,7 @@ export const HeroCards = () => {
             <AvatarFallback>TG</AvatarFallback>
           </Avatar>
           <CardTitle className="text-center text-nowrap">
-            Thomas Ghali
+            Thomas Ghali (me)
           </CardTitle>
           <CardDescription className="text-primary text-sm font-normal text-nowrap">
             Founder & Developer
@@ -54,7 +56,7 @@ export const HeroCards = () => {
 
         <CardContent className="text-foreground/90 max-w-[250px] px-6 pb-2 text-center text-sm">
           <p>
-            Building tools that let businesses deploy AI agents effortlessly
+            I like building and developing SaaS projects, let's get in touch!
           </p>
         </CardContent>
 
@@ -104,9 +106,11 @@ export const HeroCards = () => {
         </CardHeader>
 
         <CardContent>
-          <Button size="lg" className="w-full">
-            Get started for free
-          </Button>
+          <Link href="/sign-in">
+            <Button size="lg" className="w-full">
+              Get started for free
+            </Button>
+          </Link>
         </CardContent>
 
         <hr className="m-auto mb-4 w-4/5" />
@@ -133,8 +137,8 @@ export const HeroCards = () => {
           <div>
             <CardTitle className="text-lg">One-Line Embed</CardTitle>
             <CardDescription className="mt-2 text-base">
-              Paste a single script tag and your AI chat bubble appears
-              instantly on any website.
+              No code needed, get your customized AI chatbot agent in 3 minutes
+              only!
             </CardDescription>
           </div>
         </CardHeader>

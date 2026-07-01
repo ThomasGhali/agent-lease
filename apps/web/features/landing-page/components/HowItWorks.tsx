@@ -1,5 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { MedalIcon, MapIcon, PlaneIcon, GiftIcon } from './Icons'
+import {
+  MedalIcon,
+  MapIcon,
+  PlaneIcon,
+  GiftIcon,
+} from '../../../components/ui/Icons'
 import type { ReactElement } from 'react'
 
 interface FeatureProps {
@@ -44,7 +49,7 @@ export const HowItWorks = () => {
       <p className="text-foreground/90 mx-auto mt-4 mb-8 max-w-3xl text-xl leading-8">
         From sign-up to a live chatbot on your website in{' '}
         <span className="text-primary">
-          under 5 minutes, and no coding experience needed!
+          under 3 minutes, and no coding experience needed!
         </span>
       </p>
 

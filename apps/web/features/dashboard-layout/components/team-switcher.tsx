@@ -5,9 +5,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { TeamInfo } from '@/features/dashboard-layout/types'
+import { LogoIcon } from '@/components/ui/Icons'
 
-export function TeamSwitcher({ team }: { team: TeamInfo }) {
+export function TeamSwitcher({ userPlan }: { userPlan: string }) {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -15,13 +15,13 @@ export function TeamSwitcher({ team }: { team: TeamInfo }) {
           size="lg"
           className="cursor-default hover:bg-transparent"
         >
-          <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-            {team.logo}
+          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-900 shadow-sm border border-zinc-200 dark:border-zinc-800 mr-2 shrink-0">
+            <LogoIcon className="w-5 h-auto" />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">{team.name}</span>
-            <span className="text-muted-foreground truncate text-xs">
-              {team.plan}
+            <span className="truncate font-semibold">Agent Lease</span>
+            <span className="text-muted-foreground truncate text-xs capitalize">
+              {userPlan}
             </span>
           </div>
         </SidebarMenuButton>

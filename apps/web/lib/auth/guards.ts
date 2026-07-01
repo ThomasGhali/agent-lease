@@ -15,6 +15,13 @@ export function authGuard(
   if (!isProtected) return null
 
   if (!user) {
+    // Avoid redirecting RSC requests in development to prevent HMR-induced logouts
+    if (
+      process.env.NODE_ENV === 'development' &&
+      process.env.CURRENT_ENVIRONMENT === 'development'
+    ) {
+      return null
+    }
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }
 
@@ -47,6 +54,12 @@ export function adminOnlyGuard(
   if (!isAdminOnly) return null
 
   if (!user) {
+    if (
+      process.env.NODE_ENV === 'development' &&
+      process.env.CURRENT_ENVIRONMENT === 'development'
+    ) {
+      return null
+    }
     return NextResponse.redirect(new URL('/sign-in', request.url))
   }
 
