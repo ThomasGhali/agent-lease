@@ -7,9 +7,11 @@ import {
 } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { mockUserStatsData, PLAN_STYLES } from '@/features/user-dashboard/data'
-import { Activity, Bot } from 'lucide-react'
+import { Activity, Bot, CircleAlert } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { getUserStatsData } from '@/features/user-dashboard/queries'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const UserStats = async () => {
   // const stats = mockUserStatsData
@@ -89,7 +91,7 @@ const UserStats = async () => {
         <CardHeader className="pb-2">
           <CardDescription className="flex items-center justify-between font-medium">
             Tokens Usage
-            <div className="bg-primary/10 text-primary group-hover:bg-primary/20 rounded-full p-2 transition-colors">
+            <div className="rounded-full bg-purple-500/10 p-2 text-purple-500 transition-colors group-hover:bg-purple-500/20">
               <Activity className="size-4" />
             </div>
           </CardDescription>
@@ -109,16 +111,27 @@ const UserStats = async () => {
             }
             indicatorClassName="bg-[var(--indicator-color)] transition-colors duration-500"
           />
-          <span
-            className={cn(
-              'text-muted-foreground',
-              usagePercentage > 90 &&
-                'font-medium text-red-500 dark:text-red-400',
-            )}
-          >
-            <strong className="text-foreground">{usagePercentage}%</strong> of
-            your {userPlan} plan limit used
-          </span>
+          {usagePercentage >= 100 ? (
+            <p className="flex items-center justify-center gap-1 text-red-500">
+              <CircleAlert className="-mt-1 mr-1 size-4" /> Your {userPlan} plan
+              limit has been exceeded. Please{' '}
+              <Button variant="link" size="sm" className="p-0 text-xs" asChild>
+                <Link href="/pricing">upgrade</Link>
+              </Button>{' '}
+              to continue using this service.
+            </p>
+          ) : (
+            <span
+              className={cn(
+                'text-muted-foreground',
+                usagePercentage > 90 &&
+                  'font-medium text-red-500 dark:text-red-400',
+              )}
+            >
+              <strong className="text-foreground">{usagePercentage}%</strong> of
+              your {userPlan} plan limit used
+            </span>
+          )}
         </CardFooter>
       </Card>
     </section>

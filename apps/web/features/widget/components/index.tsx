@@ -24,6 +24,7 @@ export default function Widget({
     handleSend,
     textareaRef,
     formRef,
+    wrapperRef
   } = useChat(agentId)
 
   if (!agentId || !agentData) {
@@ -56,7 +57,7 @@ export default function Widget({
         </div>
       </header>
 
-      <main className="mb-13 w-full flex-1 overflow-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-400/50 [&::-webkit-scrollbar-track]:bg-transparent">
+      <main ref={wrapperRef} className="mb-13 w-full flex-1 overflow-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-button]:hidden [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-400/50 [&::-webkit-scrollbar-track]:bg-transparent">
         <MessageList messages={chatMessages} />
         <p className="text-xs text-gray-700">{typingStatus}</p>
       </main>

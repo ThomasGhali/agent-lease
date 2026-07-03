@@ -12,6 +12,7 @@ export function useChat(agentId?: string | null) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const formRef = useRef<HTMLFormElement>(null)
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const wrapperRef = useRef<HTMLElement>(null)
 
   const joinChat = () => {
     const socket = socketRef.current
@@ -72,14 +73,21 @@ export function useChat(agentId?: string | null) {
       socket.emit('message', payload, (response: { status: string }) => {
         if (response.status === 'success') {
           if (textareaRef.current) textareaRef.current.value = ''
-        } else {
-          console.error('Server rejected message')
         }
+
         if (textareaRef.current) textareaRef.current.disabled = false
         resolve()
       })
     })
   }
+
+  useEffect(() => {
+    if (chatMessages.length)
+      wrapperRef.current?.scrollTo({
+        top: wrapperRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+  }, [chatMessages])
 
   useEffect(() => {
     if (!agentId) return console.error('No agentId provided')
@@ -108,6 +116,12 @@ export function useChat(agentId?: string | null) {
 
     joinChat()
 
+    if (chatMessages.length)
+      wrapperRef.current?.scrollTo({
+        top: wrapperRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+
     return () => {
       if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current)
       socketRef.current?.disconnect()
@@ -123,5 +137,6 @@ export function useChat(agentId?: string | null) {
     handleSend,
     textareaRef,
     formRef,
+    wrapperRef,
   }
 }

@@ -142,18 +142,7 @@ After creation the user is redirected to a setup page, you can **easily integrat
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-## 5. Control Agents behavior
-Editing agents configuration can be easily done using the `My Agents` page in your dashboard.
-<div align="center">
-    <img src="docs/agent-edit.png">
-    <small>Editing agents configuration</small>
-</div>
-
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
-
-## 6. Add Agent to your website
+## 5. Add the created Agent to your website
 Focused on ease of implementation, you only need to copy-paste the script line to you main `.html` file and you'll get your customized agent ready to go instantly!
 
 <div align="center">
@@ -164,3 +153,15 @@ Focused on ease of implementation, you only need to copy-paste the script line t
 <div align="right">
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
+
+## 6. Control Agents Behavior if Needed
+Editing agents configuration can be easily done using the `My Agents` page in your dashboard.
+<div align="center">
+    <img src="docs/agent-edit.png">
+    <small>Editing agents configuration</small>
+</div>
+
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
+

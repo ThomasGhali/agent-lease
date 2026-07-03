@@ -1,4 +1,9 @@
-import { Catch, ArgumentsHost, WsExceptionFilter, Logger } from '@nestjs/common';
+import {
+  Catch,
+  ArgumentsHost,
+  WsExceptionFilter,
+  Logger,
+} from '@nestjs/common';
 import { WsException } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
 
@@ -10,7 +15,7 @@ export class ChatExceptionFilter implements WsExceptionFilter {
     const client = host.switchToWs().getClient<Socket>();
 
     let message = 'An error occurred. Please try again later.';
-    
+
     if (exception instanceof WsException) {
       const err = exception.getError();
       message = typeof err === 'string' ? err : (err as any).message || message;
@@ -18,7 +23,10 @@ export class ChatExceptionFilter implements WsExceptionFilter {
       message = exception.message;
     }
 
-    this.logger.error(`WebSocket exception caught: ${message}`, exception?.stack);
+    this.logger.error(
+      `WebSocket exception caught: ${message}`,
+      exception?.stack,
+    );
 
     // Send formatted system error message compatible with the frontend
     client.emit('message', [
@@ -27,5 +35,12 @@ export class ChatExceptionFilter implements WsExceptionFilter {
         message: message,
       },
     ]);
+
+    const args = host.getArgs();
+    const ack = args.find((arg) => typeof arg === 'function');
+
+    if (ack) {
+      ack({ status: 'error', message });
+    }
   }
 }

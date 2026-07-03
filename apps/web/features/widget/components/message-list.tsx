@@ -6,7 +6,9 @@ import { TooltipButton } from '@/components/ui/tooltip-button'
 import { Sparkles } from 'lucide-react'
 import { Message } from '@repo/common'
 
-export default function MessageList({ messages }: MessageListProps) {
+export default function MessageList({
+  messages,
+}: MessageListProps) {
   if (messages.length === 0) {
     return (
       <div className="font-inter animate-in fade-in flex h-[80%] flex-col items-center justify-center px-6 py-8 text-center duration-500">
@@ -66,7 +68,7 @@ export default function MessageList({ messages }: MessageListProps) {
   ]
 
   return (
-    <ul className="mb-15">
+    <ul className="mb-15" >
       {messages.map((msg, index) => {
         if (msg.sender === 'VISITOR') return visitorMessage(msg, index)
         if (msg.sender === 'AI_SUPPORT') return aiMessage(msg, index)
