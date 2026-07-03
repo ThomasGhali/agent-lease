@@ -37,6 +37,7 @@ export default function CreateAgentForm() {
       welcomeMessage: '',
       fallbackMessage: '',
       themeColor: '#000000',
+      isActive: false,
     },
   })
 
@@ -59,6 +60,13 @@ export default function CreateAgentForm() {
     if (!event) return
     const formData = new FormData(event.target as HTMLFormElement)
 
+    // since the <Switch /> component renders as a button, i explicitly handle it.
+    for (const [key, value] of Object.entries(data)) {
+      if (typeof value === 'boolean') {
+        formData.set(key, String(value))
+      }
+    }
+
     startTransition(() => {
       formAction(formData)
     })
@@ -67,7 +75,7 @@ export default function CreateAgentForm() {
   // toast appearance control
   useEffect(() => {
     if (isPending) {
-      toast.loading('Submitting...', {
+      toast.loading('Submitting, please wait...', {
         id: 'form-status',
         position: 'top-right',
         description: '',
@@ -79,13 +87,13 @@ export default function CreateAgentForm() {
         position: 'top-right',
       })
     } else if (state?.success) {
-      toast.success('Message sent successfully!', {
+      toast.success('Agent created successfully!', {
         id: 'form-status',
         position: 'top-right',
         description: '',
       })
       reset()
-      router.push('/dashboard/my-agents')
+      router.push(`/dashboard/my-agents/${state?.agentId}/setup`)
     }
   }, [state, isPending, reset, router])
 

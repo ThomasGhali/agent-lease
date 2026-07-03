@@ -122,10 +122,45 @@ Create & configure a custom AI agent Through a secure form. `zod` validation use
     <small>Creating an agent</small>
 </div>
 
-> **Note:** the agent created **only works with the provided domain and no other**; this is a security precaution to prevent being used on other websites without permission from the agent owner (the creator).
+> **Notes:**
+> - the agent created **only works with the provided domain and no other**; this is a security precaution to prevent being used on other websites without permission from the agent owner (the creator).
+> - Form is **secured against DDOS attacks and abuses** using rate limiting.
 
 <div align="right">
   <a href="#toc"><b>⤴ Back to Contents</b></a>
 </div>
 
-### 4. 
+### 4. Easy Integration
+After creation the user is redirected to a setup page, you can **easily integrate the agent** by following simple instructions given that is customizable to your stack and environment, non-coders can apply this easily from their github by following the guide.
+
+<div align="center">
+    <img src="docs/agent-setup.jpg">
+    <small>Agent Setup Guide</small>
+</div>
+
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
+
+## 5. Control Agents behavior
+Editing agents configuration can be easily done using the `My Agents` page in your dashboard.
+<div align="center">
+    <img src="docs/agent-edit.png">
+    <small>Editing agents configuration</small>
+</div>
+
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>
+
+## 6. Add Agent to your website
+Focused on ease of implementation, you only need to copy-paste the script line to you main `.html` file and you'll get your customized agent ready to go instantly!
+
+<div align="center">
+    <img src="docs/agent-embed.png">
+    <small>Adding agent to your website</small>
+</div>
+
+<div align="right">
+  <a href="#toc"><b>⤴ Back to Contents</b></a>
+</div>

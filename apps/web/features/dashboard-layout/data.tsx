@@ -2,17 +2,22 @@ import {
   BookOpenIcon,
   BotIcon,
   DatabaseIcon,
-  GalleryVerticalEndIcon,
+  LayoutDashboardIcon,
   Plus,
   Settings2Icon,
   TerminalSquareIcon,
 } from 'lucide-react'
 
 import { DashboardData } from '@/features/dashboard-layout/types'
-import { LogoIcon } from '@/components/ui/Icons'
 
 export let data: DashboardData = {
   navMain: [
+    {
+      title: 'Dashboard',
+      url: '/dashboard',
+      icon: <LayoutDashboardIcon />,
+      items: [],
+    },
     {
       title: 'My Agents',
       url: '/dashboard/my-agents',

@@ -38,7 +38,8 @@ export class WsRateLimitGuard implements CanActivate {
     const { success } = await this.ratelimit.limit(identifier);
 
     if (!success) {
-      throw new WsException('Too many requests, please try again later.');
+      this.logger.warn(`Rate limit exceeded for agent: ${agent}, IP: ${safeIp}`);
+      throw new WsException('Too many requests. Please try again later.');
     }
 
     return true;
@@ -63,21 +64,28 @@ export class WsTokenQuotaGuard implements CanActivate {
       'usage',
     );
 
-    if (data === null)
-      throw new WsException("User data doesn't exist in redis");
+    if (data === null) {
+      this.logger.error(`User data doesn't exist in redis for ownerId: ${ownerId}`);
+      throw new WsException('An error was encountered. Please try again later.');
+    }
 
     const userPlan = data.plan as PlanType;
     const userUsage = Number(data.usage);
 
-    if (!userPlan || !userUsage)
-      throw new WsException("User's plan or usage doesn't exist in redis");
+    if (!userPlan || !userUsage) {
+      this.logger.error(`User's plan or usage doesn't exist in redis for ownerId: ${ownerId}`);
+      throw new WsException('An error was encountered. Please try again later.');
+    }
 
     const userTokenLimit = PLAN_LIMITS[userPlan].tokensLimit;
 
     client.data.ownerPlan = userPlan;
 
     if (userUsage >= userTokenLimit) {
-      throw new WsException('Token quota exceeded. Please upgrade your plan.');
+      this.logger.warn(`Token quota exceeded for ownerId: ${ownerId} (Usage: ${userUsage}, Limit: ${userTokenLimit})`);
+      throw new WsException(
+        'This chatbot is temporarily unavailable as it has reached its usage limit. Please report this issue to the website administrator.',
+      );
     }
 
     return true;

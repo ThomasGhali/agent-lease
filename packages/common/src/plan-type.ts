@@ -17,7 +17,7 @@ export interface PlanConfig {
 export const PLAN_LIMITS: Record<PlanType, PlanConfig> = {
   [PlanType.FREE]: {
     tokensLimit: 500,
-    agentsLimit: 1,
+    agentsLimit: 2,
   },
   [PlanType.PREMIUM]: {
     tokensLimit: 3000,

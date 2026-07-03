@@ -31,7 +31,11 @@ export default function renderAgentCards(agents: Agent[]) {
       key={agent.id}
       className="group bg-card text-card-foreground dark:hover:border-primary/50 relative flex w-80 flex-col gap-4 rounded-xl border p-5 shadow-sm transition-all hover:shadow-md"
     >
-      <AgentCardHeader name={agent.name} agentRole={agent.agentRole} />
+      <AgentCardHeader
+        name={agent.name}
+        agentRole={agent.agentRole}
+        id={agent.id}
+      />
 
       {/* Domain Name */}
       <div className="grid grid-cols-1 gap-3">
@@ -41,13 +45,13 @@ export default function renderAgentCards(agents: Agent[]) {
         </div>
       </div>
 
-      <AgentCardFooter isActive={agent.isActive} />
+      <AgentCardFooter isActive={agent.isActive} id={agent.id} />
     </div>
   ))
 }
 
-type AgentCardHeaderProps = Pick<Agent, 'name' | 'agentRole'>
-const AgentCardHeader = ({ name, agentRole }: AgentCardHeaderProps) => (
+type AgentCardHeaderProps = Pick<Agent, 'name' | 'agentRole' | 'id'>
+const AgentCardHeader = ({ name, agentRole, id }: AgentCardHeaderProps) => (
   <div className="flex items-start justify-between">
     <div className="flex items-center gap-3">
       <div className="bg-primary/10 text-primary group-hover:bg-primary/20 flex h-10 w-10 items-center justify-center rounded-lg transition-colors">
@@ -88,8 +92,8 @@ const AgentCardHeader = ({ name, agentRole }: AgentCardHeaderProps) => (
   </div>
 )
 
-type AgentCardFooterProps = Pick<Agent, 'isActive'>
-const AgentCardFooter = ({ isActive }: AgentCardFooterProps) => (
+type AgentCardFooterProps = Pick<Agent, 'isActive' | 'id'>
+const AgentCardFooter = ({ isActive, id }: AgentCardFooterProps) => (
   <div className="border-border/40 mt-2 flex items-center justify-between border-t pt-4">
     <div className="flex items-center gap-2">
       <Switch
@@ -106,8 +110,13 @@ const AgentCardFooter = ({ isActive }: AgentCardFooterProps) => (
     </div>
 
     <div className="flex items-center gap-1">
-      <Button variant="outline" size="sm" className="h-8 text-xs font-medium">
-        Connect
+      <Button
+        variant="outline"
+        size="sm"
+        className="h-8 text-xs font-medium"
+        asChild
+      >
+        <Link href={`/dashboard/my-agents/${id}/setup`}>Connect</Link>
       </Button>
     </div>
   </div>

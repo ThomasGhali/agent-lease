@@ -139,9 +139,12 @@ export class ChatService {
     const mapRoomName = `room:${roomName}`;
 
     if (!message) {
-      socket.emit('chat_error', {
-        message: 'Message not sent, please try again later',
-      });
+      socket.emit('message', [
+        {
+          sender: 'SYSTEM',
+          message: 'Message not sent, please try again later.',
+        },
+      ]);
       return {
         status: 'error',
         message: 'Message not sent, please try again later',
@@ -188,9 +191,12 @@ export class ChatService {
         this.logger.error(
           `No usage found from LLM API for agentId: ${agentId} with visitorId: ${visitorId}`,
         );
-        socket.emit('chat_error', {
-          message: 'Internal server error, try again later.',
-        });
+        socket.emit('message', [
+          {
+            sender: 'SYSTEM',
+            message: 'An error occurred. Please try again later.',
+          },
+        ]);
         return { status: 'error', message: 'Internal server error' };
       }
 
@@ -221,9 +227,12 @@ export class ChatService {
         `Error in handleMessage for agentId: ${agentId} with visitorId: ${visitorId}: `,
         error,
       );
-      socket.emit('chat_error', {
-        message: 'Internal server error, try again later.',
-      });
+      socket.emit('message', [
+        {
+          sender: 'SYSTEM',
+          message: 'An error occurred. Please try again later.',
+        },
+      ]);
       return { status: 'error', message: 'Internal server error' };
     }
 

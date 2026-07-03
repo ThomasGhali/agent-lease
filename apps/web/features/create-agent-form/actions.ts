@@ -41,7 +41,7 @@ export const submitCreateAgentAction = async (
     const userPlan = await ensureUserPlan(user)
 
     const limitError = await validateAgentLimit(user.id, userPlan)
-    if (limitError) redirect('/pricing')
+    if (limitError) return limitError
 
     // Schema Validation
     const rawFormData = Object.fromEntries(formData)
@@ -81,14 +81,19 @@ export const submitCreateAgentAction = async (
 
     return {
       success: true,
+      agentId: newAgent.id,
       message: 'Agent created successfully!',
       error: null,
     }
   } catch (err) {
-    console.error('Unhandled error in submitCreateAgentAction:', err)
+    const errorMessage =
+      err instanceof Error
+        ? `Error at submitCreateAgentAction: ${err.message}`
+        : 'An unexpected error occurred. Please try again.'
+
     return {
       success: false,
-      error: 'An unexpected error occurred. Please try again.',
+      error: errorMessage,
       message: null,
     }
   }

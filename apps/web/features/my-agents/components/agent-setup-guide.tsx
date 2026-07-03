@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Check, Copy, PackageOpen } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 type Framework = 'nextjs' | 'nuxt'
 type RepoType = 'mono' | 'standard'
@@ -17,7 +19,8 @@ const FRAMEWORKS = [
         <path d="M11.572 0c-.176 0-.31.001-.358.007a19.76 19.76 0 0 1-.364.033C7.443.346 4.25 2.185 2.228 5.012a11.875 11.875 0 0 0-2.119 5.243c-.096.659-.108.854-.108 1.747s.012 1.089.108 1.748c.652 4.506 3.86 8.292 8.209 9.695.779.25 1.6.422 2.534.525.363.04 1.935.04 2.299 0 1.611-.178 2.977-.577 4.323-1.264.207-.106.247-.134.219-.158-.02-.013-.9-1.193-1.955-2.62l-1.919-2.592-2.404-3.558a338.739 338.739 0 0 0-2.422-3.556c-.009-.002-.018 1.579-.023 3.51-.007 3.38-.01 3.515-.052 3.595a.426.426 0 0 1-.206.214c-.075.037-.14.044-.495.044H7.81l-.108-.068a.438.438 0 0 1-.157-.171l-.05-.106.006-4.703.007-4.705.072-.092a.645.645 0 0 1 .174-.143c.096-.047.134-.051.54-.051.478 0 .558.018.682.154.035.038 1.337 1.999 2.895 4.361a10760.433 10760.433 0 0 0 4.735 7.17l1.9 2.879.096-.063a12.317 12.317 0 0 0 2.466-2.163 11.944 11.944 0 0 0 2.824-6.134c.096-.66.108-.854.108-1.748 0-.893-.012-1.088-.108-1.747-.652-4.506-3.859-8.292-8.208-9.695a12.597 12.597 0 0 0-2.499-.523A33.119 33.119 0 0 0 11.573 0zm4.069 7.217c.347 0 .408.005.486.047a.473.473 0 0 1 .237.277c.018.06.023 1.365.018 4.304l-.006 4.218-.744-1.14-.746-1.14v-3.066c0-1.982.01-3.097.023-3.15a.478.478 0 0 1 .233-.296c.096-.05.13-.054.5-.054z" />
       </svg>
     ),
-    filePath: (mono: boolean) => (mono ? 'apps/web/app/layout.tsx' : 'app/layout.tsx'),
+    filePath: (mono: boolean) =>
+      mono ? 'apps/web/app/layout.tsx' : 'app/layout.tsx',
     fileNote: 'This is your root layout — every page loads through it.',
   },
   {
@@ -50,9 +53,15 @@ function ScriptSnippet({ agentId }: { agentId: string }) {
           className="flex cursor-pointer items-center gap-1.5 rounded-md px-2 py-1 text-[11px] text-zinc-500 transition-colors hover:bg-white/5 hover:text-zinc-300"
         >
           {copied ? (
-            <><Check className="h-3 w-3 text-emerald-400" /><span className="text-emerald-400">Copied!</span></>
+            <>
+              <Check className="h-3 w-3 text-emerald-400" />
+              <span className="text-emerald-400">Copied!</span>
+            </>
           ) : (
-            <><Copy className="h-3 w-3" />Copy</>
+            <>
+              <Copy className="h-3 w-3" />
+              Copy
+            </>
           )}
         </button>
       </div>
@@ -95,12 +104,16 @@ export function AgentSetupGuide({ agentId }: { agentId: string }) {
       {/* Header */}
       <div>
         <div className="flex items-center gap-2">
-          <h2 className="text-xl font-semibold tracking-tight">Add Agent to Your Website</h2>
+          <h2 className="text-xl font-semibold tracking-tight">
+            Add Agent to Your Website
+          </h2>
           <Badge variant="secondary" className="font-mono text-[10px]">
             {agentId.slice(0, 8)}…
           </Badge>
         </div>
-        <p className="text-muted-foreground mt-1 text-sm">3 simple steps — no coding required.</p>
+        <p className="text-muted-foreground mt-1 text-sm">
+          3 simple steps — no coding required.
+        </p>
       </div>
 
       {/* Controls */}
@@ -154,13 +167,21 @@ export function AgentSetupGuide({ agentId }: { agentId: string }) {
             <div key={step.n} className="flex gap-4">
               <div className="flex flex-col items-center">
                 <div className="bg-primary/10 ring-primary/30 flex h-7 w-7 shrink-0 items-center justify-center rounded-full ring-1">
-                  <span className="text-primary font-mono text-[11px] font-semibold">{step.n}</span>
+                  <span className="text-primary font-mono text-[11px] font-semibold">
+                    {step.n}
+                  </span>
                 </div>
-                {!isLast && <div className="from-border/60 mt-2 w-px flex-1 bg-linear-to-b to-transparent" />}
+                {!isLast && (
+                  <div className="from-border/60 mt-2 w-px flex-1 bg-linear-to-b to-transparent" />
+                )}
               </div>
               <div className={cn('min-w-0 flex-1 pb-7', isLast && 'pb-0')}>
-                <h4 className="text-foreground text-sm font-semibold leading-none">{step.title}</h4>
-                <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">{step.body}</p>
+                <h4 className="text-foreground text-sm leading-none font-semibold">
+                  {step.title}
+                </h4>
+                <p className="text-muted-foreground mt-1.5 text-sm leading-relaxed">
+                  {step.body}
+                </p>
                 {'badge' in step && (
                   <span className="bg-muted/60 text-muted-foreground mt-2 inline-flex items-center gap-1 rounded-md px-2.5 py-1 font-mono text-[11px]">
                     📄 {step.badge}
@@ -172,11 +193,16 @@ export function AgentSetupGuide({ agentId }: { agentId: string }) {
           )
         })}
 
-        <div className="mt-6 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-4 py-3">
+        <div className="mt-6 flex items-center justify-between rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-4 py-3">
           <p className="flex items-center gap-2 text-xs font-medium text-emerald-600 dark:text-emerald-400">
             <Check className="h-3.5 w-3.5 shrink-0" />
-            That&apos;s it! Your agent will appear on your site after the next page load.
+            That&apos;s it! Your agent will appear on your site after the next
+            page load.
           </p>
+
+          <Button size="xs" variant="link" asChild>
+            <Link href="/dashboard/my-agents">Show Agents</Link>
+          </Button>
         </div>
       </div>
     </div>

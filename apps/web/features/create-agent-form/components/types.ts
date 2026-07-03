@@ -33,6 +33,7 @@ export interface InputField {
 
 export type FormState = {
   success: boolean
+  agentId?: string
   error?: string | null
   fieldErrors?: Partial<
     Record<keyof z.infer<typeof createAgentFormSchema>, string[]>
