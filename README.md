@@ -8,18 +8,9 @@
 
 # Agent Lease - Full-Stack AI SaaS Platform
 
-## Video placeholder
+**[🔴 Live Demo](placeholder-url)** | **[▶️ Watch the 90-Second Walkthrough](#video-placeholder)**
 
-**Agent Lease** is a production-ready SaaS platform that allows users to deploy customizable AI chat agents to any website in **under 3 minutes**. It pairs a frictionless, no-code integration widget with a robust, scalable backend—featuring **real-time WebSockets**, **automated Stripe billing**, and **comprehensive usage analytics** for users and **advanced global analytics** for admins.
-
-<div align="center">
-
-# [Live Demo <img src="https://www.svgrepo.com/show/450126/external-link.svg" width="20" height="20" />](placeholder-url)
-</div>
-
-<a name="toc"></a> <!-- Table of Contents reference -->
-
-## Table of Contents placeholder
+**Agent Lease** is a production-ready SaaS platform that allows users to deploy customizable AI chat agents to any website in **under 3 minutes**. It pairs a frictionless, no-code integration widget with a robust, scalable backend—featuring **real-time WebSockets**, **automated Stripe billing**, and **comprehensive analytics**. Engineered as a Turborepo monorepo, it demonstrates strict end-to-end type safety, modern infrastructure, and robust enterprise-grade features.
 
 ## Architecture & Data Flow
 
@@ -87,81 +78,166 @@ flowchart LR
     WebhookSvc -->|Update Subs| PrismaDB
 ```
 
-## Core Features
-### 1. Onboarding
-Modern sign in/up UI using **Tailwind CSS** & **Shadcn UI**, backed by **Supabase Auth** secure session management.
+<a name="toc"></a>
+## Table of Contents
+
+- [Agent Lease - Full-Stack AI SaaS Platform](#agent-lease---full-stack-ai-saas-platform)
+  - [Architecture \& Data Flow](#architecture--data-flow)
+  - [Table of Contents](#table-of-contents)
+  - [User Journey Walkthrough](#user-journey-walkthrough)
+    - [1. Secure Authentication \& Agent Management](#1-secure-authentication--agent-management)
+    - [2. Frictionless Widget Integration](#2-frictionless-widget-integration)
+    - [3. Professional, Context-Aware AI Chat](#3-professional-context-aware-ai-chat)
+    - [4. Comprehensive User Analytics \& Monetization](#4-comprehensive-user-analytics--monetization)
+    - [5. Global Admin Console](#5-global-admin-console)
+  - [Engineering \& Infrastructure](#engineering--infrastructure)
+  - [Getting Started / Local Development](#getting-started--local-development)
+    - [1. Environment Configuration](#1-environment-configuration)
+    - [2. Installation \& Database Setup](#2-installation--database-setup)
+    - [3. Running the Ecosystem](#3-running-the-ecosystem)
+
+## User Journey Walkthrough
+
+### 1. Secure Authentication & Agent Management
+A new user's journey begins with a seamless onboarding experience backed by **Supabase Auth** and styled with **Tailwind CSS & Shadcn UI**. After signing in, the client is redirected to their dashboard where they can securely provision and configure a new AI agent. Strict `zod` validation enforces tier-based resource limits from the moment of creation.
 
 <div align="center">
-    <img src="docs/sign-up.jpg">
-    <small>User Signing up</small>
+    <br>
+    <img src="docs/sign-up.jpg" width="80%">
+    <br><small><i>1. The client registers for a new account.</i></small>
+    <br><br>
+    <img src="docs/create-agent.jpg" width="80%">
+    <br><small><i>2. The client provisions and configures their custom AI agent.</i></small>
+    <br><br>
+    <img src="docs/initial-user-dashboard.jpg" width="80%">
+    <br><small><i>3. The client views their dashboard. The agent has been added.</i></small>
 </div>
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+> **Security Note:** Agents are cryptographically bound to specific whitelisted domains to prevent unauthorized cross-site embedding.
 
-### 2. Dashboard
-Built using **Shadcn UI + Tailwind CSS** as well.
+<div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
-Once signed in, the user is **redirected to the dashboard** where he can create and manage his AI agents (empty so far, but we'll create one next).
+### 2. Frictionless Widget Integration
+Integration is designed for zero friction. Once the agent is provisioned, the client receives framework-agnostic setup instructions. By pasting a single `<script>` tag, they instantly deploy a fully functional, responsive chat bubble to their live website.
 
 <div align="center">
-    <div><img src="docs/no-agents.jpg" ></div>
-    <small>Dashboard > My Agents (empty state)</small>
+    <br>
+    <img src="docs/agent-setup.jpg" width="80%">
+    <br><small><i>4. The client receives a single-line embed script.</i></small>
+    <br><br>
+    <img src="docs/code-embed.png" width="80%">
+    <br><small><i>5. The client adds the script to their website's HTML.</i></small>
+    <br><br>
+    <img src="docs/bubble-appear.jpg" width="80%">
+    <br><small><i>6. The live AI chat widget immediately appears on their platform.</i></small>
 </div>
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+<div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
-### 3. Create Agent
-Create & configure a custom AI agent Through a secure form. `zod` validation used to **ensure limits met**.
+### 3. Professional, Context-Aware AI Chat
+As visitors interact with the widget, the conversational engine utilizes **WebSockets** for sub-second streaming. The AI is sandboxed via system prompts to exclusively discuss authorized company data, maintaining a professional tone while strictly refusing unrelated queries.
 
 <div align="center">
-    <img src="docs/create-agent.jpg">
-    <small>Creating an agent</small>
+    <br>
+    <img src="docs/7.2-unrelated-question.png" width="50%">
+    <br><small><i>7. The AI strictly enforces boundary guardrails on off-topic questions.</i></small>
+    <br><br>
+    <img src="docs/7.2-related-question.png" width="50%">
+    <br><small><i>8. The AI provides highly accurate, context-aware responses.</i></small>
+    <br><br>
+    <img src="docs/7.2-limit-reached.png" width="50%">
+    <br><small><i>9. Usage limits are dynamically enforced mid-conversation.</i></small>
 </div>
 
-> **Notes:**
-> - the agent created **only works with the provided domain and no other**; this is a security precaution to prevent being used on other websites without permission from the agent owner (the creator).
-> - Form is **secured against DDOS attacks and abuses** using rate limiting.
+> **Infrastructure:** Chats are highly responsive thanks to an **Upstash Redis** caching layer, with asynchronous persistence to **PostgreSQL** for long-term chat transcript review.
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+<div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
-### 4. Easy Integration
-After creation the user is redirected to a setup page, you can **easily integrate the agent** by following simple instructions given that is customizable to your stack and environment, non-coders can apply this easily from their github by following the guide.
+### 4. Comprehensive User Analytics & Monetization
+The client monitors their usage through a dynamic, heavily-cached Next.js dashboard detailing agent performance and token consumption. After eventually exhausting their free quota (as seen in the previous chat), they are seamlessly routed through a **Stripe Checkout** flow to upgrade their subscription tier.
 
 <div align="center">
-    <img src="docs/agent-setup.jpg">
-    <small>Agent Setup Guide</small>
+    <br>
+    <img src="docs/combined-payment.png" width="80%">
+    <br><small><i>10. After hitting their quota, the client upgrades to a Premium plan via a secure Stripe Checkout session.</i></small>
+    <br><br>
+    <img src="docs/dashboard-after-upgrade.jpg" width="80%">
+    <br><small><i>11. The dashboard instantly reflects the upgraded plan and massively increased token limits.</i></small>
 </div>
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+<div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
-## 5. Add the created Agent to your website
-Focused on ease of implementation, you only need to copy-paste the script line to you main `.html` file and you'll get your customized agent ready to go instantly!
+### 5. Global Admin Console
+Meanwhile, on the backend, platform owners have real-time visibility into critical business metrics. A dedicated admin portal tracks the new active subscription, MRR (Monthly Recurring Revenue), and global token consumption across all user tiers.
 
 <div align="center">
-    <img src="docs/agent-embed.png">
-    <small>Adding agent to your website</small>
+    <br>
+    <img src="docs/admin-dashboard-post-upgrade.jpg" width="80%">
+    <br><small><i>12. The admin portal registers the new revenue and subscription metrics in real-time.</i></small>
 </div>
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+<div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
-## 6. Control Agents Behavior if Needed
-Editing agents configuration can be easily done using the `My Agents` page in your dashboard.
-<div align="center">
-    <img src="docs/agent-edit.png">
-    <small>Editing agents configuration</small>
-</div>
+## Engineering & Infrastructure
 
-<div align="right">
-  <a href="#toc"><b>⤴ Back to Contents</b></a>
-</div>
+While the user journey highlights the frontend capabilities, the backend is engineered for horizontal scalability, data integrity, and strict type safety.
 
+| System                        | Technical Implementation                                                                                                    |
+| :---------------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+| **Monorepo Architecture**     | Turborepo workspace managing shared packages and independent builds across Next.js and NestJS.                              |
+| **Real-time Infrastructure**  | Scalable WebSocket layer using NestJS gateways, secured by custom JWT authentication guards.                                |
+| **Hybrid Data Persistence**   | Upstash Redis for sub-second, ephemeral chat caching and pub/sub, syncing to PostgreSQL for long-term storage.              |
+| **End-to-End Type Safety**    | Shared Zod validation schemas enforcing identical data contracts across the frontend UI, API routes, and Prisma ORM models. |
+| **Role-Based Access Control** | Supabase Auth integrated with custom backend middleware to strictly separate User and Admin data access.                    |
+| **Automated Testing**         | Jest-powered e2e testing infrastructure ensuring core API stability and billing webhook reliability. *(WIP)*                |
+
+---
+
+## Getting Started / Local Development
+
+To run this Turborepo ecosystem locally, ensure you have **Node.js** (v18+), **npm**, and a running **PostgreSQL** instance.
+
+### 1. Environment Configuration
+Copy the `.env.example` file to `.env` in the root directory:
+```bash
+cp .env.example .env
+```
+You will need to provision and configure keys for the following third-party services:
+- **Database**: PostgreSQL connection (`DATABASE_URL`, `DIRECT_URL`)
+- **Supabase**: Auth (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`)
+- **Stripe**: Billing (`STRIPE_SECRET_KEY`, `WEBHOOK_SECRET_KEY`)
+- **Groq**: Llama 3/3.3 API access (`GROQ_API_KEY`)
+- **Upstash Redis**: Serverless caching (`UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`)
+
+### 2. Installation & Database Setup
+Run the following commands from the root workspace:
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/thomasghali/agent-lease.git
+cd agent-lease
+
+# 2. Install dependencies across the monorepo
+npm install
+
+# 3. Push the Prisma schema to your PostgreSQL database
+npm run db:push
+```
+
+### 3. Running the Ecosystem
+
+You need two terminal windows to run the full application locally, including the Stripe webhook listener.
+
+**Terminal 1: Start the Turborepo Server**
+```bash
+npm run dev
+```
+*(This starts the Next.js frontend on port 3000, NestJS API on 3001, and WebSocket gateway on 3002).*
+
+**Terminal 2: Forward Stripe Webhooks**
+Stripe must be able to hit your local server to process plan upgrades during checkout.
+```bash
+stripe login
+stripe listen --forward-to localhost:3001/webhook
+```
+*(Copy the generated webhook signing secret into your `.env` as `WEBHOOK_SECRET_KEY` and restart Terminal 1).*

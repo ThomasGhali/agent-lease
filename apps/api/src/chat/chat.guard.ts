@@ -11,6 +11,9 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { WsException } from '@nestjs/websockets';
 import { PLAN_LIMITS, PlanType } from '@repo/common';
 
+/**
+ * Guard to protect against too many requests per minute
+ */
 @Injectable()
 export class WsRateLimitGuard implements CanActivate {
   private readonly logger = new Logger(WsRateLimitGuard.name);
@@ -38,7 +41,9 @@ export class WsRateLimitGuard implements CanActivate {
     const { success } = await this.ratelimit.limit(identifier);
 
     if (!success) {
-      this.logger.warn(`Rate limit exceeded for agent: ${agent}, IP: ${safeIp}`);
+      this.logger.warn(
+        `Rate limit exceeded for agent: ${agent}, IP: ${safeIp}`,
+      );
       throw new WsException('Too many requests. Please try again later.');
     }
 
@@ -65,16 +70,24 @@ export class WsTokenQuotaGuard implements CanActivate {
     );
 
     if (data === null) {
-      this.logger.error(`User data doesn't exist in redis for ownerId: ${ownerId}`);
-      throw new WsException('An error was encountered. Please try again later.');
+      this.logger.error(
+        `User data doesn't exist in redis for ownerId: ${ownerId}`,
+      );
+      throw new WsException(
+        'An error was encountered. Please try again later.',
+      );
     }
 
     const userPlan = data.plan as PlanType;
     const userUsage = Number(data.usage);
 
-    if (!userPlan || !userUsage) {
-      this.logger.error(`User's plan or usage doesn't exist in redis for ownerId: ${ownerId}`);
-      throw new WsException('An error was encountered. Please try again later.');
+    if (!userPlan || userUsage == null) {
+      this.logger.error(
+        `User's plan or usage doesn't exist in redis for ownerId: ${ownerId}`,
+      );
+      throw new WsException(
+        'An error was encountered. Please try again later.',
+      );
     }
 
     const userTokenLimit = PLAN_LIMITS[userPlan].tokensLimit;
@@ -82,7 +95,9 @@ export class WsTokenQuotaGuard implements CanActivate {
     client.data.ownerPlan = userPlan;
 
     if (userUsage >= userTokenLimit) {
-      this.logger.warn(`Token quota exceeded for ownerId: ${ownerId} (Usage: ${userUsage}, Limit: ${userTokenLimit})`);
+      this.logger.warn(
+        `Token quota exceeded for ownerId: ${ownerId} (Usage: ${userUsage}, Limit: ${userTokenLimit})`,
+      );
       throw new WsException(
         'This chatbot is temporarily unavailable as it has reached its usage limit. Please report this issue to the website administrator.',
       );

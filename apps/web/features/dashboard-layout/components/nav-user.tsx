@@ -82,7 +82,7 @@ export function NavUser({ user }: { user: UserInfo }) {
               <DropdownMenuItem asChild>
                 <Link href="/pricing">
                   <SparklesIcon />
-                  Upgrade to Pro
+                  Upgrade to Premium
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>

@@ -50,7 +50,7 @@ export const plans: PriceCardData[] = [
     description:
       'Advanced agent management and higher task limits for production usage.',
     isPopular: true,
-    buttonText: 'Upgrade to Pro',
+    buttonText: 'Upgrade to Premium',
     features: [
       {
         content: '10 Active AI Agents',
