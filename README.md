@@ -198,14 +198,24 @@ While the user journey highlights the frontend capabilities, the backend is engi
 To run this Turborepo ecosystem locally, ensure you have **Node.js** (v18+), **npm**, and a running **PostgreSQL** instance.
 
 ### 1. Environment Configuration
-Copy the `.env.example` file to `.env` in the root directory:
+
+You will need two `.env` files for this project (one at the root and one in the frontend). The easiest way to keep them synchronized is to create the root `.env` and then symlink it to the frontend.
+
+1. Copy the `.env.example` file to `.env` in the root directory:
 ```bash
 cp .env.example .env
 ```
+
+2. Link the root `.env` to the frontend directory (`apps/web`):
+```bash
+ln -s ../../.env apps/web/.env
+```
+*(This ensures any changes to one file reflect in the other.)*
+
 You will need to provision and configure keys for the following third-party services:
 - **Database**: PostgreSQL connection (`DATABASE_URL`, `DIRECT_URL`)
 - **Supabase**: Auth (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`)
-- **Stripe**: Billing (`STRIPE_SECRET_KEY`, `WEBHOOK_SECRET_KEY`)
+- **Stripe**: Billing (`STRIPE_SECRET_KEY`, `WEBHOOK_SECRET_KEY`). You will also need to create two recurring products (Premium and Enterprise) in your Stripe Dashboard, then set their respective Price IDs as `STRIPE_PREMIUM_PRICE_ID` and `STRIPE_ENTERPRISE_PRICE_ID`.
 - **Groq**: Llama 3/3.3 API access (`GROQ_API_KEY`)
 - **Upstash Redis**: Serverless caching (`UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`)
 

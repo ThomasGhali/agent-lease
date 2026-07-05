@@ -7,10 +7,12 @@ import { PaymentService } from 'src/payment/payment.service';
 
 @Controller('payment')
 export class PaymentController {
-  private readonly priceMap: Record<PaidPlanType, string> = {
-    [PaidPlanType.PREMIUM]: 'price_1TZ3WL7PwqmvFxbDg1MxJjd7',
-    [PaidPlanType.ENTERPRISE]: 'price_1TZ3Wi7PwqmvFxbDDp8QVvne',
-  };
+  private get priceMap(): Record<PaidPlanType, string> {
+    return {
+      [PaidPlanType.PREMIUM]: process.env.STRIPE_PREMIUM_PRICE_ID as string,
+      [PaidPlanType.ENTERPRISE]: process.env.STRIPE_ENTERPRISE_PRICE_ID as string,
+    };
+  }
 
   constructor(private readonly paymentService: PaymentService) {}
   private readonly logger = new Logger(PaymentController.name);
