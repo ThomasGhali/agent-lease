@@ -1,4 +1,11 @@
-import { Body, Controller, Logger, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  InternalServerErrorException,
+  Logger,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { PaidPlanType } from '@repo/common';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { SupabaseAuthGuard } from 'src/auth/supabase-auth.guard';
@@ -10,7 +17,8 @@ export class PaymentController {
   private get priceMap(): Record<PaidPlanType, string> {
     return {
       [PaidPlanType.PREMIUM]: process.env.STRIPE_PREMIUM_PRICE_ID as string,
-      [PaidPlanType.ENTERPRISE]: process.env.STRIPE_ENTERPRISE_PRICE_ID as string,
+      [PaidPlanType.ENTERPRISE]:
+        process.env.STRIPE_ENTERPRISE_PRICE_ID || ('' as string),
     };
   }
 
@@ -25,6 +33,11 @@ export class PaymentController {
   ) {
     const { plan } = body;
     const priceId = this.priceMap[plan];
+
+    if (!priceId) {
+      this.logger.error('Error: No price ID found for plan: ', plan);
+      throw new InternalServerErrorException('Price ID not found');
+    }
 
     const session = await this.paymentService.createCheckOutSession(
       priceId,
