@@ -2,7 +2,10 @@
   "name": "api",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": {
+    "name": "Thomas Ghali",
+    "email": "thomasghali.dev@gmail.com"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

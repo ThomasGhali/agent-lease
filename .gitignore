@@ -8,6 +8,9 @@
 # Testing
 test-file.html
 
+# Context
+PROJECT_CONTEXT.md
+
 # Backend testing
 requests
 

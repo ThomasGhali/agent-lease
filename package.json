@@ -1,6 +1,10 @@
 {
   "name": "agent-lease",
   "private": true,
+  "author": {
+    "name": "Thomas Ghali",
+    "email": "thomasghali.dev@gmail.com"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",

@@ -16,7 +16,7 @@ import { ChatService } from 'src/chat/chat.service';
 import { ChatExceptionFilter } from './chat-exception.filter';
 
 @UseFilters(new ChatExceptionFilter())
-@WebSocketGateway(3002, { namespace: 'chat', cors: { origin: '*' } })
+@WebSocketGateway(4002, { namespace: 'chat', cors: { origin: '*' } })
 export class ChatGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {

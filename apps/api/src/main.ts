@@ -11,7 +11,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { rawBody: true });
 
   app.enableCors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:4000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
@@ -23,7 +23,7 @@ async function bootstrap() {
     }),
   );
 
-  const port = process.env.PORT ?? 3001;
+  const port = process.env.PORT ?? 4001;
   await app.listen(port);
 
   const logger = new Logger('Bootstrap');

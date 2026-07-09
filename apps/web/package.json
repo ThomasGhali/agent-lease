@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
+  "author": {
+    "name": "Thomas Ghali",
+    "email": "thomasghali.dev@gmail.com"
+  },
   "scripts": {
-    "dev": "next dev --port 3000",
+    "dev": "next dev --port 4000",
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",

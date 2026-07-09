@@ -43,7 +43,7 @@ export class ChatService {
 
     const normalizedOrigin = this.normalizeDomain(origin);
     const isLocalhost =
-      normalizedOrigin === 'localhost' || normalizedOrigin === 'localhost:3000';
+      normalizedOrigin === 'localhost' || normalizedOrigin === 'localhost:4000';
     const isDev =
       process.env.NODE_ENV !== 'production' &&
       process.env.CURRENT_ENV === 'development';
