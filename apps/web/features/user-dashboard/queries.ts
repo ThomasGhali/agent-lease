@@ -4,7 +4,22 @@ import { PLAN_LIMITS } from '@repo/common'
 import { db, PlanType, SenderType } from '@repo/db'
 import { User } from '@supabase/supabase-js'
 import { unstable_cache } from 'next/cache'
-
+import { pl } from 'zod/v4/locales'
+// const obj = {
+//   "idx": 1,
+//   "id": "cmr386a28000061z266mws0ex",
+//   "name": "OmniCare Assistant",
+//   "system_prompt": "You are the assistant for OmniHealth Solutions. Answer user questions concisely using only these three services:\r\n1. TeleHealth Connect: 24/7 virtual doctor consultations and urgent digital care.\r\n2. MediVerify: An automated tool for instant insurance coverage and prescription checkups.\r\n3. CareSync Portal: A secure patient dashboard for record management and scheduling.\r\nKeep answers empathetic, professional, and under 3 sentences. Do not provide medical diagnoses.",
+//   "welcome_message": "Welcome to OmniHealth! I can help guide you through our digital care platforms, insurance verification tools, or scheduling portals.",
+//   "fallback_message": "I can only assist with OmniHealth platform services and scheduling. For emergency medical attention, please dial 911 immediately.",
+//   "theme_color": "#000000",
+//   "created_at": "2026-07-02 08:11:01.616",
+//   "updated_at": "2026-07-02 08:11:01.616",
+//   "user_id": "665295a4-2a76-4b74-a70d-d3980ab799dd",
+//   "agent_role": "Patient Support & Services Guide",
+//   "is_active": true,
+//   "hostname": "omnihealth.com"
+// }
 // TODO (PROD): add pagination handling
 /**
  * Fetches the current user's dashboard statistics: plan limit, tokens consumed,
@@ -27,8 +42,27 @@ export const getUserStatsData = async () => {
   const userId = user.id
   const userPlan: PlanType = user.app_metadata.plan || PlanType.FREE
   const userRole = user.app_metadata.role || 'user'
+  const planLimit =
+    PLAN_LIMITS[userPlan].tokensLimit || PLAN_LIMITS[PlanType.FREE].tokensLimit
 
-  return getCachedUserStats(userId, userPlan, userRole)
+  const tokensConsumed = await redis.hget(`user:${userId}`, 'usage')
+
+  if (!tokensConsumed) {
+    await redis.hset(`user:${userId}`, {
+      usage: '0',
+      plan: userPlan,
+      role: userRole,
+    })
+  }
+
+  const cachedStats = await getCachedUserStats(userId, userPlan)
+
+  return {
+    ...cachedStats,
+    planLimit,
+    tokensConsumed: tokensConsumed ?? '0',
+    userPlan,
+  }
 }
 
 // TODO (PROD): add pagination handling
@@ -142,40 +176,18 @@ export const getRecentConversations = async () => {
  * @param userPlan The plan of the user.
  * @returns The user's statistics object having planLimit, tokensConsumed & activeAgentCount.
  */
-const getCachedUserStats = (
-  userId: string,
-  userPlan: PlanType,
-  userRole: string,
-) =>
+const getCachedUserStats = (userId: string, userPlan: PlanType) =>
   unstable_cache(
     async () => {
-      const planLimit =
-        PLAN_LIMITS[userPlan].tokensLimit ||
-        PLAN_LIMITS[PlanType.FREE].tokensLimit
-
       try {
-        const [tokensConsumed, userActiveAgents] = await Promise.all([
-          redis.hget(`user:${userId}`, 'usage'),
-          db.agent.count({
-            where: {
-              userId,
-              isActive: true,
-            },
-          }),
-        ])
-
-        if (!tokensConsumed) {
-          await redis.hset(`user:${userId}`, {
-            usage: '0',
-            plan: userPlan,
-            role: userRole,
-          })
-        }
+        const userActiveAgents = await db.agent.count({
+          where: {
+            userId,
+            isActive: true,
+          },
+        })
 
         return {
-          planLimit,
-          tokensConsumed: tokensConsumed ?? '0',
-          userPlan,
           userActiveAgents,
         }
       } catch (error) {
