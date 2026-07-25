@@ -10,10 +10,10 @@
 
 **Agent Lease** is a production-ready SaaS platform that allows users to deploy customizable AI chat agents to any website in **under 3 minutes**. It pairs a frictionless, no-code integration widget with a robust, scalable backend—featuring **real-time WebSockets**, **automated Stripe billing**, and **comprehensive analytics**. Engineered as a Turborepo monorepo, it demonstrates strict end-to-end type safety, modern infrastructure, and robust enterprise-grade features.
 
-**[🔴 Live Demo](placeholder-url)** | **[▶️ Watch the 120-Second Walkthrough](#video-placeholder)**
+**[▶️ Watch the 120-Second Walkthrough](https://www.youtube.com/watch?v=h5S3qpVvTHU)**
 
-> [!IMPORTANT]
-> The **Live Demo** is a frontend-only preview. To test the full backend integration too (one-line script implementation, AI streaming, Stripe billing, and analytics), run the ecosystem locally using the [Local Development Guide](#getting-started--local-development).
+<!-- > [!IMPORTANT]
+> The **Live Demo** is a frontend-only preview. To test the full backend integration too (one-line script implementation, AI streaming, Stripe billing, and analytics), run the ecosystem locally using the [Local Development Guide](#getting-started--local-development). -->
 
 <a name="toc"></a>
 
@@ -256,6 +256,25 @@ npm install
 npm run db:push
 ```
 
+At supabase using its UI, add this function:
+
+`handle_new_user`
+
+```sql
+  begin
+    insert into public.user_profiles(id, username, created_at, updated_at)
+
+    values(
+      new.id,
+      new.raw_user_meta_data ->> 'username',
+      now(),
+      now()
+    );
+
+    return new;
+  end;
+```
+
 ### 3. Running the Ecosystem
 
 You need two terminal windows to run the full application locally, including the Stripe webhook listener.
@@ -274,7 +293,7 @@ Stripe must be able to hit your local server to process plan upgrades during che
 
 ```bash
 stripe login
-stripe listen --forward-to localhost:3001/webhook
+stripe listen --forward-to localhost:4001/webhook
 ```
 
 *(Copy the generated webhook signing secret into your `.env` as `WEBHOOK_SECRET_KEY` and restart Terminal 1)*
