@@ -10,7 +10,7 @@
 
 **Agent Lease** is a production-ready SaaS platform that allows users to deploy customizable AI chat agents to any website in **under 3 minutes**. It pairs a frictionless, no-code integration widget with a robust, scalable backend—featuring **real-time WebSockets**, **automated Stripe billing**, and **comprehensive analytics**. Engineered as a Turborepo monorepo, it demonstrates strict end-to-end type safety, modern infrastructure, and robust enterprise-grade features.
 
-**[▶️ Watch the 120-Second Walkthrough](https://www.youtube.com/watch?v=h5S3qpVvTHU)**
+**[▶️ Watch the 120-Second Walkthrough](https://www.youtube.com/watch?v=jm5bMTp9Lrs)**
 
 <!-- > [!IMPORTANT]
 > The **Live Demo** is a frontend-only preview. To test the full backend integration too (one-line script implementation, AI streaming, Stripe billing, and analytics), run the ecosystem locally using the [Local Development Guide](#getting-started--local-development). -->
@@ -121,7 +121,7 @@ A new user's journey begins with a seamless onboarding experience backed by **Su
     <br><small><i>3. The user views their dashboard. The agent has been added.</i></small>
 </div>
 
-> **Security Note:** Agents are cryptographically bound to specific whitelisted domains to prevent unauthorized cross-site embedding.
+> **Security Note:** Agents are bound to specific whitelisted domains to prevent unauthorized cross-site embedding.
 
 <div align="right"><a href="#toc"><b>⤴ Back to Contents</b></a></div>
 
